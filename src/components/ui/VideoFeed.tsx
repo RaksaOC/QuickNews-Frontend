@@ -12,7 +12,7 @@ import { APP_CATEGORIES } from '../../config/categories';
 import Link from 'next/link';
 import { Heart, Share2, Play, Pause, Volume2, VolumeX, ChevronDown, ChevronUp, MessageCircle, NewspaperIcon, XIcon, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
-import { API_ENDPOINTS } from '../../config/api';
+import { API_ENDPOINTS, API_BASE_URL } from '../../config/api';
 
 interface Video {
   id: string;
@@ -788,7 +788,7 @@ function VideoPost({ video, isActive, isCommentsOpen, onCommentsOpenChange, onAr
                 }}
               >
                 <img
-                  src={video.creator.avatar ? `http://localhost:5000/uploads/profiles/${video.creator.avatar}` : 'http://localhost:5000/uploads/profiles/default-profile.png'}
+                  src={video.creator.avatar ? `${API_BASE_URL}/uploads/profiles/${video.creator.avatar}` : `${API_BASE_URL}/uploads/profiles/default-profile.png`}
                   alt={video.creator.name}
                   style={{ width: getResponsiveSize(32), height: getResponsiveSize(32) }}
                   className="rounded-full border border-white/20 select-none"
