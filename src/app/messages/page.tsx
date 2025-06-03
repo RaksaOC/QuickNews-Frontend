@@ -1,7 +1,8 @@
 'use client';
 
 import AuthPage from '@/components/ui/AuthPage';
+import { redirect } from 'next/navigation';
 
 export default function MessagesPage() {
-  return <AuthPage />;
+  redirect('/authentication');
 } 

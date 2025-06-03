@@ -3,7 +3,7 @@
 import { useState, useEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Link as LinkIcon, PlusCircle, UserRound } from 'lucide-react';
+import { Link as LinkIcon, MessagesSquare, PlusCircle, UserRound } from 'lucide-react';
 import { getResponsiveSize } from '@/utils/responsiveSize';
 import { Search, Link } from 'lucide-react';
 
@@ -31,9 +31,9 @@ export default function NavBar() {
 
     const navItems: NavItem[] = [
         { id: 'home', icon: '/assets/mainQuickIcon.png', isImage: true, path: '/', text: "Home" },
-        { id: 'messages', icon: <LinkIcon size={ICON_SIZE} />, isImage: false, path: '/messages', text: "Messages" },
-        { id: 'create', icon: <PlusCircle size={48} className='text-sky-500'/>, isImage: false, path: '/create'},
         { id: 'search', icon: <Search size={ICON_SIZE}></Search>, isImage: false, path: '/search' ,text: "Search" },
+        { id: 'create', icon: <PlusCircle size={48} className='fill-sky-500 text-sky-800'/>, isImage: false, path: '/create'},
+        { id: 'messages', icon: <MessagesSquare size={ICON_SIZE} />, isImage: false, path: '/messages', text: "Messages" },
         { id: 'profile', icon: <UserRound size={ICON_SIZE} />, isImage: false, path: '/profile', text: "Profile" },
     ];
 
@@ -43,22 +43,22 @@ export default function NavBar() {
 
     return (
         <div className=" w-full flex justify-center items-center">
-            <div className="flex items-center justify-between w-full gap-4 max-w-[98%] py-2 px-4 bg-gray-800/50 backdrop-blur-md border-t border-slate-200/50 shadow-lg">
+            <div className="flex items-center justify-between w-full gap-2 py-2 px-4 bg-gray-800/20 backdrop-blur-xl border-t border-slate-500/50 shadow-lg">
                 {navItems.map((item, index) => (
-                    <div className='flex flex-col justify-center items-center gap-2' key={index}>
+                    <div className='flex flex-col justify-center items-center gap-1' key={index}>
 
                         <button
                             key={item.id}
                             onClick={() => handleNavigation(item.path, item.id)}
-                            className={`rounded-full flex items-center justify-center text-white transition-all duration-300 ${pathname === item.path ? 'bg-blue-500' : 'hover:opacity-80'
+                            className={`rounded-full min-w-[45px] min-h-[45px] flex items-center justify-center text-white transition-all duration-300 ${pathname === item.path ? 'bg-blue-500' : 'hover:opacity-80'
                                 }`}
                         >
                             {item.isImage ? (
-                                <div>
+                                <div className='flex items-center justify-center'>
                                     <img src={item.icon as string} alt={item.id} className="w-7 h-7 transform transition-transform duration-300" />
                                 </div>
                             ) : (
-                                <div>
+                                <div className='flex items-center justify-center'>
                                     {item.icon}
                                 </div>
                             )}

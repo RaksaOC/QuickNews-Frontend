@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-black`}>
         <div className="min-h-screen flex flex-col items-center justify-center">
-          <div className='wrapper w-full  max-w-2xl overflow-hidden rounded-xl border border-red-500 h-screen'>
+          <div className='wrapper w-full  max-w-2xl overflow-hidden rounded-xl border border-red-500/30 h-screen'>
             {children}
           </div>
         </div>
