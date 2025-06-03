@@ -1,10 +1,13 @@
 import { Suspense } from 'react';
-import VideoFeed from '@/components/ui/VideoFeed';
+import NavBar from '@/components/ui2/NavBar';
+import { VideoContainer } from '@/components/ui2/VideoContainer';
 
 export default function ForYouPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <VideoFeed />
+      {/* <VideoFeed /> */}
+      <VideoContainer/>
+      <NavBar />
     </Suspense>
   );
 } 

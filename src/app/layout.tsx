@@ -1,6 +1,8 @@
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
 import { metadata } from './metadata'
+import { VideoContainer } from '@/components/ui2/VideoContainer'
+import NavBar from '@/components/ui2/NavBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,16 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-900`}>
-        <div className="min-h-screen flex items-center justify-center">
-          {/* Phone Container - Always maintains 9:16 aspect ratio */}
-          <div 
-            className="h-screen max-h-screen bg-black rounded-3xl overflow-hidden shadow-2xl relative"
-            style={{
-              width: 'min(calc(100vh * 9/16), 100vw)',
-              height: 'min(100vh, calc(100vw * 16/9))'
-            }}
-          >
+      <body className={`${inter.className} bg-black`}>
+        <div className="min-h-screen flex flex-col items-center justify-center">
+          <div className='wrapper w-full  max-w-2xl overflow-hidden rounded-xl border border-red-500 h-screen'>
             {children}
           </div>
         </div>
