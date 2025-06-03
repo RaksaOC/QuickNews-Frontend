@@ -7,4 +7,4 @@ export default function FollowingPage() {
       <VideoFeed />
     </Suspense>
   );
-} 
+}

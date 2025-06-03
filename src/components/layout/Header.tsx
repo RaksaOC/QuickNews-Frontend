@@ -26,7 +26,7 @@ export default function Header() {
             <Link href="/notifications" className="text-gray-700 hover:text-primary">
               Notifications
             </Link>
-            <button className="bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90">
+            <button className="bg-primary  text-white px-4 py-2 rounded-md hover:bg-primary/90">
               Sign In
             </button>
           </div>
