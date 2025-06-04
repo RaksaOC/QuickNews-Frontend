@@ -7,37 +7,73 @@ interface VideoInteractionsProps {
     likes: number;
     comments: number;
     shares: number;
+    onCommentClick: () => void;
+    onShareClick: () => void;
 }
 
+function formatCount(count: number): string {
+    if (count >= 1000) {
+        return (count / 1000).toFixed(count % 1000 === 0 ? 0 : 1) + 'k';
+    }
+    return count.toString();
+}
 
-export function VideoInteractions({ likes, comments, shares }: VideoInteractionsProps) {
+export function VideoInteractions({ likes, comments, shares, onCommentClick, onShareClick }: VideoInteractionsProps) {
     const [isLiked, setIsLiked] = useState(false);
+    
     const handleLike = () => {
         setIsLiked(!isLiked);
     }
 
-    const likeAnimation = () => {
-        if (isLiked) {
-            return 'animate-bounce';
-        }
-        return 'animate-none';
-    }
+    const currentLikes = isLiked ? likes + 1 : likes;
+
     return (
-        <div className="flex flex-col absolute top-1/2 right-3">
-            <div className="flex flex-col gap-2">
-                <button className={`flex flex-col items-center justify-center rounded-full p-2 gap-1 transition-all duration-300 delay-100 `} onClick={handleLike}>
-                    <Heart size={36} className={`text-sky-500 text-center ${isLiked ? 'fill-sky-500' : 'fill-none'} ${likeAnimation()}`} />
-                    <span className="text-sm text-gray-500">{likes}</span>
+        <div className="absolute bottom-44 right-4 flex flex-col gap-6 z-40">
+            {/* Like Button */}
+            <div className="flex flex-col items-center gap-2">
+                <button 
+                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 " 
+                    onClick={handleLike}
+                >
+                    <Heart 
+                        size={22} 
+                        className={`transition-all duration-300 ${
+                            isLiked 
+                                ? 'text-red-500 fill-red-500 animate-like-pop' 
+                                : 'text-white'
+                        }`} 
+                    />
                 </button>
-                <button className="flex flex-col items-center justify-center rounded-full p-2 gap-1">
-                    <MessageCircle size={36} className="text-sky-500 text-center" />
-                    <span className="text-sm text-gray-500">{comments}</span>
+                <span className="text-white text-sm font-medium drop-shadow-lg">
+                    {formatCount(currentLikes)}
+                </span>
+            </div>
+
+            {/* Comment Button */}
+            <div className="flex flex-col items-center gap-2">
+                <button 
+                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 " 
+                    onClick={onCommentClick}
+                >
+                    <MessageCircle size={22} className="text-white" />
                 </button>
-                <button className="flex flex-col items-center justify-center rounded-full p-2 gap-1">
-                    <Share size={36} className="text-sky-500 text-center" />
-                    <span className="text-sm text-gray-500 text-center">{shares}</span>
+                <span className="text-white text-sm font-medium drop-shadow-lg">
+                    {formatCount(comments)}
+                </span>
+            </div>
+
+            {/* Share Button */}
+            <div className="flex flex-col items-center gap-2">
+                <button 
+                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 " 
+                    onClick={onShareClick}
+                >
+                    <Share size={22} className="text-white" />
                 </button>
+                <span className="text-white text-sm font-medium drop-shadow-lg">
+                    {shares === 0 ? 'share' : formatCount(shares)}
+                </span>
             </div>
         </div>
-    )
+    );
 }

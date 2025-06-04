@@ -1,91 +1,156 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, ArrowLeft, ChevronLeft } from 'lucide-react';
+import { Search, ArrowLeft, ChevronLeft, Play } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-/*
- The results here actually means that when there are no search query thus it shows some recommended search or links
- TODO: Implement the actual search functionality 
-*/
-
-// Mock data for now
-const mockResults = [
-  { id: 1, title: 'Breaking News: Tech Innovation', type: 'video' },
-  { id: 2, title: 'Politics Today: Latest Updates', type: 'article' },
-  { id: 3, title: 'Sports Highlights', type: 'video' },
-  { id: 4, title: 'Business News', type: 'article' },
+// Mock video data similar to the Trump news results
+const mockVideoResults = [
+  {
+    id: 1,
+    title: 'Trump administration continues target international students.',
+    thumbnail: '/api/placeholder/350/200',
+    views: '47K',
+    duration: '3:45'
+  },
+  {
+    id: 2,
+    title: 'Trump administration continues target international students.',
+    thumbnail: '/api/placeholder/350/200',
+    views: '47K',
+    duration: '2:31'
+  },
+  {
+    id: 3,
+    title: 'Trump administration continues target international students.',
+    thumbnail: '/api/placeholder/350/200',
+    views: '47K',
+    duration: '4:12'
+  },
+  {
+    id: 4,
+    title: 'Trump administration continues target international students.',
+    thumbnail: '/api/placeholder/350/200',
+    views: '47K',
+    duration: '1:58'
+  },
+  {
+    id: 5,
+    title: 'Trump administration continues target international students.',
+    thumbnail: '/api/placeholder/350/200',
+    views: '47K',
+    duration: '5:23'
+  },
+  {
+    id: 6,
+    title: 'Trump administration continues target international students.',
+    thumbnail: '/api/placeholder/350/200',
+    views: '47K',
+    duration: '3:07'
+  }
 ];
 
 export default function SearchPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [results, setResults] = useState(mockResults);
+  const [searchQuery, setSearchQuery] = useState('trump');
+  const [results, setResults] = useState(mockVideoResults);
+  const [hasSearched, setHasSearched] = useState(true);
   const router = useRouter();
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setHasSearched(true);
+      // Mock search - in real app, you'd make an API call here
+      setResults(mockVideoResults);
+    }
+  };
 
-    // Mock search filtering
-    const filtered = mockResults.filter(item =>
-      item.title.toLowerCase().includes(query.toLowerCase())
-    );
-    setResults(filtered);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-2">
+    <div className="min-h-screen bg-black text-white">
       {/* Search Header */}
-      <div className="mx-auto">
-        <div className="flex items-center gap-2">
+      <div className="sticky top-0 bg-black border-b border-gray-800 p-4 z-10">
+        <div className="flex items-center gap-3">
           <button
             onClick={() => router.push('/')}
-            className=" hover:bg-gray-800/50 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-800/50 rounded-full transition-colors"
           >
-            <ChevronLeft size={24} className="text-gray-400" />
+            <ArrowLeft className="w-5 h-5" />
           </button>
-          <div className="relative flex-1">
+          
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
               value={searchQuery}
-              onChange={handleSearch}
-              placeholder="Search videos, articles, and more..."
-              className="w-full bg-gray-800/50 text-white px-4 py-2 pl-12 rounded-xl 
-                       border border-gray-700 focus:border-sky-500 focus:outline-none
-                       placeholder-gray-400 text-sm"
+              onChange={handleInputChange}
+              onKeyPress={handleSearch}
+              placeholder="Search news"
+              className="w-full bg-gray-900 border border-gray-700 rounded-full py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
           </div>
         </div>
-
-        {/* Results Section */}
-        <div className="mt-6 space-y-4"></div>
-        {results.map((result) => (
-          <div
-            key={result.id}
-            className="p-4 bg-gray-800/30 rounded-xl hover:bg-gray-800/50 
-                       transition-colors cursor-pointer"
-          >
-            <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${result.type === 'video' ? 'bg-sky-500/20' : 'bg-purple-500/20'
-                }`}>
-                {result.type === 'video' ? '🎥' : '📰'}
-              </div>
-              <div>
-                <h3 className="font-medium">{result.title}</h3>
-                <p className="text-sm text-gray-400 capitalize">{result.type}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-
-        {/* No Results State */}
-        {results.length === 0 && (
-          <div className="text-center py-8 text-gray-400">
-            <p>No results found for "{searchQuery}"</p>
-          </div>
-        )}
       </div>
+
+      {/* Search Results */}
+      {hasSearched && (
+        <div className="p-4">
+          {/* Results Header */}
+          <h2 className="text-lg font-medium mb-4 text-gray-300">
+            Showing search results for {searchQuery && `"${searchQuery}"`}
+          </h2>
+
+          {/* Video Grid */}
+          <div className="grid grid-cols-2 gap-3">
+            {results.map((video) => (
+              <div key={video.id} className="relative">
+                {/* Video Thumbnail */}
+                <div className="relative aspect-[9/16] bg-gray-800 rounded-lg overflow-hidden">
+                  {/* Placeholder for video thumbnail */}
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-16 h-16 bg-black/30 rounded-full flex items-center justify-center">
+                      <Play className="w-6 h-6 text-sky-500 ml-1" />
+                    </div>
+                  </div>
+                  
+                  {/* Views counter */}
+                  <div className="absolute top-2 left-2 bg-black/70 rounded-full px-2 py-1 flex items-center gap-1 border border-sky-500">
+                    <div className="w-3 h-3 rounded-full border border-white flex items-center justify-center">
+                      <Play className="w-2 h-2 text-white" />
+                    </div>
+                    <span className="text-xs text-white font-medium">{video.views}</span>
+                  </div>
+                </div>
+
+                {/* Video Title */}
+                <div className="mt-2">
+                  <p className="text-sm text-white leading-tight line-clamp-2">
+                    {video.title}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* No Results State */}
+          {results.length === 0 && (
+            <div className="text-center py-8">
+              <p className="text-gray-400">No results found for "{searchQuery}"</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Default state when no search has been performed */}
+      {!hasSearched && (
+        <div className="p-4">
+          <div className="text-center py-8">
+            <p className="text-gray-400">Enter a search term to find news videos</p>
+          </div>
+        </div>
+      )}
     </div>
   );
-} 
+}
