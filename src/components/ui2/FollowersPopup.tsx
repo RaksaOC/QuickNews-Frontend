@@ -152,7 +152,7 @@ export default function FollowersPopup({ followers, onClose }: FollowersPopupPro
 
     return (
         <div
-            className="absolute  inset-0 z-50 transition-all duration-300 ease-out"
+            className="absolute   inset-0 z-50 transition-all duration-300 ease-out flex flex-col justify-end"
             style={{
                 backgroundColor: `rgba(0, 0, 0, ${animationClass === 'animate-in' ? backdropOpacity : animationClass === 'animate-out' ? 0 : 0
                     })`,
@@ -161,10 +161,10 @@ export default function FollowersPopup({ followers, onClose }: FollowersPopupPro
         >
             <div
                 ref={modalRef}
-                className={`absolute bottom-[0%] left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
+                className={`absolute  left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
                     }`}
                 style={{
-                    maxHeight: '85vh',
+                    minHeight: '85vh',
                     transform: `translateY(${animationClass === 'animate-in'
                         ? dragOffset
                         : animationClass === 'animate-out'
@@ -196,7 +196,7 @@ export default function FollowersPopup({ followers, onClose }: FollowersPopupPro
                 {/* Followers List */}
                 <div
                     className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent"
-                    style={{ height: 'calc(60vh - 80px)' }}
+                    style={{ height: 'calc(60vh - 40px)' }}
                 >
                     {followers!.map((f, idx) => (
                         <div

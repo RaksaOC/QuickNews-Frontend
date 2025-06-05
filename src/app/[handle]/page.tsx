@@ -5,6 +5,7 @@ import NavBar from '@/components/ui2/NavBar';
 import { formatStats } from '@/utils/formatStats';
 import { CheckBadgeIcon } from '@heroicons/react/16/solid';
 import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock, PlusCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 // Mock data
@@ -85,6 +86,7 @@ function PostCard({ image, date, text, likes, comments, action }: any) {
 }
 
 export default function CreatorPage() {
+    const router = useRouter();
     const [isFollowersPopupOpen, setIsFollowersPopupOpen] = useState(false);
 
     return (
@@ -100,13 +102,8 @@ export default function CreatorPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/90" />
                     <div className="absolute top-6 left-4">
-                        <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50">
+                        <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50" onClick={() => { router.push('/') }}>
                             <ArrowLeft className="text-white" size={22} />
-                        </button>
-                    </div>
-                    <div className="absolute top-6 right-4">
-                        <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50">
-                            <Settings className="text-white" size={22} />
                         </button>
                     </div>
                     <div className="absolute left-4 right-4 bottom-[-32px] flex items-center">

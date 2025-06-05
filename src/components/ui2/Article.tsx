@@ -10,7 +10,7 @@ interface ArticleProps {
         name: string;
         avatar?: string;
         handle?: string;
-    };
+    } | undefined | null;
     image?: string;
     link?: string;
 }
@@ -184,7 +184,7 @@ export default function Article({ onClose, title, content, image, link, videoCre
                 className={`absolute bottom-[0%] left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
                     }`}
                 style={{
-                    maxHeight: '90vh',
+                    minHeight: '90vh',
                     transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
                         animationClass === 'animate-out' ? '100%' : '100%'
                         }px)`,
@@ -257,10 +257,10 @@ export default function Article({ onClose, title, content, image, link, videoCre
                     </div>
 
                     {/* Article Content */}
-                    <div className="prose prose-invert max-w-none">
+                    <div className="prose prose-invert max-w-none text-white">
                         <p className="text-gray-300 leading-relaxed whitespace-pre-line text-sm">
                             {content}
-                        </p>
+                        </p> 
                     </div>
                 </div>
             </div>

@@ -1,8 +1,6 @@
 import { Inter, Poppins } from 'next/font/google'
 import '../styles/globals.css'
 import { metadata } from './metadata'
-import { VideoContainer } from '@/components/ui2/VideoContainer'
-import NavBar from '@/components/ui2/NavBar'
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'] })
 

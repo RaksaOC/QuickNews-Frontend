@@ -31,13 +31,13 @@ export default function NavBar() {
 
     const navItems: NavItem[] = [
         { id: 'home', icon: '/assets/mainQuickIcon.png', isImage: true, path: '/', text: "Home" },
-        { id: 'search', icon: <Search size={ICON_SIZE}></Search>, isImage: false, path: '/search', text: "Search" },
+        { id: 'messages', icon: <Link size={ICON_SIZE} />, isImage: false, path: '/messages', text: "Connect" },
         {
             id: 'create', icon: <div className='w-12 h-12 rounded-full bg-sky-500 flex items-center justify-center'>
                 <PlusCircle size={24} className='text-white'></PlusCircle>
             </div>, isImage: false, path: '/create'
         },
-        { id: 'messages', icon: <MessagesSquare size={ICON_SIZE} />, isImage: false, path: '/messages', text: "Messages" },
+        { id: 'search', icon: <Search size={ICON_SIZE}></Search>, isImage: false, path: '/search', text: "Search" },
         { id: 'profile', icon: <UserRound size={ICON_SIZE} />, isImage: false, path: '/profile', text: "Profile" },
     ];
 

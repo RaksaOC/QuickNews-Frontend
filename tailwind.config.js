@@ -21,6 +21,8 @@ module.exports = {
       },
       animation: {
         'like-pop': 'like-pop 300ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'fade-out': 'fade-out 1000ms ease-in-out',
+        'fade-in': 'fade-in 1000ms ease-in-out',
       },
     },
   },

@@ -1,14 +1,18 @@
 'use client';
 
-import { Heart, MessageCircle, Share } from "lucide-react";
+import { Bookmark, Heart, MessageCircle, Share } from "lucide-react";
 import { useState } from "react";
 
 interface VideoInteractionsProps {
     likes: number;
     comments: number;
     shares: number;
+    isLiked: boolean;
     onCommentClick: () => void;
     onShareClick: () => void;
+    onIsLiked: (isLiked: boolean) => void;
+    onSaveClick: () => void;
+    isSaved: boolean;
 }
 
 function formatCount(count: number): string {
@@ -18,30 +22,22 @@ function formatCount(count: number): string {
     return count.toString();
 }
 
-export function VideoInteractions({ likes, comments, shares, onCommentClick, onShareClick }: VideoInteractionsProps) {
-    const [isLiked, setIsLiked] = useState(false);
-    
-    const handleLike = () => {
-        setIsLiked(!isLiked);
-    }
-
+export function VideoInteractions({ likes, comments, shares, onCommentClick, onShareClick, isLiked, onIsLiked, onSaveClick, isSaved }: VideoInteractionsProps) {
     const currentLikes = isLiked ? likes + 1 : likes;
 
     return (
-        <div className="absolute bottom-44 right-4 flex flex-col gap-6 z-40">
+        <div className="absolute bottom-44 right-4 flex flex-col gap-2 z-40">
             {/* Like Button */}
-            <div className="flex flex-col items-center gap-2">
-                <button 
-                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 " 
-                    onClick={handleLike}
+            <div className="flex flex-col items-center gap-2" onClick={() => { onIsLiked(!isLiked) }}>
+                <button
+                    className={`w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 ${isLiked ? 'text-red-500 fill-red-500 ' : 'text-white'}`}
                 >
-                    <Heart 
-                        size={22} 
-                        className={`transition-all duration-300 ${
-                            isLiked 
-                                ? 'text-red-500 fill-red-500 animate-like-pop' 
-                                : 'text-white'
-                        }`} 
+                    <Heart
+                        size={22}
+                        className={`transition-all duration-300 ${isLiked
+                            ? 'text-red-500 fill-red-500 animate-like-pop'
+                            : 'text-white'
+                            }`}
                     />
                 </button>
                 <span className="text-white text-sm font-medium drop-shadow-lg">
@@ -50,10 +46,10 @@ export function VideoInteractions({ likes, comments, shares, onCommentClick, onS
             </div>
 
             {/* Comment Button */}
-            <div className="flex flex-col items-center gap-2">
-                <button 
-                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 " 
-                    onClick={onCommentClick}
+            <div className="flex flex-col items-center gap-2" onClick={onCommentClick}>
+                <button
+                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 "
+
                 >
                     <MessageCircle size={22} className="text-white" />
                 </button>
@@ -63,15 +59,26 @@ export function VideoInteractions({ likes, comments, shares, onCommentClick, onS
             </div>
 
             {/* Share Button */}
-            <div className="flex flex-col items-center gap-2">
-                <button 
-                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 " 
-                    onClick={onShareClick}
+            <div className="flex flex-col items-center gap-2" onClick={onShareClick}>
+                <button
+                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 "
+
                 >
                     <Share size={22} className="text-white" />
                 </button>
                 <span className="text-white text-sm font-medium drop-shadow-lg">
-                    {shares === 0 ? 'share' : formatCount(shares)}
+                    {shares === 0 ? 'Share' : formatCount(shares)}
+                </span>
+            </div>
+
+            <div className="flex flex-col items-center gap-2" onClick={onSaveClick}>
+                <button
+                    className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 "
+                >
+                    <Bookmark size={22} className={` ${isSaved ? 'fill-sky-500 text-sky-500 animate-like-pop' : 'text-white'}`} />
+                </button>
+                <span className="text-white text-sm font-medium drop-shadow-lg">
+                    Save
                 </span>
             </div>
         </div>

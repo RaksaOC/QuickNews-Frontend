@@ -181,7 +181,7 @@ export default function Share({ onClose }: ShareProps) {
 
     return (
         <div
-            className={`absolute -bottom-20 inset-0 z-50 transition-all duration-300 ease-out`}
+            className={`absolute bottom-0 inset-0 z-50 transition-all duration-300 ease-out`}
             style={{
                 backgroundColor: `rgba(0, 0, 0, ${animationClass === 'animate-in' ? backdropOpacity :
                     animationClass === 'animate-out' ? 0 : 0

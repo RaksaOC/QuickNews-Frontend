@@ -4,6 +4,7 @@ import NavBar from '@/components/ui2/NavBar';
 import { formatStats } from '@/utils/formatStats';
 import { CheckBadgeIcon } from '@heroicons/react/16/solid';
 import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 // Mock data
 const profile = {
@@ -31,6 +32,33 @@ const activities = [
   {
     id: 2,
     image: '/activity2.jpg',
+    date: '20-3-2025',
+    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
+    likes: 47000,
+    comments: 47000,
+    action: 'Read',
+  },
+  {
+    id: 3,
+    image: '/activity3.jpg',
+    date: '20-3-2025',
+    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
+    likes: 47000,
+    comments: 47000,
+    action: 'Read',
+  },
+  {
+    id: 3,
+    image: '/activity3.jpg',
+    date: '20-3-2025',
+    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
+    likes: 47000,
+    comments: 47000,
+    action: 'Read',
+  },
+  {
+    id: 3,
+    image: '/activity3.jpg',
     date: '20-3-2025',
     text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
     likes: 47000,
@@ -75,8 +103,8 @@ function PostCard({ image, date, text, likes, comments, action }: any) {
 }
 
 export default function ProfilePage() {
+  const router = useRouter();
   return (
-
     <div className='relative'>
       <div className=" bg-black h-[90%]">
         {/* Cover and header */}
@@ -87,13 +115,8 @@ export default function ProfilePage() {
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/90" />
-          <div className="absolute top-6 left-4">
-            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50">
-              <ArrowLeft className="text-white" size={22} />
-            </button>
-          </div>
           <div className="absolute top-6 right-4">
-            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50">
+            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50" onClick={() => { router.push('/settings') }}>
               <Settings className="text-white" size={22} />
             </button>
           </div>
@@ -139,7 +162,7 @@ export default function ProfilePage() {
           ))}
         </div>
       </div>
-      <div className="h-[10%] sticky bottom-0">
+      <div className="h-[10%] w-full sticky bottom-0">
         <NavBar />
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, ArrowLeft, ChevronLeft, Play } from 'lucide-react';
+import { Search, ArrowLeft, ChevronLeft, Play, Filter, SlidersHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // Mock video data similar to the Trump news results
@@ -79,8 +79,9 @@ export default function SearchPage() {
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          
+
           <div className="flex-1 relative">
+            {/* Search icon (left) */}
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
@@ -88,8 +89,16 @@ export default function SearchPage() {
               onChange={handleInputChange}
               onKeyPress={handleSearch}
               placeholder="Search news"
-              className="w-full bg-gray-900 border border-gray-700 rounded-full py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-gray-900 border border-gray-700 rounded-full py-3 pl-10 pr-12 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {/* Filter icon (right) */}
+            <button
+              type="button"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-900 border border-gray-700 rounded-full p-2 flex items-center justify-center hover:bg-gray-800 transition"
+              aria-label="Filter"
+            >
+              <SlidersHorizontal className="w-5 h-5 text-gray-400" />
+            </button>
           </div>
         </div>
       </div>
@@ -114,7 +123,7 @@ export default function SearchPage() {
                       <Play className="w-6 h-6 text-sky-500 ml-1" />
                     </div>
                   </div>
-                  
+
                   {/* Views counter */}
                   <div className="absolute top-2 left-2 bg-black/70 rounded-full px-2 py-1 flex items-center gap-1 border border-sky-500">
                     <div className="w-3 h-3 rounded-full border border-white flex items-center justify-center">

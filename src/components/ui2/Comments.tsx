@@ -125,13 +125,13 @@ function useDrag(onClose: () => void) {
 }
 
 interface CommentsProps {
+    comments: Comment[];
     onClose: () => void;
 }
 
-export default function Comments({ onClose }: CommentsProps) {
+export default function Comments({ onClose, comments }: CommentsProps) {
     const [isOpen, setIsOpen] = useState(true);
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState<Comment[]>(mockComments);
     const modalRef = useRef<HTMLDivElement>(null);
     const { shouldRender, animationClass } = useAnimation(isOpen);
 
@@ -177,7 +177,7 @@ export default function Comments({ onClose }: CommentsProps) {
                 replies: 0,
                 timestamp: 'now'
             };
-            setComments([newComment, ...comments]);
+            // setComments([newComment, ...comments]);
             setComment('');
         }
     };
@@ -197,7 +197,7 @@ export default function Comments({ onClose }: CommentsProps) {
 
     return (
         <div
-            className={`absolute -bottom-20 inset-0 z-50 transition-all duration-300 ease-out`}
+            className={`absolute bottom-0 inset-0 z-50 transition-all duration-300 ease-out`}
             style={{
                 backgroundColor: `rgba(0, 0, 0, ${animationClass === 'animate-in' ? backdropOpacity :
                     animationClass === 'animate-out' ? 0 : 0
@@ -210,7 +210,7 @@ export default function Comments({ onClose }: CommentsProps) {
                 className={`absolute bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
                     }`}
                 style={{
-                    maxHeight: '85vh',
+                    minHeight: '75vh',
                     transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
                         animationClass === 'animate-out' ? '100%' : '100%'
                         }px)`,
@@ -248,7 +248,7 @@ export default function Comments({ onClose }: CommentsProps) {
                 {/* Comments List */}
                 <div
                     className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent"
-                    style={{ height: 'calc(60vh - 140px)' }}
+                    style={{ height: 'calc(75vh - 140px)' }}
                 >
                     {comments.length > 0 ? (
                         comments.map((comment, index) => (
@@ -274,7 +274,7 @@ export default function Comments({ onClose }: CommentsProps) {
                 </div>
 
                 {/* Comment Input */}
-                <div className="px-4 py-2 border-t border-gray-700/50 bg-gray-900/80 backdrop-blur-sm">
+                <div className="px-4 py-2 w-full border-t border-gray-700/50 bg-gray-900/80 backdrop-blur-sm self-end">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full border border-sky-500 flex items-center justify-center flex-shrink-0">
                             <User className="w-6 h-6 text-white" />
@@ -308,6 +308,7 @@ export default function Comments({ onClose }: CommentsProps) {
                     </div>
                 </div>
             </div>
+
         </div>
     );
 }

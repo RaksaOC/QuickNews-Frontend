@@ -23,6 +23,12 @@ const conversations = [
   { id: 5, name: 'Bluesnake260', avatar: '/avatars/avatar1.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-blue-200' },
   { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
   { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
+  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
+  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
+  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
+  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
+  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
+  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
 ];
 
 
@@ -31,17 +37,11 @@ export default function DirectMessagesScreen() {
   const router = useRouter();
 
   return (
-    <div className="  relative ">
+    <div className="  relative  ">
       <div className=" bg-black h-[90%]">
         {/* Header */}
-        <div className="flex sticky top-0 z-10 items-center justify-between px-2 py-4 bg-black">
-          <button className="w-10 h-10 flex items-center justify-center rounded-full bg-[#18181b]">
-            <ArrowLeft className="text-white" size={20} />
-          </button>
-          <h1 className="text-lg font-semibold text-white">Direct Message</h1>
-          <button className="w-10 h-10 flex items-center justify-center rounded-full bg-[#18181b]">
-            <Settings className="text-white" size={20} />
-          </button>
+        <div className="flex sticky top-0 z-10 items-center justify-center px-2 pt-4 pb-6 bg-black">
+          <p className="text-lg font-semibold text-white">Direct Messages</p>
         </div>
 
         {/* Search Bar */}
