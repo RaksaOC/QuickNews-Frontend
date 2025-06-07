@@ -2,37 +2,27 @@
 
 import FollowersPopup from '@/components/ui2/FollowersPopup';
 import NavBar from '@/components/ui2/NavBar';
+import { creatorData } from '@/data/Users';
 import { formatStats } from '@/utils/formatStats';
 import { CheckBadgeIcon } from '@heroicons/react/16/solid';
-import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock, PlusCircle } from 'lucide-react';
+import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock, PlusCircle, MoreVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 // Mock data
-const followers = Array(6).fill({
-    id: 1,
-    name: 'Bluesnake260',
-    avatar: '/avatars/avatar2.png',
-    lastSeen: 'Last seen 5 min ago',
-});
-
-// Mock data
+const user = creatorData[0];
 const profile = {
-    name: 'Al Jazeera',
-    avatar: '/aljazeera.png',
-    verified: true,
-    stats: [
+    ...user, stats: [
         { label: 'Likes', value: '20k' },
-        { label: 'Followers', value: '120k', followers: followers },
+        { label: 'Followers', value: user.followers.toString(), followers: user.followers },
         { label: 'Posts', value: '200' },
-    ],
-    cover: '/cover.jpg',
-};
+    ]
+}
 
 const activities = [
     {
         id: 1,
-        image: '/activity1.jpg',
+        image: '/assets/avatar1.jpg',
         date: '20-3-2025',
         text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
         likes: 47000,
@@ -41,7 +31,7 @@ const activities = [
     },
     {
         id: 2,
-        image: '/activity2.jpg',
+        image: '/assets/avatar2.jpg',
         date: '20-3-2025',
         text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
         likes: 47000,
@@ -50,7 +40,16 @@ const activities = [
     },
     {
         id: 3,
-        image: '/activity3.jpg',
+        image: '/assets/avatar1.jpg',
+        date: '20-3-2025',
+        text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
+        likes: 47000,
+        comments: 47000,
+        action: 'Read',
+    },
+    {
+        id: 3,
+        image: '/assets/avatar2.jpg',
         date: '20-3-2025',
         text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
         likes: 47000,
@@ -91,21 +90,26 @@ export default function CreatorPage() {
 
     return (
 
-        <div className='relative'>
-            <div className=" bg-black h-[90%]">
+        <div className='relative max-h-screen '>
+            <div className=" bg-black h-full  relative">
+                <div className="sticky top-6 left-4 z-10 flex justify-between items-center">
+                    <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50" onClick={() => { router.push('/') }}>
+                        <ArrowLeft className="text-white" size={22} />
+                    </button>
+                    <span className='text-white text-xl font-semibold'>{profile.name}</span>
+                    <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50">
+                        <MoreVertical className="text-white" size={22} />
+                    </button>
+                </div>
                 {/* Cover and header */}
                 <div className="relative h-60 w-full">
                     <img
-                        src={profile.cover}
+                        src={profile.avatar}
                         alt="cover"
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-contain"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/90" />
-                    <div className="absolute top-6 left-4">
-                        <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50" onClick={() => { router.push('/') }}>
-                            <ArrowLeft className="text-white" size={22} />
-                        </button>
-                    </div>
+
                     <div className="absolute left-4 right-4 bottom-[-32px] flex items-center">
                         <img
                             src={profile.avatar}
@@ -117,8 +121,7 @@ export default function CreatorPage() {
                                 <span className="text-white text-xl font-semibold">{profile.name}</span>
                                 <BadgeCheck className="text-sky-500" size={22} />
                             </div>
-                            <button className='bg-sky-500 text-white text-xs px-3 py-1 rounded-full font-medium flex items-center gap-1'>
-                                <PlusCircle size={22} className='text-white' />
+                            <button className='bg-sky-500 text-white text-xs px-4 py-2 rounded-full font-medium flex items-center gap-1'>
                                 Follow
                             </button>
                         </div>
@@ -126,11 +129,11 @@ export default function CreatorPage() {
                 </div>
 
                 {/* Stats */}
-                <div className="flex justify-center gap-4 mt-16 mb-6">
+                <div className="flex justify-between gap-4 mt-16 mb-6 px-4">
                     {profile.stats.map((stat) => (
                         <div
                             key={stat.label}
-                            className="flex flex-col items-center justify-center w-28 h-20 border border-gray-500/50 rounded-2xl"
+                            className="flex flex-col items-center justify-center w-full h-20 border border-gray-500/50 rounded-2xl"
                             onClick={() => {
                                 if (stat.label === 'Followers') {
                                     setIsFollowersPopupOpen(true);
@@ -150,18 +153,20 @@ export default function CreatorPage() {
                     <Bookmark className="text-white" size={28} />
                 </div>
 
-                {/* Activity Feed */}
-                <div className="px-4 flex-1 overflow-y-auto">
+                <div className="px-4 flex-1 overflow-y-auto scrollbar-hide">
                     {activities.map((a) => (
-                        <PostCard key={a.id} {...a} />
+                        <PostCard key={a.id} image={a.image} date={a.date} text={a.text} likes={a.likes} comments={a.comments} action={a.action} />
                     ))}
                 </div>
             </div>
-            <div className="h-[10%] sticky bottom-0">
-                <NavBar />
-            </div>
             {isFollowersPopupOpen && (
-                <FollowersPopup followers={profile.stats[1].followers} onClose={() => setIsFollowersPopupOpen(false)} />
+                <FollowersPopup followers={profile.stats[1]?.followers ? [profile.stats[1].followers] : [{
+                    id: 1,
+                    name: 'Bluesnake260',
+                    avatar: '/assets/avatar1.jpg',
+                    verified: false,
+                    lastSeen: 'Last seen 5 min ago',
+                }]} onClose={() => setIsFollowersPopupOpen(false)} />
             )}
         </div>
     );

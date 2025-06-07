@@ -56,7 +56,7 @@ export default function ConversationPage() {
     
     return (
         <motion.div 
-            className="min-h-screen bg-black flex flex-col"
+            className="h-full bg-black flex flex-col z-50 relative"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -93,7 +93,7 @@ export default function ConversationPage() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 px-2 py-4 overflow-y-auto flex flex-col gap-2">
+            <div className="flex-1 px-2 py-4 overflow-y-auto flex flex-col gap-2 bg-black">
                 {messages.map((msg, idx) =>
                     msg.type === 'date' ? (
                         <div key={msg.id} className="flex items-center my-4">

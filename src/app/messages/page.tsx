@@ -7,29 +7,29 @@ import NavBar from '@/components/ui2/NavBar';
 
 // Mock data
 const frequentContacts = [
-  { id: 1, name: 'Donald', avatar: '/avatars/avatar1.png', online: true },
-  { id: 2, name: 'Donald', avatar: '/avatars/avatar2.png', online: true },
-  { id: 3, name: 'Donald', avatar: '/avatars/avatar3.png', online: true },
-  { id: 4, name: 'Donald', avatar: '/avatars/avatar4.png', online: true },
-  { id: 5, name: 'Donald', avatar: '/avatars/avatar5.png', online: true },
-  { id: 6, name: 'Donald', avatar: '/avatars/avatar6.png', online: true },
+  { id: 1, name: 'Alina Brooks', avatar: '/assets/avatar1.jpg', online: true },
+  { id: 2, name: 'Carlos Mendes', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 3, name: 'Felix Tran', avatar: '/assets/avatar1.jpg', online: true },
+  { id: 4, name: 'Riya Kapoor', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 5, name: 'Jonas Becker', avatar: '/assets/avatar1.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
 ];
 
+
 const conversations = [
-  { id: 1, name: 'Bluesnake260', avatar: '/avatars/avatar4.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-green-200' },
-  { id: 2, name: 'Bluesnake260', avatar: '/avatars/avatar2.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-orange-200' },
-  { id: 3, name: 'Bluesnake260', avatar: '/avatars/avatar3.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-purple-200' },
-  { id: 4, name: 'Bluesnake260', avatar: '/avatars/avatar5.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-blue-200' },
-  { id: 5, name: 'Bluesnake260', avatar: '/avatars/avatar1.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-blue-200' },
-  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
-  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
-  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
-  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
-  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
-  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
-  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
-  { id: 6, name: 'Bluesnake260', avatar: '/avatars/avatar6.png', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-yellow-200' },
+  { id: 1, name: 'Bluesnake260', avatar: '/assets/avatar2.jpg', lastSeen: 'Last seen 5 min ago', time: '10 min ago', bg: 'bg-green-200' },
+  { id: 2, name: 'NightFalcon', avatar: '/assets/avatar2.jpg', lastSeen: 'Last seen 2 min ago', time: '5 min ago', bg: 'bg-orange-200' },
+  { id: 3, name: 'LunarMist', avatar: '/assets/avatar1.jpg', lastSeen: 'Last seen 20 min ago', time: '30 min ago', bg: 'bg-purple-200' },
+  { id: 4, name: 'CrimsonPeak', avatar: '/assets/avatar1.jpg', lastSeen: 'Last seen just now', time: '1 min ago', bg: 'bg-blue-200' },
+  { id: 5, name: 'TechNomad', avatar: '/assets/avatar2.jpg', lastSeen: 'Last seen 8 min ago', time: '12 min ago', bg: 'bg-blue-200' },
+  { id: 6, name: 'WanderBot', avatar: '/assets/avatar1.jpg', lastSeen: 'Last seen 1 hr ago', time: '45 min ago', bg: 'bg-yellow-200' },
+  { id: 7, name: 'EchoQueen', avatar: '/assets/avatar2.jpg', lastSeen: 'Last seen 3 hr ago', time: '2 hr ago', bg: 'bg-yellow-200' },
+  { id: 8, name: 'SolarByte', avatar: '/assets/avatar1.jpg', lastSeen: 'Last seen yesterday', time: 'Yesterday', bg: 'bg-yellow-200' },
+  { id: 9, name: 'ZetaWave', avatar: '/assets/avatar2.jpg', lastSeen: 'Last seen 10 sec ago', time: 'Just now', bg: 'bg-yellow-200' },
+  { id: 10, name: 'NebulaDrift', avatar: '/assets/avatar1.jpg', lastSeen: 'Last seen 30 min ago', time: '35 min ago', bg: 'bg-yellow-200' },
+  { id: 11, name: 'NovaKnight', avatar: '/assets/avatar2.jpg', lastSeen: 'Last seen 6 min ago', time: '9 min ago', bg: 'bg-yellow-200' },
 ];
+
 
 
 
@@ -38,7 +38,7 @@ export default function DirectMessagesScreen() {
 
   return (
     <div className="  relative  ">
-      <div className=" bg-black h-[90%]">
+      <div className=" bg-black h-full">
         {/* Header */}
         <div className="flex sticky top-0 z-10 items-center justify-center px-2 pt-4 pb-6 bg-black">
           <p className="text-lg font-semibold text-white">Direct Messages</p>
@@ -71,14 +71,14 @@ export default function DirectMessagesScreen() {
                     <span className="absolute bottom-1 right-1 w-4 h-4 bg-green-400 border-2 border-black rounded-full" />
                   )}
                 </div>
-                <span className="text-white text-xs mt-2 font-medium">{c.name}</span>
+                <span className="text-white text-center text-[0.7rem] mt-2 font-medium">{c.name}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Conversation List */}
-        <div className="pt-2 pb-4">
+        <div className="pt-2 pb-20">
           {conversations.map((c) => (
             <DMConversationItem
               key={c.id}

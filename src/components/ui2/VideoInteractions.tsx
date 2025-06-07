@@ -1,11 +1,12 @@
 'use client';
 
+import { Comment } from "@/types/Comment";
 import { Bookmark, Heart, MessageCircle, Share } from "lucide-react";
 import { useState } from "react";
 
 interface VideoInteractionsProps {
     likes: number;
-    comments: number;
+    comments: Comment[];
     shares: number;
     isLiked: boolean;
     onCommentClick: () => void;
@@ -26,8 +27,10 @@ export function VideoInteractions({ likes, comments, shares, onCommentClick, onS
     const currentLikes = isLiked ? likes + 1 : likes;
 
     return (
-        <div className="absolute bottom-44 right-4 flex flex-col gap-2 z-40">
-            {/* Like Button */}
+
+        
+        <div className="absolute bottom-48 right-3 flex flex-col gap-2 z-40">
+            {/* to make the interactions be more up, use bottom-1/3*/}
             <div className="flex flex-col items-center gap-2" onClick={() => { onIsLiked(!isLiked) }}>
                 <button
                     className={`w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 ${isLiked ? 'text-red-500 fill-red-500 ' : 'text-white'}`}
@@ -54,7 +57,7 @@ export function VideoInteractions({ likes, comments, shares, onCommentClick, onS
                     <MessageCircle size={22} className="text-white" />
                 </button>
                 <span className="text-white text-sm font-medium drop-shadow-lg">
-                    {formatCount(comments)}
+                    {formatCount(comments.length)}
                 </span>
             </div>
 

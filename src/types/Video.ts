@@ -1,4 +1,4 @@
-import { Creator } from "./Creator";
+import { Creator } from "./User";
 import { Comment } from "./Comment";
 import { Article } from "./Article";
 

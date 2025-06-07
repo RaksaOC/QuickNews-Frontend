@@ -1,28 +1,30 @@
 'use client';
 
+import FollowersPopup from '@/components/ui2/FollowersPopup';
 import NavBar from '@/components/ui2/NavBar';
 import { formatStats } from '@/utils/formatStats';
 import { CheckBadgeIcon } from '@heroicons/react/16/solid';
 import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 // Mock data
 const profile = {
-  name: 'Al Jazeera',
-  avatar: '/aljazeera.png',
+  name: 'QuickNews – Frontend Developer',
+  avatar: '/assets/avatar1.jpg',
   verified: true,
   stats: [
     { label: 'Likes', value: '20k' },
     { label: 'Followers', value: '120k' },
     { label: 'Posts', value: '200' },
   ],
-  cover: '/cover.jpg',
+  cover: '/assets/avatar1.jpg',
 };
 
 const activities = [
   {
     id: 1,
-    image: '/activity1.jpg',
+    image: '/assets/avatar1.jpg',
     date: '20-3-2025',
     text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
     likes: 47000,
@@ -31,7 +33,7 @@ const activities = [
   },
   {
     id: 2,
-    image: '/activity2.jpg',
+    image: '/assets/avatar2.jpg',
     date: '20-3-2025',
     text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
     likes: 47000,
@@ -40,7 +42,7 @@ const activities = [
   },
   {
     id: 3,
-    image: '/activity3.jpg',
+    image: '/assets/avatar1.jpg',
     date: '20-3-2025',
     text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
     likes: 47000,
@@ -49,7 +51,7 @@ const activities = [
   },
   {
     id: 3,
-    image: '/activity3.jpg',
+    image: '/assets/avatar2.jpg',
     date: '20-3-2025',
     text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
     likes: 47000,
@@ -58,7 +60,7 @@ const activities = [
   },
   {
     id: 3,
-    image: '/activity3.jpg',
+    image: '/assets/avatar1.jpg',
     date: '20-3-2025',
     text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
     likes: 47000,
@@ -67,7 +69,7 @@ const activities = [
   },
   {
     id: 3,
-    image: '/activity3.jpg',
+    image: '/assets/avatar2.jpg',
     date: '20-3-2025',
     text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
     likes: 47000,
@@ -104,9 +106,10 @@ function PostCard({ image, date, text, likes, comments, action }: any) {
 
 export default function ProfilePage() {
   const router = useRouter();
+  const [showFollowers, setShowFollowers] = useState(false);
   return (
     <div className='relative'>
-      <div className=" bg-black h-[90%]">
+      <div className=" bg-black max-h-screen overflow-y-scroll">
         {/* Cover and header */}
         <div className="relative h-60 w-full">
           <img
@@ -124,7 +127,7 @@ export default function ProfilePage() {
             <img
               src={profile.avatar}
               alt={profile.name}
-              className="w-20 h-20 rounded-full border-4 border-[#FFB800] bg-white object-cover"
+              className="w-20 h-20 rounded-full border-4 border-sky-500 bg-white object-cover"
             />
             <div className="ml-4 flex flex-col">
               <div className="flex items-center gap-2">
@@ -136,11 +139,12 @@ export default function ProfilePage() {
         </div>
 
         {/* Stats */}
-        <div className="flex justify-center gap-4 mt-16 mb-6">
+        <div className="flex justify-between gap-4 mt-16 mb-6 px-4">
           {profile.stats.map((stat) => (
             <div
               key={stat.label}
-              className="flex flex-col items-center justify-center w-28 h-20 border border-gray-500/50 rounded-2xl"
+              className="flex flex-col items-center justify-center w-full h-20 border border-gray-500/50 rounded-2xl"
+              onClick={stat.label === 'Followers' ? () => { setShowFollowers(true) } : undefined}
             >
               <span className="text-white text-xl font-semibold">{stat.value}</span>
               <span className="text-gray-300 text-sm">{stat.label}</span>
@@ -156,15 +160,21 @@ export default function ProfilePage() {
         </div>
 
         {/* Activity Feed */}
-        <div className="px-4 flex-1 overflow-y-auto">
+        <div className="px-4 flex-1 overflow-y-auto pb-20">
           {activities.map((a) => (
             <PostCard key={a.id} {...a} />
           ))}
         </div>
       </div>
-      <div className="h-[10%] w-full sticky bottom-0">
-        <NavBar />
+      <NavBar />
+      <div className="w-full sticky bottom-0 z-50">
+        {showFollowers && <FollowersPopup followers={[{
+          id: 1,
+          name: 'John Doe',
+          avatar: '/avatar.png',
+          verified: false,
+        }]} onClose={() => { setShowFollowers(false) }} />}
       </div>
-    </div>
+    </div >
   );
 }

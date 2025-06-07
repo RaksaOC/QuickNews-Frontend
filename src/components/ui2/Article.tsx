@@ -1,18 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { User, BadgeCheck, X, Save, MoreVertical, BookMarked } from 'lucide-react';
-import { div } from 'framer-motion/client';
+import { User, BadgeCheck, X, Save, MoreVertical, BookMarked, Heart, Eye, Bot, ChevronDown, Globe } from 'lucide-react';
+import { div, image, title } from 'framer-motion/client';
+import ChatbotPopup from './ChatbotPopup';
+import { Article as ArticleType } from '@/types/Article';
 
 interface ArticleProps {
     onClose: () => void;
-    title: string;
-    content: string;
-    videoCreator?: {
-        name: string;
-        avatar?: string;
-        handle?: string;
-    } | undefined | null;
-    image?: string;
-    link?: string;
+    article: ArticleType | undefined;
+    onShowChatbot: (show: boolean) => void;
 }
 
 // Simple animation hook for smooth transitions
@@ -126,10 +121,11 @@ function useDrag(onClose: () => void) {
     };
 }
 
-export default function Article({ onClose, title, content, image, link, videoCreator }: ArticleProps) {
+export default function Article({ onClose, article, onShowChatbot }: ArticleProps) {
     const [isOpen, setIsOpen] = useState(true);
     const modalRef = useRef<HTMLDivElement>(null);
     const { shouldRender, animationClass } = useAnimation(isOpen);
+    const [isLiked, setIsLiked] = useState(false);
 
     const { dragRef, isDragging, dragOffset, dragHandlers } = useDrag(() => {
         setIsOpen(false);
@@ -146,6 +142,8 @@ export default function Article({ onClose, title, content, image, link, videoCre
 
     // Handle click outside to close
     useEffect(() => {
+        // Don't close the article if the chatbot is open
+
         function handleClickOutside(event: MouseEvent) {
             if (modalRef.current && !modalRef.current.contains(event.target as Node) && !isDragging) {
                 handleClose();
@@ -158,6 +156,7 @@ export default function Article({ onClose, title, content, image, link, videoCre
         }
 
         return () => {
+
             document.removeEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = 'unset';
         };
@@ -184,7 +183,7 @@ export default function Article({ onClose, title, content, image, link, videoCre
                 className={`absolute bottom-[0%] left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
                     }`}
                 style={{
-                    minHeight: '90vh',
+                    minHeight: '98vh',
                     transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
                         animationClass === 'animate-out' ? '100%' : '100%'
                         }px)`,
@@ -217,32 +216,28 @@ export default function Article({ onClose, title, content, image, link, videoCre
                 </div>
 
                 {/* Content */}
-                <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 120px)' }}>
+                <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(98vh - 90px)' }}>
                     {/* Title */}
-                    <h1 className="text-lg font-bold text-white mb-4">{title}</h1>
+                    <h1 className="text-2xl font-bold text-white mb-4">{article?.headline}</h1>
 
                     {/* Creator Info */}
-                    {videoCreator && (
+                    {article?.creator && (
                         <div className='flex flex-row gap-2 justify-between items-center py-2'>
                             <div className="flex flex-row gap-2 justify-between items-center py-2">
                                 <div className="rounded-full border border-sky-500 w-10 h-10 flex items-center justify-center">
                                     <User size={20} className="text-gray-300" />
                                 </div>
                                 <div className="flex flex-row gap-1 items-center text-sm text-white">
-                                    <p>{videoCreator.name}</p>
+                                    <p>{article?.creator.name}</p>
                                     <BadgeCheck size={20} className="text-sky-500" />
                                 </div>
                                 <button className="text-white text-sm border bg-gray-500/30 backdrop-blur-sm border-gray-500/50 rounded-full px-2 py-1">
                                     Follow
                                 </button>
                             </div>
-                            <div className='flex flex-row gap-2 items-center'>
-                                <div className='flex flex-row gap-2 items-center rounded-full bg-white p-2 justify-center'>
-                                    <BookMarked size={20} className='text-black' />
-                                </div>
-                                <div className='flex flex-row gap-2 items-center rounded-full bg-white p-2 justify-center'>
-                                    <MoreVertical size={20} className='text-black' />
-                                </div>
+                            <div className='flex flex-row gap-2 items-center rounded-full bg-gray-500/30 backdrop-blur-sm border border-gray-500/50 p-2 justify-center'>
+                                <span className='text-white text-sm'>EN</span>
+                                <ChevronDown size={16} className='text-white' />
                             </div>
                         </div>
                     )}
@@ -250,20 +245,50 @@ export default function Article({ onClose, title, content, image, link, videoCre
                     {/* Featured Image */}
                     <div className="w-full aspect-video bg-gray-800 rounded-xl mb-6 overflow-hidden relative group">
                         <img
-                            src={image || "https://picsum.photos/seed/article/800/450"}
-                            alt={title}
+                            src={article?.image || "https://picsum.photos/seed/article/800/450"}
+                            alt={article?.headline}
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                     </div>
 
+                    {/* Engagement */}
+                    <div className="flex w-full gap-4  items-center py-2">
+                        <div className='flex flex-row gap-2 items-center rounded-full   justify-center transition-all duration-300' onClick={() => setIsLiked(!isLiked)}>
+                            <Heart size={20} className={`${isLiked ? 'text-red-500 fill-red-500 animate-like-pop transition-all duration-300' : 'text-white'}`} />
+                            <span className={`${isLiked ? 'text-red-500' : 'text-white'} text-sm`}>100</span>
+                        </div>
+                        <div className='flex flex-row gap-2 items-center rounded-full  justify-center'>
+                            <Eye size={20} className='text-white' />
+                            <span className='text-white text-sm'>100</span>
+                        </div>
+                        <div className='flex flex-row gap-2 items-center rounded-full  justify-center'>
+                            <BookMarked size={20} className='text-white' />
+                            <span className='text-white text-sm'>100</span>
+                        </div>
+                    </div>
+
                     {/* Article Content */}
                     <div className="prose prose-invert max-w-none text-white">
-                        <p className="text-gray-300 leading-relaxed whitespace-pre-line text-sm">
-                            {content}
-                        </p> 
+                        <p className="text-gray-300 leading-relaxed whitespace-pre-line text-md">
+                            {article?.content}
+                        </p>
                     </div>
                 </div>
             </div>
+            {/* Ask AI Button - Bottom Right */}
+            {
+                <button
+                    className="absolute bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full bg-gray-900 backdrop-blur-xl border border-slate-500 shadow-lg  transition-all"
+                    style={{ minWidth: 0 }}
+                    onClick={() => { onShowChatbot(true); console.log('clicked chatbot button') }}
+                >
+                    {/* You can use an SVG or emoji for the robot icon */}
+                    <span className="text-2xl"><Bot size={20} className='text-sky-500' /></span>
+                    <span className="text-white ">Ask AI</span>
+                    {/* <ChevronDown size={20} className='text-white' /> */}
+                </button>
+            }
+
         </div>
     );
 }

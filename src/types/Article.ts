@@ -1,4 +1,4 @@
-import { Creator } from "./Creator";
+import { Creator } from "./User";
 
 export interface Article {
     id: number;

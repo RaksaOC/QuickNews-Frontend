@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Star, Wallet, Music, QrCode, Settings } from 'lucide-react';
+import { X, Star, Wallet, Music, QrCode, Settings, Bell, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // Menu items for QuickNews
 const menuItems = [
-    { icon: <Star className="w-5 h-5" />, label: 'QuickNews Studio', link: '/studio' },
-    { icon: <Wallet className="w-5 h-5" />, label: 'Balance', link: '/balance' },
-    { icon: <QrCode className="w-5 h-5" />, label: 'My QR code', link: '/qr' },
-    { icon: <Settings className="w-5 h-5" />, label: 'Settings and privacy', link: '/settings' },
+    { icon: <Star className="w-5 h-5" />, label: 'Quick personalization', link: '/personalization' },
+    { icon: <Settings className="w-5 h-5" />, label: 'Profile settings', link: '/profile-settings' },
+    { icon: <Wallet className="w-5 h-5" />, label: 'Account preferences', link: '/account-preferences' },
+    { icon: <Bell className="w-5 h-5" />, label: 'Notification settings', link: '/notification-settings' },
+    { icon: <Lock className="w-5 h-5" />, label: 'Privacy controls', link: '/privacy-controls' },
 ];
 
 // Simple animation hook for smooth transitions
@@ -182,7 +183,7 @@ export default function MenuPopup({ onClose }: { onClose: () => void }) {
                             onClick={() => { router.push(item.link) }}
                         >
                             <span className="mr-4 text-xl flex items-center">{item.icon}</span>
-                            <span className="text-base">{item.label}</span>
+                            <span className="text-sm">{item.label}</span>
                         </button>
                     ))}
                 </div>

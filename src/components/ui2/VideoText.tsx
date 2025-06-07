@@ -1,24 +1,32 @@
 import { on } from "events";
 import { ArrowRightCircle, BadgeCheck, Check, CheckCircle, ScrollText, User } from "lucide-react";
-import { Creator } from "@/types/Creator";
+import { User as UserType } from "@/types/User";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface VideoTextProps {
-    creator: Creator;
+    creator: UserType;
     title: string;
     description: string;
     onShowArticle: () => void;
 }
 
 export function VideoText({ creator, title, description, onShowArticle }: VideoTextProps) {
+    const [isShortened, setIsShortened] = useState(true);
     const router = useRouter();
 
     return (
-        <div className="absolute bottom-0 left-0  w-full px-4 pb-2 flex flex-col gap-3">
+        <div className={`absolute bottom-24 left-0  w-full px-4 pb-2 flex flex-col gap-3 ${!isShortened ? "bg-gradient-to-b from-transparent via-black/50 to-black" : ""}`}>
 
-            {/* This is the description */}
-            <div className="text-white text-lg mt-2 w-full font-bold line-clamp-2">
-                <span className="w-full text-wrap">{description}</span>
+            {/* longer headline */}
+            {/* <div className="text-white text-lg mt-2 w-full font-bold line-clamp-2">
+                <span className=" text-wrap">{description}</span>
+            </div> */}
+            {/* shorter headline with read more to see full headline*/}
+            <div className={`text-white text-lg mt-2 w-[80%] font-bold `} onClick={() => { setIsShortened(!isShortened) }}>
+                <span className=" text-wrap">{isShortened ? description.split(" ").slice(0, 11).join(" ") : description}</span>
+                {isShortened && <span className="text-sky-400 text-lg font-bold"> ...</span>}
+
             </div>
             <div className="text-sky-500 flex flex-col max-w-28" onClick={onShowArticle}>
                 <span className="flex flex-row gap-2 items-center">
@@ -30,7 +38,7 @@ export function VideoText({ creator, title, description, onShowArticle }: VideoT
             <div className="text-white text-lg flex font-bold flex-row gap-5 items-center justify-between ">
                 <div className="flex flex-row gap-2 items-center ">
                     <div className="rounded-full border border-sky-500 w-10 h-10 flex items-center justify-center" onClick={() => { router.push(`/${creator.id}`) }}>
-                        <User size={20} className="text-gray-300" />
+                        <img src={creator.avatar} alt={creator.name} className="w-full h-full rounded-full" />
                     </div>
                     <div className="flex flex-row gap-1 items-center text-sm" onClick={() => { router.push(`/${creator.id}`) }}>
                         <p>{creator.name}</p>

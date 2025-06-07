@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Search, ArrowLeft, ChevronLeft, Play, Filter, SlidersHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import FilterPopup from '@/components/ui2/FilterPopup';
 
 // Mock video data similar to the Trump news results
 const mockVideoResults = [
@@ -51,9 +52,10 @@ const mockVideoResults = [
 ];
 
 export default function SearchPage() {
-  const [searchQuery, setSearchQuery] = useState('trump');
+  const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState(mockVideoResults);
-  const [hasSearched, setHasSearched] = useState(true);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const router = useRouter();
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -65,14 +67,17 @@ export default function SearchPage() {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === '') {
+      setHasSearched(false);
+    }
     setSearchQuery(e.target.value);
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="max-h-screen h-screen overflow-y-scroll scrollbar-hide bg-black text-white relative">
       {/* Search Header */}
-      <div className="sticky top-0 bg-black border-b border-gray-800 p-4 z-10">
-        <div className="flex items-center gap-3">
+      <div className="sticky top-0 bg-black p-4 z-10">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => router.push('/')}
             className="p-2 hover:bg-gray-800/50 rounded-full transition-colors"
@@ -96,6 +101,9 @@ export default function SearchPage() {
               type="button"
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-900 border border-gray-700 rounded-full p-2 flex items-center justify-center hover:bg-gray-800 transition"
               aria-label="Filter"
+              onClick={() => {
+                setIsFilterOpen(true);
+              }}
             >
               <SlidersHorizontal className="w-5 h-5 text-gray-400" />
             </button>
@@ -155,11 +163,42 @@ export default function SearchPage() {
       {/* Default state when no search has been performed */}
       {!hasSearched && (
         <div className="p-4">
-          <div className="text-center py-8">
-            <p className="text-gray-400">Enter a search term to find news videos</p>
+          {/* Trending Section */}
+          <div className="mb-8">
+            <h2 className="text-white text-lg font-semibold mb-3">Trending</h2>
+            <div className="flex flex-wrap gap-2">
+              {/* Example trending topics, replace with your data */}
+              {["AI", "Elections", "Climate", "Tech", "Sports", "Business"].map((topic) => (
+                <button
+                  key={topic}
+                  className="px-4 py-2 rounded-full bg-gray-800 text-sky-400 font-medium hover:bg-gray-700 transition"
+                >
+                  #{topic}
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* Recent Searches Section */}
+          <div>
+            <h2 className="text-white text-lg font-semibold mb-3">Recent Searches</h2>
+            <div className="flex flex-col gap-2">
+              {/* Example recent searches, replace with your data */}
+              {["OpenAI", "SpaceX", "Elections 2024"].map((search) => (
+                <button
+                  key={search}
+                  className=" flex items-center text-left px-2 py-2 rounded  text-gray-300  transition"
+                >
+                  <Search className="w-4 h-4 mr-2 text-sky-500" />
+                  {search}
+                </button>
+              ))}
+              {/* If no recent searches */}
+              {/* <p className="text-gray-500 text-sm">No recent searches</p> */}
+            </div>
           </div>
         </div>
       )}
+      {isFilterOpen && <FilterPopup onClose={() => setIsFilterOpen(false)} />}
     </div>
   );
 }

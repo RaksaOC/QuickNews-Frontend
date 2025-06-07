@@ -8,6 +8,7 @@ import Article from "./Article";
 import { Video } from "@/types/Video";
 import { Heart } from "lucide-react";
 import VideoPlayer from "./VideoPlayer";
+import { ProgressBar } from "./ProgressBar";
 
 /*
     This component is for containing the video posts
@@ -29,7 +30,9 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     const [isVisible, setIsVisible] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-
+    const [progress, setProgress] = useState(0);
+    const [updatedProgress, setUpdatedProgress] = useState(0);
+    
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -88,10 +91,15 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
                 url={video.url}
                 isVisible={isVisible}
                 onDoubleTap={handleDoubleTap}
+                progress={progress}
+                onProgressUpdate={(played) => {
+                    setProgress(played);
+                }}
+                progressChange={updatedProgress}
             />
             <VideoInteractions
                 likes={video.likes}
-                comments={video.comments.length}
+                comments={video.comments}
                 shares={video.shares}
                 onCommentClick={onCommentClick}
                 onShareClick={onShareClick}
@@ -106,6 +114,9 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
                 description={video.content}
                 onShowArticle={() => onArticleClick(video.id)}
             />
+            <div className="absolute bottom-0 left-0 right-0 p-4 z-[999]">
+                <ProgressBar progress={progress}  onProgressChange={(progress) => { setProgress(progress) }} onProgressChangeUpdate={(progress) => { setUpdatedProgress(progress) }} />
+            </div>
         </div>
     )
 }

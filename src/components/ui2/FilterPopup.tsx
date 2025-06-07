@@ -1,10 +1,26 @@
-'use client';
-
 import { useState, useRef, useEffect } from 'react';
-import { X, Send, Heart, MessageCircle, User } from 'lucide-react';
-import { Comment } from '@/types/Comment';
-import CommentCard from './CommentCard';
-import { creatorData } from '@/data/Users';
+import { X, SlidersHorizontal, Calendar, Clock, Tag, Star, TrendingUp, Search, Filter, Check } from 'lucide-react';
+
+interface FilterPopupProps {
+    onClose: () => void;
+}
+
+// Filter categories data
+const categories = [
+    { id: 1, name: 'Technology', count: 128 },
+    { id: 2, name: 'Business', count: 85 },
+    { id: 3, name: 'Entertainment', count: 64 },
+    { id: 4, name: 'Sports', count: 92 },
+    { id: 5, name: 'Science', count: 45 },
+    { id: 6, name: 'Health', count: 73 },
+];
+
+// Sort options
+const sortOptions = [
+    { id: 1, name: 'Most Recent', icon: Clock },
+    { id: 2, name: 'Most Popular', icon: Star },
+    { id: 3, name: 'Trending', icon: TrendingUp },
+];
 
 // Simple animation hook for smooth transitions
 function useAnimation(isOpen: boolean) {
@@ -40,28 +56,23 @@ function useDrag(onClose: () => void) {
 
     const handleDragMove = (clientY: number) => {
         if (!isDragging) return;
-
         const deltaY = clientY - startY;
-        const newOffset = Math.max(0, deltaY); // Only allow dragging down
+        const newOffset = Math.max(0, deltaY);
         setDragOffset(newOffset);
     };
 
     const handleDragEnd = () => {
         if (!isDragging) return;
-
         setIsDragging(false);
         document.body.style.userSelect = 'auto';
 
-        // Close if dragged down more than 150px
         if (dragOffset > 150) {
             onClose();
         } else {
-            // Snap back to original position
             setDragOffset(0);
         }
     };
 
-    // Mouse events
     const onMouseDown = (e: React.MouseEvent) => {
         e.preventDefault();
         handleDragStart(e.clientY);
@@ -75,7 +86,6 @@ function useDrag(onClose: () => void) {
         handleDragEnd();
     };
 
-    // Touch events
     const onTouchStart = (e: React.TouchEvent) => {
         handleDragStart(e.touches[0].clientY);
     };
@@ -89,7 +99,6 @@ function useDrag(onClose: () => void) {
         handleDragEnd();
     };
 
-    // Global event listeners
     useEffect(() => {
         if (isDragging) {
             document.addEventListener('mousemove', onMouseMove);
@@ -117,14 +126,11 @@ function useDrag(onClose: () => void) {
     };
 }
 
-interface CommentsProps {
-    comments: Comment[];
-    onClose: () => void;
-}
-
-export default function Comments({ onClose, comments }: CommentsProps) {
+export default function FilterPopup({ onClose }: FilterPopupProps) {
     const [isOpen, setIsOpen] = useState(true);
-    const [comment, setComment] = useState('');
+    const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+    const [selectedSort, setSelectedSort] = useState<number>(1);
+    const [dateRange, setDateRange] = useState('all');
     const modalRef = useRef<HTMLDivElement>(null);
     const { shouldRender, animationClass } = useAnimation(isOpen);
 
@@ -135,13 +141,19 @@ export default function Comments({ onClose, comments }: CommentsProps) {
 
     const handleClose = () => {
         setIsOpen(false);
-        // Wait for animation to complete before calling onClose
         setTimeout(() => {
             onClose();
-        }, 300); // Match the animation duration
+        }, 300);
     };
 
-    // Handle click outside to close
+    const toggleCategory = (categoryId: number) => {
+        setSelectedCategories(prev =>
+            prev.includes(categoryId)
+                ? prev.filter(id => id !== categoryId)
+                : [...prev, categoryId]
+        );
+    };
+
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (modalRef.current && !modalRef.current.contains(event.target as Node) && !isDragging) {
@@ -160,32 +172,8 @@ export default function Comments({ onClose, comments }: CommentsProps) {
         };
     }, [isOpen, isDragging]);
 
-    const handleSendComment = () => {
-        if (comment.trim()) {
-            const newComment: Comment = {
-                id: comments.length + 1,
-                videoId: 1,
-                user: creatorData[0],
-                text: comment.trim(),
-                likes: 0,
-                replies: [],
-                timestamp: new Date()
-            };
-            // setComments([newComment, ...comments]);
-            setComment('');
-        }
-    };
-
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleSendComment();
-        }
-    };
-
     if (!shouldRender) return null;
 
-    // Calculate opacity based on drag distance
     const backdropOpacity = Math.max(0.6 - (dragOffset / 300), 0);
     const modalOpacity = Math.max(1 - (dragOffset / 400), 0.3);
 
@@ -204,7 +192,7 @@ export default function Comments({ onClose, comments }: CommentsProps) {
                 className={`absolute bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
                     }`}
                 style={{
-                    minHeight: '75vh',
+                    maxHeight: '85vh',
                     transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
                         animationClass === 'animate-out' ? '100%' : '100%'
                         }px)`,
@@ -222,14 +210,12 @@ export default function Comments({ onClose, comments }: CommentsProps) {
 
                 {/* Header */}
                 <div
-                    className="flex items-center justify-between px-4 py-2 border-b border-gray-700/50 cursor-grab active:cursor-grabbing"
+                    className="flex items-center justify-between px-6 py-2 border-b border-gray-700/50 cursor-grab active:cursor-grabbing"
                     {...dragHandlers}
                 >
                     <div className="flex items-center gap-3">
-                        <h2 className="text-xl font-bold text-white">Comments</h2>
-                        <span className="px-2 py-1 bg-gray-700/50 rounded-full text-xs text-gray-300 font-medium">
-                            {comments.length}
-                        </span>
+                        <Filter className="w-5 h-5 text-white" />
+                        <h2 className="text-xl font-bold text-white">Search Filters</h2>
                     </div>
                     <button
                         onClick={handleClose}
@@ -239,70 +225,95 @@ export default function Comments({ onClose, comments }: CommentsProps) {
                     </button>
                 </div>
 
-                {/* Comments List */}
-                <div
-                    className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent"
-                    style={{ height: 'calc(75vh - 140px)' }}
-                >
-                    {comments.length > 0 ? (
-                        comments.map((comment, index) => (
-                            <div
-                                key={comment.id}
-                                className={`transition-all duration-300 ease-out ${animationClass === 'animate-in'
-                                    ? 'translate-y-0 opacity-100'
-                                    : 'translate-y-4 opacity-0'
-                                    }`}
-                                style={{
-                                    transitionDelay: animationClass === 'animate-in' ? `${index * 50}ms` : '0ms'
-                                }}
-                            >
-                                <CommentCard comment={comment} />
-                            </div>
-                        ))
-                    ) : (
-                        <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-                            <MessageCircle size={48} className="mb-3 opacity-50" />
-                            <p className="text-sm">No comments yet. Be the first to comment!</p>
+                {/* Filter Content */}
+                <div className="p-6 space-y-6 overflow-y-scroll max-h-[60vh]">
+                    {/* Sort Options */}
+                    <div className="space-y-3">
+                        <h3 className="text-sm font-medium text-gray-400">Sort By</h3>
+                        <div className="grid grid-cols-3 gap-3">
+                            {sortOptions.map((option) => (
+                                <button
+                                    key={option.id}
+                                    onClick={() => setSelectedSort(option.id)}
+                                    className={`flex items-center justify-center gap-2 p-3 rounded-xl transition-all duration-200 ${selectedSort === option.id
+                                        ? 'bg-sky-500 text-white'
+                                        : 'bg-gray-800/50 text-gray-400 hover:bg-gray-800'
+                                        }`}
+                                >
+                                    <option.icon className="w-4 h-4" />
+                                    <span className="text-sm font-medium">{option.name}</span>
+                                </button>
+                            ))}
                         </div>
-                    )}
+                    </div>
+
+                    {/* Date Range */}
+                    <div className="space-y-3">
+                        <h3 className="text-sm font-medium text-gray-400">Date Range</h3>
+                        <div className="grid grid-cols-4 gap-3">
+                            {['all', 'today', 'week', 'month'].map((range) => (
+                                <button
+                                    key={range}
+                                    onClick={() => setDateRange(range)}
+                                    className={`p-3 rounded-xl transition-all duration-200 ${dateRange === range
+                                        ? 'bg-sky-500 text-white'
+                                        : 'bg-gray-800/50 text-gray-400 hover:bg-gray-800'
+                                        }`}
+                                >
+                                    <span className="text-sm font-medium capitalize">{range}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Categories */}
+                    <div className="space-y-3">
+                        <h3 className="text-sm font-medium text-gray-400">Categories</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                            {categories.map((category) => (
+                                <button
+                                    key={category.id}
+                                    onClick={() => toggleCategory(category.id)}
+                                    className={`flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${selectedCategories.includes(category.id)
+                                        ? 'bg-sky-500 text-white'
+                                        : 'bg-gray-800/50 text-gray-400 hover:bg-gray-800'
+                                        }`}
+                                >
+                                    <span className="text-sm font-medium">{category.name}</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xs opacity-75">({category.count})</span>
+                                        {selectedCategories.includes(category.id) && (
+                                            <Check className="w-4 h-4" />
+                                        )}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
-                {/* Comment Input */}
-                <div className="px-4 py-2 w-full border-t border-gray-700/50 bg-gray-900/80 backdrop-blur-sm self-end">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full border border-sky-500 flex items-center justify-center flex-shrink-0">
-                            <User className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="flex-1 relative">
-                            <textarea
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                                placeholder="Add a comment..."
-                                rows={1}
-                                className="w-full bg-gray-800/80 backdrop-blur-sm rounded-2xl px-4 py-3 text-sm text-white placeholder-gray-400 border border-gray-600/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 resize-none"
-                                style={{ minHeight: '44px', maxHeight: '120px' }}
-                                onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
-                                    const target = e.target as HTMLTextAreaElement;
-                                    target.style.height = 'auto';
-                                    target.style.height = target.scrollHeight + 'px';
-                                }}
-                            />
-                        </div>
+                {/* Action Buttons */}
+                <div className="px-6 py-4 border-t border-gray-700/50">
+                    <div className="flex gap-3">
                         <button
-                            onClick={handleSendComment}
-                            disabled={!comment.trim()}
-                            className={`p-3 rounded-full transition-all duration-200 ${comment.trim()
-                                ? 'bg-blue-500 hover:bg-blue-600 text-white hover:scale-105 shadow-lg shadow-blue-500/25'
-                                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                                }`}
+                            onClick={() => {
+                                setSelectedCategories([]);
+                                setSelectedSort(1);
+                                setDateRange('all');
+                            }}
+                            className="flex-1 p-4 rounded-xl bg-gray-800/50 hover:bg-gray-800 transition-all duration-200 text-white font-medium"
                         >
-                            <Send size={20} />
+                            Reset All
+                        </button>
+                        <button
+                            onClick={handleClose}
+                            className="flex-1 p-4 rounded-xl bg-sky-500  transition-all duration-200 text-white font-medium"
+                        >
+                            Apply Filters
                         </button>
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }
