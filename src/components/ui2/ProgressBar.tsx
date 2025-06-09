@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export function ProgressBar({ progress, onProgressChange, onProgressChangeUpdate }: { progress: number, onProgressChange: (progress: number) => void, onProgressChangeUpdate: (progress: number) => void }) {
+export function ProgressBar({ progress, onProgressChange, onProgressChangeUpdate, onDragChange }: { progress: number, onProgressChange: (progress: number) => void, onProgressChangeUpdate: (progress: number) => void, onDragChange: (dragging: boolean) => void }) {
     const barRef = useRef<HTMLDivElement>(null);
     const [dragging, setDragging] = useState(false);
 
@@ -25,33 +25,46 @@ export function ProgressBar({ progress, onProgressChange, onProgressChangeUpdate
 
     // Mouse events
     const handleMouseDown = (e: React.MouseEvent) => {
+        e.stopPropagation();
         setDragging(true);
+        onDragChange(true);
     };
 
     const handleMouseMove = (e: MouseEvent) => {
         if (!dragging) return;
+        e.preventDefault();
         onProgressChange(getProgressFromEvent(e));
+        onProgressChangeUpdate(getProgressFromEvent(e));
     };
 
     const handleMouseUp = (e: MouseEvent) => {
         if (!dragging) return;
+        e.preventDefault();
         setDragging(false);
+        onDragChange(false);
         onProgressChange(getProgressFromEvent(e));
+        onProgressChangeUpdate(getProgressFromEvent(e));
     };
 
     // Touch events
     const handleTouchStart = (e: React.TouchEvent) => {
+        e.stopPropagation();
         setDragging(true);
+        onDragChange(true);
     };
 
     const handleTouchMove = (e: TouchEvent) => {
         if (!dragging) return;
+        e.preventDefault();
         onProgressChange(getProgressFromEvent(e));
+        onProgressChangeUpdate(getProgressFromEvent(e));
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
         if (!dragging) return;
+        e.preventDefault();
         setDragging(false);
+        onDragChange(false);
         onProgressChange(getProgressFromEvent(e));
         onProgressChangeUpdate(getProgressFromEvent(e));
     };
@@ -79,13 +92,17 @@ export function ProgressBar({ progress, onProgressChange, onProgressChangeUpdate
     }, [dragging]);
 
     return (
-        <div className="absolute bottom-[90px] left-0 right-0 px-4 z-50">
+        <div
+            className="absolute bottom-[90px] left-0 right-0 px-4 z-[999]"
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
+        >
             <div
                 ref={barRef}
                 className="w-full h-1 bg-gray-500/50 rounded-full relative cursor-pointer"
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
-                // Prevent click-to-jump: only start drag
                 onClick={e => e.preventDefault()}
             >
                 <div
@@ -94,11 +111,11 @@ export function ProgressBar({ progress, onProgressChange, onProgressChangeUpdate
                 ></div>
                 {/* Draggable handle */}
                 <div
-                    className="absolute top-1/2 -translate-y-1/2 bg-sky-500 z-[999]"
+                    className="absolute top-1/2 -translate-y-1/2 bg-sky-500 z-[999] w-2 h-2 rounded-full"
                     style={{
                         left: `calc(${progress * 100}% - 8px)`,
-                        width: 8,
-                        height: 8,
+                        width: 10,
+                        height: 10,
                         background: "#38bdf8",
                         borderRadius: "50%",
                         boxShadow: "0 0 12px #ffffff",

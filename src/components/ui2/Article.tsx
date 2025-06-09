@@ -170,7 +170,7 @@ export default function Article({ onClose, article, onShowChatbot }: ArticleProp
 
     return (
         <div
-            className={`absolute inset-0 z-50 transition-all duration-300 ease-out`}
+            className="absolute inset-0 z-[60] transition-all duration-300 ease-out"
             style={{
                 backgroundColor: `rgba(0, 0, 0, ${animationClass === 'animate-in' ? backdropOpacity :
                     animationClass === 'animate-out' ? 0 : 0
@@ -180,7 +180,7 @@ export default function Article({ onClose, article, onShowChatbot }: ArticleProp
         >
             <div
                 ref={modalRef}
-                className={`absolute bottom-[0%] left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
+                className={`absolute bottom-[0%] z-50 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
                     }`}
                 style={{
                     minHeight: '98vh',

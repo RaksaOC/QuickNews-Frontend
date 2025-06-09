@@ -1,4 +1,4 @@
-import { Creator } from "./User";
+import { User } from "./User";
 
 export interface Article {
     id: number;
@@ -6,5 +6,5 @@ export interface Article {
     content: string;
     image: string;
     link: string;
-    creator: Creator;
+    creator: User;
 }

@@ -179,7 +179,7 @@ export default function FilterPopup({ onClose }: FilterPopupProps) {
 
     return (
         <div
-            className={`absolute bottom-0 inset-0 z-50 transition-all duration-300 ease-out`}
+            className="absolute inset-0 z-[80] transition-all duration-300 ease-out w-full h-full"
             style={{
                 backgroundColor: `rgba(0, 0, 0, ${animationClass === 'animate-in' ? backdropOpacity :
                     animationClass === 'animate-out' ? 0 : 0
@@ -189,10 +189,10 @@ export default function FilterPopup({ onClose }: FilterPopupProps) {
         >
             <div
                 ref={modalRef}
-                className={`absolute bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
+                className={`absolute bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300 overflow-y-scroll'
                     }`}
                 style={{
-                    maxHeight: '85vh',
+                    minHeight: '70vh',
                     transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
                         animationClass === 'animate-out' ? '100%' : '100%'
                         }px)`,
@@ -210,7 +210,7 @@ export default function FilterPopup({ onClose }: FilterPopupProps) {
 
                 {/* Header */}
                 <div
-                    className="flex items-center justify-between px-6 py-2 border-b border-gray-700/50 cursor-grab active:cursor-grabbing"
+                    className="relative flex items-center justify-between px-6 py-2 border-b border-gray-700/50 cursor-grab active:cursor-grabbing"
                     {...dragHandlers}
                 >
                     <div className="flex items-center gap-3">
@@ -226,7 +226,7 @@ export default function FilterPopup({ onClose }: FilterPopupProps) {
                 </div>
 
                 {/* Filter Content */}
-                <div className="p-6 space-y-6 overflow-y-scroll max-h-[60vh]">
+                <div className="sticky top-0 z-50 p-6 space-y-6 overflow-y-scroll max-h-[60vh]">
                     {/* Sort Options */}
                     <div className="space-y-3">
                         <h3 className="text-sm font-medium text-gray-400">Sort By</h3>

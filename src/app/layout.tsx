@@ -23,11 +23,14 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${poppins.className} bg-black overflow-hidden scrollbar-hide`}>
+      <head>
+        <link rel="icon" href="/assets/logo2.png" />
+      </head>
+      <body className={`${poppins.className} bg-black overflow-hidden scrollbar-hide max-h-screen h-screen`}>
         <div className="h-screen flex flex-col items-center justify-center">
           <AnimatingBackground />
           <div
-            className="wrapper aspect-[9/16] w-full max-w-xl overflow-hidden rounded-xl overflow-y-scroll "
+            className="wrapper aspect-[9/16] w-full max-w-xl overflow-hidden rounded-xl "
             style={{
               maxWidth: getResponsiveSize(390), // Responsive max width
             }}

@@ -7,6 +7,8 @@ import { CheckBadgeIcon } from '@heroicons/react/16/solid';
 import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { articleData } from '@/data/Article';
+import { videoData } from '@/data/Video';
 
 // Mock data
 const profile = {
@@ -21,83 +23,31 @@ const profile = {
   cover: '/assets/avatar1.jpg',
 };
 
-const activities = [
-  {
-    id: 1,
-    image: '/assets/avatar1.jpg',
-    date: '20-3-2025',
-    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-    likes: 47000,
-    comments: 47000,
-    action: 'Read',
-  },
-  {
-    id: 2,
-    image: '/assets/avatar2.jpg',
-    date: '20-3-2025',
-    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-    likes: 47000,
-    comments: 47000,
-    action: 'Read',
-  },
-  {
-    id: 3,
-    image: '/assets/avatar1.jpg',
-    date: '20-3-2025',
-    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-    likes: 47000,
-    comments: 47000,
-    action: 'Read',
-  },
-  {
-    id: 3,
-    image: '/assets/avatar2.jpg',
-    date: '20-3-2025',
-    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-    likes: 47000,
-    comments: 47000,
-    action: 'Read',
-  },
-  {
-    id: 3,
-    image: '/assets/avatar1.jpg',
-    date: '20-3-2025',
-    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-    likes: 47000,
-    comments: 47000,
-    action: 'Read',
-  },
-  {
-    id: 3,
-    image: '/assets/avatar2.jpg',
-    date: '20-3-2025',
-    text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-    likes: 47000,
-    comments: 47000,
-    action: 'Read',
-  },
-];
+const articles = articleData;
+const videos = videoData;
+
 
 // Card for activity/post
-function PostCard({ image, date, text, likes, comments, action }: any) {
+function PostCard({ image, date, text, likes, comments, action }: { image: string, date: string, text: string, likes: number, comments: number, action: string }) {
   return (
     <div className="bg-[#18181b] rounded-2xl p-3 flex items-center gap-3 mb-4">
       <img src={image} alt="" className="w-20 h-20 rounded-xl object-cover" />
       <div className="flex-1">
         <div className="flex items-center text-xs text-gray-300 mb-1">
           <span className="mr-2 flex items-center gap-1">
-            <Clock size={16} className='text-sky-500' /> {date}
+            <Clock size={16} className='text-sky-500' /> {date || ''}
+            <span className="text-gray-300 text-xs">QuickNews</span>
           </span>
         </div>
-        <div className="text-white text-sm mb-2">{text}</div>
+        <div className="text-white text-sm mb-2">{text || 'This is a test text'}</div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1 text-gray-300 text-xs">
-            <ThumbsUp size={16} /> {formatStats(likes)}
+            <ThumbsUp size={16} /> {formatStats(likes || 10000)}
           </div>
           <div className="flex items-center gap-1 text-gray-300 text-xs">
-            <MessageCircle size={16} /> {formatStats(comments)}
+            <MessageCircle size={16} /> {formatStats(comments || 10000)}
           </div>
-          <button className="ml-auto bg-sky-500 text-white text-xs px-4 py-1 rounded-full font-medium">{action}</button>
+          <button className="ml-auto bg-sky-500 text-white text-xs px-4 py-1 rounded-full font-medium">Read</button>
         </div>
       </div>
     </div>
@@ -105,10 +55,11 @@ function PostCard({ image, date, text, likes, comments, action }: any) {
 }
 
 export default function ProfilePage() {
+  const [activeTab, setActiveTab] = useState<'videos' | 'articles' | 'saved'>('videos');
   const router = useRouter();
   const [showFollowers, setShowFollowers] = useState(false);
   return (
-    <div className='relative'>
+    <div className='relative max-h-screen h-screen'>
       <div className=" bg-black max-h-screen overflow-y-scroll">
         {/* Cover and header */}
         <div className="relative h-60 w-full">
@@ -154,17 +105,62 @@ export default function ProfilePage() {
 
         {/* Tabs */}
         <div className="flex justify-between items-center gap-16 mb-6 px-8">
-          <BookOpen className="text-white" size={28} />
-          <PlayCircle className="text-sky-500 bg-black rounded-full p-1" size={38} />
-          <Bookmark className="text-white" size={28} />
+          <button onClick={() => setActiveTab('videos')}>
+            <PlayCircle className={`rounded-full p-1 ${activeTab === 'videos' ? 'text-sky-500 bg-black' : 'text-gray-400'}`} size={38} />
+          </button>
+          <button onClick={() => setActiveTab('articles')}>
+            <BookOpen className={`${activeTab === 'articles' ? 'text-sky-500' : 'text-white'}`} size={28} />
+          </button>
+          <button onClick={() => setActiveTab('saved')}>
+            <Bookmark className={`${activeTab === 'saved' ? 'text-sky-500' : 'text-white'}`} size={28} />
+          </button>
         </div>
 
         {/* Activity Feed */}
-        <div className="px-4 flex-1 overflow-y-auto pb-20">
-          {activities.map((a) => (
-            <PostCard key={a.id} {...a} />
-          ))}
-        </div>
+        {activeTab === 'videos' && (
+          <div className="px-4 flex-1 overflow-y-auto pb-24">
+            <div className="grid grid-cols-2 gap-3">
+              {videos.map((video) => (
+                <div key={video.id} className="relative">
+                  <div className="relative aspect-[9/16] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                    <img src={'/assets/logo2.png'} alt={video.headline} className=" object-cover" />
+                    <div className="absolute top-2 left-2 bg-black/70 rounded-full px-2 py-1 flex items-center gap-1 border border-sky-500">
+                      <div className="w-3 h-3 rounded-full border border-white flex items-center justify-center">
+                        <PlayCircle className="w-2 h-2 text-white" />
+                      </div>
+                      <span className="text-xs text-white font-medium">{'0'}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 py-2">
+                    <img src={'/assets/logo2.png'} alt={video.headline} className="w-3 h-3 rounded-full" />
+                    <p className="text-xs text-white">QuickNews</p>
+                  </div>
+                  <div className="mt-2">
+                    <p className="text-sm text-white leading-tight line-clamp-2">
+                      {video.headline}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'articles' && (
+          <div className="px-4 flex-1 overflow-y-auto pb-24">
+            {articles.map((a) => (
+              <PostCard key={a.id} image={a.image} />
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'saved' && (
+          <div className="px-4 flex-1 overflow-y-auto pb-24">
+            {articles.map((a) => (
+              <PostCard key={a.id} image={a.image} />
+            ))}
+          </div>
+        )}
       </div>
       <NavBar />
       <div className="w-full sticky bottom-0 z-50">

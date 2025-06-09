@@ -1,4 +1,4 @@
-import { Creator } from "./User";
+import { User} from "./User";
 import { Comment } from "./Comment";
 import { Article } from "./Article";
 
@@ -8,10 +8,11 @@ export interface Video {
     content: string;
     image: string;
     url: string;
-    creator: Creator;
+    creator: User;
     comments: Comment[];
     likes: number;
     shares: number;
     createdAt: string;
     article?: Article;
+    category: string;
 }

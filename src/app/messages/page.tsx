@@ -13,6 +13,14 @@ const frequentContacts = [
   { id: 4, name: 'Riya Kapoor', avatar: '/assets/avatar2.jpg', online: true },
   { id: 5, name: 'Jonas Becker', avatar: '/assets/avatar1.jpg', online: true },
   { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
+  { id: 6, name: 'Yuki Nakamura', avatar: '/assets/avatar2.jpg', online: true },
 ];
 
 
@@ -61,7 +69,7 @@ export default function DirectMessagesScreen() {
           <div className="flex overflow-x-auto scrollbar-hide">
             {frequentContacts.map((c) => (
               <div key={c.id} className="flex flex-col items-center mr-4">
-                <div className="relative">
+                <div className="relative w-16 h-16">
                   <img
                     src={c.avatar}
                     alt={c.name}
@@ -77,6 +85,7 @@ export default function DirectMessagesScreen() {
           </div>
         </div>
 
+          <span className="text-white text-center text-lg font-bold mt-2 pl-4">Messages</span>
         {/* Conversation List */}
         <div className="pt-2 pb-20">
           {conversations.map((c) => (

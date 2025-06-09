@@ -20,9 +20,10 @@ interface VideoPostProps {
     onShareClick: () => void;
     onArticleClick: (vidId: number) => void;
     onIsLiked: (isLiked: boolean) => void;
+    onShowChatbot?: () => void;
 }
 
-export default function VideoPost({ video, onCommentClick, onShareClick, onArticleClick, onIsLiked }: VideoPostProps) {
+export default function VideoPost({ video, onCommentClick, onShareClick, onArticleClick, onIsLiked, onShowChatbot }: VideoPostProps) {
     const [showComments, setShowComments] = useState(false);
     const [showShare, setShowShare] = useState(false);
     const [showArticle, setShowArticle] = useState(false);
@@ -32,7 +33,8 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     const containerRef = useRef<HTMLDivElement>(null);
     const [progress, setProgress] = useState(0);
     const [updatedProgress, setUpdatedProgress] = useState(0);
-    
+    const [isProgressBarDragging, setIsProgressBarDragging] = useState(false);
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -86,7 +88,25 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     };
 
     return (
-        <div ref={containerRef} className="w-full h-full p-4 relative">
+        <div
+            ref={containerRef}
+            className="w-full h-full p-4 relative"
+            onTouchStart={(e) => {
+                if (isProgressBarDragging) {
+                    e.stopPropagation();
+                }
+            }}
+            onTouchMove={(e) => {
+                if (isProgressBarDragging) {
+                    e.stopPropagation();
+                }
+            }}
+            onTouchEnd={(e) => {
+                if (isProgressBarDragging) {
+                    e.stopPropagation();
+                }
+            }}
+        >
             <VideoPlayer
                 url={video.url}
                 isVisible={isVisible}
@@ -114,9 +134,12 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
                 description={video.content}
                 onShowArticle={() => onArticleClick(video.id)}
             />
-            <div className="absolute bottom-0 left-0 right-0 p-4 z-[999]">
-                <ProgressBar progress={progress}  onProgressChange={(progress) => { setProgress(progress) }} onProgressChangeUpdate={(progress) => { setUpdatedProgress(progress) }} />
-            </div>
+            <ProgressBar
+                progress={progress}
+                onProgressChange={(progress) => { setProgress(progress) }}
+                onProgressChangeUpdate={(progress) => { setUpdatedProgress(progress) }}
+                onDragChange={(dragging) => { setIsProgressBarDragging(dragging) }}
+            />
         </div>
     )
 }
