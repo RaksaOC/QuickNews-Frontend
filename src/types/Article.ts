@@ -5,6 +5,7 @@ export interface Article {
     headline: string;
     content: string;
     image: string;
-    link: string;
     creator: User;
+    likes: number;  
+    createdAt: string;
 }

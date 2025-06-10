@@ -38,7 +38,7 @@ export function VideoInteractions({ likes, comments, shares, onCommentClick, onS
                     <Heart
                         size={22}
                         className={`transition-all duration-300 ${isLiked
-                            ? 'text-red-500 fill-red-500 animate-like-pop'
+                            ? 'text-sky-500 fill-sky-500 animate-like-pop'
                             : 'text-white'
                             }`}
                     />

@@ -21,6 +21,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
     const playerRef = useRef<ReactPlayer>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const lastTapRef = useRef(0);
+    const lastDoubleTapRef = useRef(0);
     const playPauseTimeoutRef = useRef<NodeJS.Timeout>();
     const controlsTimeoutRef = useRef<NodeJS.Timeout>();
 
@@ -42,34 +43,53 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
         }
     }, [progressChange]);
 
-    const handleTap = (event: React.MouseEvent) => {
+    const handleTap = (event: React.MouseEvent | React.TouchEvent) => {
         const now = Date.now();
         const DOUBLE_TAP_DELAY = 300; // milliseconds
         const PLAY_PAUSE_DELAY = 400; // milliseconds
+        const DOUBLE_TAP_COOLDOWN = 800; // cooldown period to prevent rapid double taps
 
-        // Get click position relative to container
+        // Get click/touch position relative to container
         if (containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
+            let x, y;
+
+            if ('touches' in event) {
+                // Touch event
+                x = event.touches[0].clientX - rect.left;
+                y = event.touches[0].clientY - rect.top;
+            } else {
+                // Mouse event
+                x = event.clientX - rect.left;
+                y = event.clientY - rect.top;
+            }
             setLikePosition({ x, y });
         }
 
-        if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
-            // Double tap detected
+        const isWithinDoubleTapWindow = now - lastTapRef.current < DOUBLE_TAP_DELAY;
+        const isOutsideCooldown = now - lastDoubleTapRef.current > DOUBLE_TAP_COOLDOWN;
+
+        if (isWithinDoubleTapWindow && isOutsideCooldown) {
+            // Valid double tap detected
             onDoubleTap();
             triggerLikePop();
+            lastDoubleTapRef.current = now;
+
             // Clear any pending play/pause
             if (playPauseTimeoutRef.current) {
                 clearTimeout(playPauseTimeoutRef.current);
             }
+        } else if (isWithinDoubleTapWindow && !isOutsideCooldown) {
+            // Double tap detected but within cooldown - ignore completely
+            // Don't trigger play/pause either
         } else {
-            // Single tap - delay the play/pause to allow for double tap
+            // Single tap - delay the play/pause to allow for potential double tap
             playPauseTimeoutRef.current = setTimeout(() => {
                 handlePlayPause();
             }, PLAY_PAUSE_DELAY);
         }
 
+        // Always update lastTapRef for the next tap
         lastTapRef.current = now;
     };
 
@@ -94,12 +114,13 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
             ref={containerRef}
             className="absolute top-0 left-0 w-full h-full"
             onClick={handleTap}
+            onTouchStart={handleTap}
         >
             <ReactPlayer
                 ref={playerRef}
                 url={url}
                 playing={isPlaying}
-                muted={false}
+                muted={true} // TO CHANGE
                 loop
                 playsInline
                 progressInterval={150}
@@ -141,8 +162,8 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
                     }}
                 >
                     {/* Blurry background effect */}
-                    <div className="absolute inset-0 bg-red-500/50 rounded-full blur-md transform scale-150"></div>
-                    <Heart size={80} className="relative text-red-500 fill-red-500 animate-like-pop" />
+                    <div className="absolute inset-0 bg-sky-500/50 rounded-full blur-md transform scale-150"></div>
+                    <Heart size={80} className="relative text-sky-500 fill-sky-500 animate-like-pop" />
                 </div>
             )}
         </div>

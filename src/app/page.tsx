@@ -1,14 +1,12 @@
 'use client';
 
-import { Suspense, useEffect, useState, useRef } from 'react';
-import VideoFeed from '@/components/ui/VideoFeed';
+import { useEffect, useState, useRef } from 'react';
 import NavBar from '@/components/ui2/NavBar';
 import { TopNav } from '@/components/ui2/TopNav';
 import VideoFeedContainer from '@/components/ui2/VideoFeedContainer';
-import { videoData } from '@/data/Video';
+import { DEMO_VIDEOS } from '@/data/Video';
 import MenuPopup from '@/components/ui2/MenuPopup';
 import LandingPage from '@/components/ui2/LandingPage';
-import { Loader2 } from 'lucide-react';
 import Comments from '@/components/ui2/Comments';
 import Share from '@/components/ui2/Share';
 import Article from '@/components/ui2/Article';
@@ -21,7 +19,7 @@ export default function Page() {
   const [isMainPage, setIsMainPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState('following');
-  const [videos] = useState(videoData);
+  const [videos, setVideos] = useState(DEMO_VIDEOS);
   const [dragX, setDragX] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
@@ -32,6 +30,7 @@ export default function Page() {
   const [showArticle, setShowArticle] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
+  const [isMouseDown, setIsMouseDown] = useState(false);
 
   useEffect(() => {
     setIsLandingPage(true);
@@ -49,6 +48,14 @@ export default function Page() {
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
+    touchStartTime.current = Date.now();
+    setGestureDirection(null);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsMouseDown(true);
+    touchStartX.current = e.clientX;
+    touchStartY.current = e.clientY;
     touchStartTime.current = Date.now();
     setGestureDirection(null);
   };
@@ -71,13 +78,7 @@ export default function Page() {
       }
     }
 
-    // If vertical, do not process horizontal swipe logic
-    if (gestureDirection === 'vertical') {
-      // Allow normal vertical scroll, do not process horizontal swipe
-      return;
-    }
-
-    // If horizontal, prevent vertical scroll and process horizontal swipe
+    // Handle horizontal gestures (category swiping)
     if (gestureDirection === 'horizontal') {
       e.preventDefault(); // Prevent vertical scroll
       const currentIdx = categories.indexOf(category);
@@ -89,19 +90,47 @@ export default function Page() {
       }
       setDragX(resistedDelta);
     }
+
+    // For vertical gestures, allow normal touch scrolling
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isMouseDown || touchStartX.current === null || touchStartY.current === null) return;
+    const deltaX = e.clientX - touchStartX.current;
+    const deltaY = e.clientY - touchStartY.current;
+
+    // If direction not yet determined, check if movement exceeds threshold
+    if (!gestureDirection) {
+      if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          setGestureDirection('horizontal');
+        } else {
+          setGestureDirection('vertical');
+        }
+      } else {
+        return;
+      }
+    }
+
+    // Handle horizontal gestures (category swiping)
+    if (gestureDirection === 'horizontal') {
+      e.preventDefault(); // Prevent vertical scroll
+      const currentIdx = categories.indexOf(category);
+      let resistedDelta = deltaX;
+      if ((currentIdx === 0 && deltaX > 0) || (currentIdx === categories.length - 1 && deltaX < 0)) {
+        resistedDelta = deltaX * 0.3;
+      } else {
+        resistedDelta = deltaX * 0.8;
+      }
+      setDragX(resistedDelta);
+    }
+
+    // For vertical gestures, allow normal scrolling (no manual intervention)
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null || touchStartTime.current === null) return;
-    if (gestureDirection === 'vertical') {
-      // Reset and do nothing for horizontal swipe
-      setGestureDirection(null);
-      touchStartX.current = null;
-      touchStartY.current = null;
-      touchStartTime.current = null;
-      setDragX(0);
-      return;
-    }
+
     // Only process horizontal swipe if gestureDirection is horizontal
     if (gestureDirection === 'horizontal') {
       const deltaX = e.changedTouches[0].clientX - touchStartX.current;
@@ -116,12 +145,53 @@ export default function Page() {
           setCategory(categories[currentIdx + 1]);
         }
       }
-      setDragX(0);
     }
+
+    // Reset all states
+    setDragX(0);
     setGestureDirection(null);
     touchStartX.current = null;
     touchStartY.current = null;
     touchStartTime.current = null;
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (!isMouseDown || touchStartX.current === null || touchStartTime.current === null) return;
+    setIsMouseDown(false);
+
+    // Only process horizontal swipe if gestureDirection is horizontal
+    if (gestureDirection === 'horizontal') {
+      const deltaX = e.clientX - touchStartX.current;
+      const deltaTime = Date.now() - touchStartTime.current;
+      const velocity = Math.abs(deltaX) / deltaTime;
+      const currentIdx = categories.indexOf(category);
+      const shouldSwipe = Math.abs(deltaX) > 100 || velocity > 0.5;
+      if (shouldSwipe) {
+        if (deltaX > 0 && currentIdx > 0) {
+          setCategory(categories[currentIdx - 1]);
+        } else if (deltaX < 0 && currentIdx < categories.length - 1) {
+          setCategory(categories[currentIdx + 1]);
+        }
+      }
+    }
+
+    // Reset all states
+    setDragX(0);
+    setGestureDirection(null);
+    touchStartX.current = null;
+    touchStartY.current = null;
+    touchStartTime.current = null;
+  };
+
+  const handleMouseLeave = () => {
+    if (isMouseDown) {
+      setIsMouseDown(false);
+      setGestureDirection(null);
+      touchStartX.current = null;
+      touchStartY.current = null;
+      touchStartTime.current = null;
+      setDragX(0);
+    }
   };
 
   const categories = [
@@ -138,6 +208,8 @@ export default function Page() {
 
   const currentIndex = categories.indexOf(category);
 
+  console.log("videos.filter(video => video.category === category)", videos.filter(video => video.category === category));
+
   return (
     isMainPage && (
       <div className='relative h-full flex flex-col justify-between items-center bg-black'>
@@ -153,7 +225,13 @@ export default function Page() {
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            style={{ overflowY: gestureDirection === 'horizontal' ? 'hidden' : 'auto' }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              overflowY: gestureDirection === 'horizontal' ? 'hidden' : 'auto',
+            }}
           >
             <div
               className="flex w-full h-full transition-transform duration-300 ease-out"
@@ -161,8 +239,8 @@ export default function Page() {
                 transform: `translateX(calc(-${currentIndex * 100}% + ${dragX}px))`,
               }}
             >
-              {categories.map((cat) => (
-                <div
+              {categories.map((cat, index) => (
+                < div
                   key={cat}
                   className="flex-shrink-0 w-full h-full"
                 >
@@ -189,7 +267,7 @@ export default function Page() {
         )}
         {!isLandingPage && <NavBar />}
         {isMenuOpen && <MenuPopup onClose={() => { setIsMenuOpen(false) }} />}
-      </div>
+      </div >
     )
   );
 } 

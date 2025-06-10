@@ -45,8 +45,8 @@ export default function DirectMessagesScreen() {
   const router = useRouter();
 
   return (
-    <div className="  relative  ">
-      <div className=" bg-black h-full">
+    <div className="relative max-h-screen h-screen">
+      <div className="bg-black max-h-screen overflow-y-scroll">
         {/* Header */}
         <div className="flex sticky top-0 z-10 items-center justify-center px-2 pt-4 pb-6 bg-black">
           <p className="text-lg font-semibold text-white">Direct Messages</p>
@@ -85,9 +85,9 @@ export default function DirectMessagesScreen() {
           </div>
         </div>
 
-          <span className="text-white text-center text-lg font-bold mt-2 pl-4">Messages</span>
+        <span className="text-white text-center text-lg font-bold mt-2 pl-4">Messages</span>
         {/* Conversation List */}
-        <div className="pt-2 pb-20">
+        <div className="pt-2 pb-24">
           {conversations.map((c) => (
             <DMConversationItem
               key={c.id}
@@ -97,7 +97,7 @@ export default function DirectMessagesScreen() {
           ))}
         </div>
       </div>
-      <div className="h-[10%] sticky bottom-0">
+      <div className='sticky bottom-0 z-10'>
         <NavBar />
       </div>
     </div>

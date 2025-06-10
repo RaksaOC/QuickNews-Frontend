@@ -41,7 +41,7 @@ export default function Replies({ replies }: { replies: Reply[] }) {
                                     <Heart
                                         size={16}
                                         className={`${likedReplies[reply.id]
-                                            ? 'text-red-500 fill-red-500 animate-like-pop'
+                                            ? 'text-sky-500 fill-sky-500 animate-like-pop'
                                             : 'text-gray-400'
                                             }`}
                                     />

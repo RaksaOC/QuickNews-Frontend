@@ -1,55 +1,158 @@
 'use client';
 
-import { User, Lock, Shield, Share2, Bell, Tv, Music, Clock, Users, Video, Megaphone } from 'lucide-react';
+import { X, Search, User, Edit2, Bell, Lock, Globe, Users, Moon, HelpCircle, MessageSquare } from 'lucide-react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
-const accountItems = [
-    { icon: <User className="w-5 h-5" />, label: "Account" },
-    { icon: <Lock className="w-5 h-5" />, label: "Privacy" },
-    { icon: <Shield className="w-5 h-5" />, label: "Security & permissions" },
-    { icon: <Share2 className="w-5 h-5" />, label: "Share profile" },
-];
-
-const contentItems = [
-    { icon: <Bell className="w-5 h-5" />, label: "Notifications" },
-    { icon: <Clock className="w-5 h-5" />, label: "Activity center" },
-    { icon: <Video className="w-5 h-5" />, label: "Content preferences" },
-    { icon: <Users className="w-5 h-5" />, label: "Audience controls" },
-    { icon: <Megaphone className="w-5 h-5" />, label: "Ads" },
-];
-
-function Section({ title, items }: { title: string; items: { icon: JSX.Element; label: string }[] }) {
-    return (
-        <div className="mb-6 px-2">
-            <h2 className="text-gray-400 text-sm font-semibold mb-4 px-2">{title}</h2>
-            <div className="bg-gray-900 rounded-xl overflow-hidden ">
-                {items.map((item, idx) => (
-                    <button
-                        key={item.label}
-                        className={`flex items-center w-full px-4 py-4 text-left text-white text-base font-medium border-b border-[#232323] last:border-b-0 hover:bg-[#232323] transition`}
-                    >
-                        <span className="mr-4 text-xl flex items-center">{item.icon}</span>
-                        <span className="text-sm">{item.label}</span>
-                        <span className="ml-auto text-gray-500">{'>'}</span>
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
-}
 
 export default function SettingsPage() {
     const router = useRouter();
+    const [darkMode, setDarkMode] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
+
     return (
-        <div className="min-h-screen bg-black px-0 pt-4 pb-8">
+        <div className="relative min-h-screen bg-black text-white">
             {/* Header */}
-            <div className="flex items-center px-4 mb-10">
-                <button className="mr-2 text-white text-2xl" onClick={() => { router.back() }}>{'<'}</button>
-                <h1 className="text-md font-bold text-white">Settings and privacy</h1>
+            <div className="flex items-center justify-between px-4 py-4 border-b border-gray-800">
+                <button
+                    onClick={() => router.back()}
+                    className="p-2 hover:bg-gray-800 rounded-full transition-colors"
+                >
+                    <X size={24} />
+                </button>
+                <h1 className="text-lg font-semibold">Settings</h1>
+                <div className="w-10"></div>
             </div>
-            {/* Sections */}
-            <Section title="Account" items={accountItems} />
-            <Section title="Content & Display" items={contentItems} />
+
+            <div className="px-4 py-4 space-y-6">
+                {/* Search Bar */}
+                <div className="relative">
+                    <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder="Search settings"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-gray-800/50 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 border border-gray-700 focus:outline-none focus:border-sky-500 transition-colors"
+                    />
+                </div>
+
+                {/* User Profile Section */}
+                <div className="bg-gray-800/30 rounded-xl p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="relative">
+                            <img
+                                src="/assets/avatar1.jpg"
+                                alt="Profile"
+                                className="w-12 h-12 rounded-full object-cover"
+                            />
+                            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black"></div>
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-white">Jung Eun-bi</h3>
+                            <p className="text-sm text-gray-400">@user</p>
+                        </div>
+                    </div>
+                    <button className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors">
+                        Log out
+                    </button>
+                </div>
+
+                {/* YOUR DATA Section 1 */}
+                <div>
+                    <h2 className="text-gray-400 text-sm font-medium mb-3 uppercase tracking-wide">Your Data</h2>
+                    <div className="bg-gray-800/30 rounded-xl overflow-hidden">
+                        <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
+                            <div className="flex items-center gap-3">
+                                <User size={18} className="text-gray-400" />
+                                <span className="text-sm text-gray-300">Name:</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm text-white">Juan son chuner</span>
+                                <Edit2 size={16} className="text-gray-400" />
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-between p-4">
+                            <div className="flex items-center gap-3">
+                                <span className="text-lg">@</span>
+                                <span className="text-sm text-gray-300">Email:</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm text-white">Juan@gmail.com</span>
+                                <Edit2 size={16} className="text-gray-400" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* YOUR DATA Section 2 */}
+                <div>
+                    <h2 className="text-gray-400 text-sm font-medium mb-3 uppercase tracking-wide">Your Data</h2>
+                    <div className="bg-gray-800/30 rounded-xl overflow-hidden">
+                        <button className="flex items-center justify-between w-full p-4 border-b border-gray-700/50 hover:bg-gray-700/30 transition-colors">
+                            <div className="flex items-center gap-3">
+                                <Bell size={18} className="text-gray-400" />
+                                <span className="text-sm text-white">Notification:</span>
+                            </div>
+                            <span className="text-gray-400">{'>'}</span>
+                        </button>
+
+                        <button className="flex items-center justify-between w-full p-4 border-b border-gray-700/50 hover:bg-gray-700/30 transition-colors">
+                            <div className="flex items-center gap-3">
+                                <Lock size={18} className="text-gray-400" />
+                                <span className="text-sm text-white">Change Password:</span>
+                            </div>
+                            <span className="text-gray-400">{'>'}</span>
+                        </button>
+
+                        <button className="flex items-center justify-between w-full p-4 border-b border-gray-700/50 hover:bg-gray-700/30 transition-colors">
+                            <div className="flex items-center gap-3">
+                                <Globe size={18} className="text-gray-400" />
+                                <span className="text-sm text-white">Language:</span>
+                            </div>
+                            <span className="text-gray-400">{'>'}</span>
+                        </button>
+
+                        <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
+                            <div className="flex items-center gap-3">
+                                <Users size={18} className="text-gray-400" />
+                                <span className="text-sm text-white">Accessibility:</span>
+                            </div>
+                            <span className="text-sm text-gray-400">Juan@gmail.com</span>
+                        </div>
+
+                        <div className="flex items-center justify-between p-4">
+                            <div className="flex items-center gap-3">
+                                <Moon size={18} className="text-gray-400" />
+                                <span className="text-sm text-white">Dark Mode:</span>
+                            </div>
+                            <button
+                                onClick={() => setDarkMode(!darkMode)}
+                                className={`relative w-12 h-6 rounded-full transition-colors ${darkMode ? 'bg-sky-500' : 'bg-gray-600'
+                                    }`}
+                            >
+                                <div
+                                    className={`absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform ${darkMode ? 'translate-x-6' : 'translate-x-0.5'
+                                        }`}
+                                />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ADDITIONAL INFO Section */}
+                <div>
+                    <h2 className="text-gray-400 text-sm font-medium mb-3 uppercase tracking-wide">Additional Info</h2>
+                    <div className="bg-gray-800/30 rounded-xl overflow-hidden">
+                        <button className="flex items-center justify-between w-full p-4 hover:bg-gray-700/30 transition-colors">
+                            <div className="flex items-center gap-3">
+                                <HelpCircle size={18} className="text-gray-400" />
+                                <span className="text-sm text-white">Support and Feedback:</span>
+                            </div>
+                            <Edit2 size={16} className="text-gray-400" />
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

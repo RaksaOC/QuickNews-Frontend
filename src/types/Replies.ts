@@ -4,7 +4,7 @@ export interface Reply {
     id: number;
     commentId: number;
     content: string;
-    createdAt: Date;
+    createdAt: string;
     user: User;
     likes: number;
 }

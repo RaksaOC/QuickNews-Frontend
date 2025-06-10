@@ -1,51 +1,16 @@
 import { Comment } from "@/types/Comment";
-import { repliesData } from "./Replies";
-import { creatorData } from "./Users";
+import { DEMO_USERS, OTHER_USERS } from "./DemoUsers";
+import { DEMO_REPLIES } from "./Replies";
 
-export const commentsData: Comment[] = [
-    {
-        videoId: 1,
-        id: 1,
-        user: creatorData[1],
-        text: "This app is so smooth and fast! Love the new design.",
-        likes: 5,
-        replies: [repliesData[0], repliesData[1], repliesData[2]],
-        timestamp: new Date("2023-06-01T10:00:00")
-    },
-    {
-        videoId: 1,
-        id: 2,
-        user: creatorData[2],
-        text: "AI-powered news is the future. Great job, team!",
-        likes: 3,
-        replies: [repliesData[3], repliesData[4]],
-        timestamp: new Date("2023-06-01T11:00:00")
-    },
-    {
-        videoId: 2,
-        id: 3,
-        user: creatorData[3],
-        text: "I appreciate the focus on privacy and no ads.",
-        likes: 2,
-        replies: [repliesData[5]],
-        timestamp: new Date("2023-06-02T09:30:00")
-    },
-    {
-        videoId: 2,
-        id: 4,
-        user: creatorData[4],
-        text: "The summaries are super helpful for busy mornings.",
-        likes: 4,
-        replies: [],
-        timestamp: new Date("2023-06-02T10:15:00")
-    },
-    {
-        videoId: 3,
-        id: 5,
-        user: creatorData[0],
-        text: "Can we get more tech news?",
-        likes: 1,
-        replies: [],
-        timestamp: new Date("2023-06-03T08:45:00")
-    }
+// Only use DEMO_REPLIES[0] to DEMO_REPLIES[5]
+export const DEMO_COMMENTS: Comment[] = [
+  { id: 1, user: OTHER_USERS[1], videoId: 1, content: "Amazing insights!", createdAt: "2025-06-01", likes: 10, replies: [DEMO_REPLIES[0], DEMO_REPLIES[1]] },
+  { id: 2, user: OTHER_USERS[2], videoId: 1, content: "AI is the future!", createdAt: "2025-06-01", likes: 10, replies: [DEMO_REPLIES[2], DEMO_REPLIES[3]] },
+  { id: 3, user: OTHER_USERS[3], videoId: 1, content: "Great video!", createdAt: "2025-06-01", likes: 10, replies: [DEMO_REPLIES[4], DEMO_REPLIES[5]] },
+  { id: 4, user: OTHER_USERS[1], videoId: 2, content: "Robots are everywhere now.", createdAt: "2025-06-02", likes: 10, replies: [DEMO_REPLIES[1], DEMO_REPLIES[3]] },
+  { id: 5, user: OTHER_USERS[0], videoId: 2, content: "Can't wait for more!", createdAt: "2025-06-02", likes: 10, replies: [DEMO_REPLIES[0], DEMO_REPLIES[5]] },
+  { id: 6, user: OTHER_USERS[2], videoId: 3, content: "Quantum is so cool!", createdAt: "2025-06-03", likes: 10, replies: [DEMO_REPLIES[2], DEMO_REPLIES[4]] },
+  { id: 7, user: OTHER_USERS[3], videoId: 6, content: "Meditation changed my life.", createdAt: "2025-06-06", likes: 10, replies: [DEMO_REPLIES[3], DEMO_REPLIES[0]] },
+  { id: 8, user: OTHER_USERS[1], videoId: 6, content: "Great tips!", createdAt: "2025-06-06", likes: 10, replies: [DEMO_REPLIES[5], DEMO_REPLIES[1]] },
+  { id: 9, user: OTHER_USERS[2], videoId: 7, content: "Exercise is key!", createdAt: "2025-06-07", likes: 10, replies: [DEMO_REPLIES[4], DEMO_REPLIES[2]] }
 ];

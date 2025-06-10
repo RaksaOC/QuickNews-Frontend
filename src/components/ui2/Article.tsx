@@ -156,7 +156,6 @@ export default function Article({ onClose, article, onShowChatbot }: ArticleProp
         }
 
         return () => {
-
             document.removeEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = 'unset';
         };
@@ -178,117 +177,115 @@ export default function Article({ onClose, article, onShowChatbot }: ArticleProp
                 backdropFilter: animationClass === 'animate-in' ? 'blur(4px)' : 'none'
             }}
         >
-            <div
-                ref={modalRef}
-                className={`absolute bottom-[0%] z-50 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
-                    }`}
-                style={{
-                    minHeight: '98vh',
-                    transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
-                        animationClass === 'animate-out' ? '100%' : '100%'
-                        }px)`,
-                    opacity: animationClass === 'animate-in' ? modalOpacity :
-                        animationClass === 'animate-out' ? 0 : 0
-                }}
-            >
-                {/* Drag Handle */}
+            <div className='h-full flex flex-col justify-end'>
                 <div
-                    className="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing"
-                    {...dragHandlers}
+                    ref={modalRef}
+                    className={`flex flex-col bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
+                        } h-full max-h-[95%]`}
+                    style={{
+                        transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
+                            animationClass === 'animate-out' ? '100%' : '100%'
+                            }px)`,
+                        opacity: animationClass === 'animate-in' ? modalOpacity :
+                            animationClass === 'animate-out' ? 0 : 0
+                    }}
                 >
-                    <div className="w-12 h-1.5 bg-gray-600 rounded-full transition-colors duration-200 hover:bg-gray-500"></div>
-                </div>
-
-                {/* Header */}
-                <div
-                    className="flex items-center justify-between px-4 py-2 border-b border-gray-700/50 cursor-grab active:cursor-grabbing"
-                    {...dragHandlers}
-                >
-                    <div className="flex items-center gap-3">
-                        <h2 className="text-xl font-bold text-white">Article</h2>
-                    </div>
-                    <button
-                        onClick={handleClose}
-                        className="p-2 hover:bg-gray-700/50 rounded-full transition-all duration-200 hover:scale-110 text-gray-400 hover:text-white"
+                    {/* Drag Handle */}
+                    <div
+                        className="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing flex-shrink-0"
+                        {...dragHandlers}
                     >
-                        <X size={22} />
-                    </button>
-                </div>
-
-                {/* Content */}
-                <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(98vh - 90px)' }}>
-                    {/* Title */}
-                    <h1 className="text-2xl font-bold text-white mb-4">{article?.headline}</h1>
-
-                    {/* Creator Info */}
-                    {article?.creator && (
-                        <div className='flex flex-row gap-2 justify-between items-center py-2'>
-                            <div className="flex flex-row gap-2 justify-between items-center py-2">
-                                <div className="rounded-full border border-sky-500 w-10 h-10 flex items-center justify-center">
-                                    <User size={20} className="text-gray-300" />
-                                </div>
-                                <div className="flex flex-row gap-1 items-center text-sm text-white">
-                                    <p>{article?.creator.name}</p>
-                                    <BadgeCheck size={20} className="text-sky-500" />
-                                </div>
-                                <button className="text-white text-sm border bg-gray-500/30 backdrop-blur-sm border-gray-500/50 rounded-full px-2 py-1">
-                                    Follow
-                                </button>
-                            </div>
-                            <div className='flex flex-row gap-2 items-center rounded-full bg-gray-500/30 backdrop-blur-sm border border-gray-500/50 p-2 justify-center'>
-                                <span className='text-white text-sm'>EN</span>
-                                <ChevronDown size={16} className='text-white' />
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Featured Image */}
-                    <div className="w-full aspect-video bg-gray-800 rounded-xl mb-6 overflow-hidden relative group">
-                        <img
-                            src={article?.image || "https://picsum.photos/seed/article/800/450"}
-                            alt={article?.headline}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
+                        <div className="w-12 h-1.5 bg-gray-600 rounded-full transition-colors duration-200 hover:bg-gray-500"></div>
                     </div>
 
-                    {/* Engagement */}
-                    <div className="flex w-full gap-4  items-center py-2">
-                        <div className='flex flex-row gap-2 items-center rounded-full   justify-center transition-all duration-300' onClick={() => setIsLiked(!isLiked)}>
-                            <Heart size={20} className={`${isLiked ? 'text-red-500 fill-red-500 animate-like-pop transition-all duration-300' : 'text-white'}`} />
-                            <span className={`${isLiked ? 'text-red-500' : 'text-white'} text-sm`}>100</span>
+                    {/* Header */}
+                    <div
+                        className="flex items-center justify-between px-4 py-2 border-b border-gray-700/50 cursor-grab active:cursor-grabbing flex-shrink-0"
+                        {...dragHandlers}
+                    >
+                        <div className="flex items-center gap-3">
+                            <h2 className="text-xl font-bold text-white">Article</h2>
                         </div>
-                        <div className='flex flex-row gap-2 items-center rounded-full  justify-center'>
-                            <Eye size={20} className='text-white' />
-                            <span className='text-white text-sm'>100</span>
-                        </div>
-                        <div className='flex flex-row gap-2 items-center rounded-full  justify-center'>
-                            <BookMarked size={20} className='text-white' />
-                            <span className='text-white text-sm'>100</span>
-                        </div>
+                        <button
+                            onClick={handleClose}
+                            className="p-2 hover:bg-gray-700/50 rounded-full transition-all duration-200 hover:scale-110 text-gray-400 hover:text-white"
+                        >
+                            <X size={22} />
+                        </button>
                     </div>
 
-                    {/* Article Content */}
-                    <div className="prose prose-invert max-w-none text-white">
-                        <p className="text-gray-300 leading-relaxed whitespace-pre-line text-md">
-                            {article?.content}
-                        </p>
+                    {/* Content - Scrollable */}
+                    <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent min-h-0">
+                        <div className="p-4 space-y-6">
+                            {/* Title */}
+                            <h1 className="text-2xl sm:text-3xl font-bold text-white">{article?.headline}</h1>
+
+                            {/* Creator Info
+                            {article?.creator && (
+                                <div className='flex flex-row gap-2 justify-between items-center'>
+                                    <div className="flex flex-row gap-2 items-center">
+                                        <div className="rounded-full border border-sky-500 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
+                                            <User size={16} className="text-gray-300 sm:w-5 sm:h-5" />
+                                        </div>
+                                        <div className="flex flex-row gap-1 items-center text-sm text-white">
+                                            <p className="text-sm sm:text-base">{article?.creator.name}</p>
+                                            <BadgeCheck size={16} className="text-sky-500 sm:w-5 sm:h-5" />
+                                        </div>
+                                        <button className="text-white text-xs sm:text-sm border bg-gray-500/30 backdrop-blur-sm border-gray-500/50 rounded-full px-2 py-1">
+                                            Follow
+                                        </button>
+                                    </div>
+                                    <div className='flex flex-row gap-2 items-center rounded-full bg-gray-500/30 backdrop-blur-sm border border-gray-500/50 p-2 justify-center'>
+                                        <span className='text-white text-xs sm:text-sm'>EN</span>
+                                        <ChevronDown size={14} className='text-white sm:w-4 sm:h-4' />
+                                    </div>
+                                </div>
+                            )} */}
+
+                            {/* Featured Image */}
+                            <div className="w-full aspect-video bg-gray-800 rounded-xl overflow-hidden relative group">
+                                <img
+                                    src={article?.image || "https://picsum.photos/seed/article/800/450"}
+                                    alt={article?.headline}
+                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                            </div>
+
+                            {/* Engagement
+                            <div className="flex w-full gap-6 items-center">
+                                <div className='flex flex-row gap-2 items-center rounded-full justify-center transition-all duration-300 cursor-pointer' onClick={() => setIsLiked(!isLiked)}>
+                                    <Heart size={18} className={`${isLiked ? 'text-red-500 fill-red-500 animate-like-pop transition-all duration-300' : 'text-white'} sm:w-5 sm:h-5`} />
+                                    <span className={`${isLiked ? 'text-red-500' : 'text-white'} text-sm`}>100</span>
+                                </div>
+                                <div className='flex flex-row gap-2 items-center rounded-full justify-center'>
+                                    <Eye size={18} className='text-white sm:w-5 sm:h-5' />
+                                    <span className='text-white text-sm'>100</span>
+                                </div>
+                                <div className='flex flex-row gap-2 items-center rounded-full justify-center'>
+                                    <BookMarked size={18} className='text-white sm:w-5 sm:h-5' />
+                                    <span className='text-white text-sm'>100</span>
+                                </div>
+                            </div> */}
+
+                            {/* Article Content */}
+                            <div className="prose prose-invert max-w-none text-white">
+                                <p className="text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base">
+                                    {article?.content}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            {/* Ask AI Button - Bottom Right */}
-            {
-                <button
-                    className="absolute bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2 rounded-full bg-gray-900 backdrop-blur-xl border border-slate-500 shadow-lg  transition-all"
-                    style={{ minWidth: 0 }}
-                    onClick={() => { onShowChatbot(true); console.log('clicked chatbot button') }}
-                >
-                    {/* You can use an SVG or emoji for the robot icon */}
-                    <span className="text-2xl"><Bot size={20} className='text-sky-500' /></span>
-                    <span className="text-white ">Ask AI</span>
-                    {/* <ChevronDown size={20} className='text-white' /> */}
-                </button>
-            }
 
+            {/* Ask AI Button - Bottom Right */}
+            <button
+                className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-gray-900 backdrop-blur-xl border border-slate-500 shadow-lg transition-all"
+                onClick={() => { onShowChatbot(true); console.log('clicked chatbot button') }}
+            >
+                <Bot size={18} className='text-sky-500 sm:w-5 sm:h-5' />
+                <span className="text-white text-sm sm:text-base">Ask AI</span>
+            </button>
         </div>
     );
 }

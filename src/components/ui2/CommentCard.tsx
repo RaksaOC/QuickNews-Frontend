@@ -26,10 +26,10 @@ function CommentCard({ comment }: { comment: Comment }) {
                         </div>
                         <div className="flex gap-4">
                             <span className="font-medium text-sm text-white">{comment.user.name}</span>
-                            <span className="text-gray-500 text-xs">{comment.timestamp.toLocaleString()}</span>
+                            <span className="text-gray-500 text-xs">{comment.createdAt}</span>
                         </div>
                     </div>
-                    <p className="text-sm mt-2 text-gray-200 line-clamp-6">{comment.text}</p>
+                    <p className="text-sm mt-2 text-gray-200 line-clamp-6">{comment.content}</p>
 
                     {/* Interaction Buttons */}
                     <div className="flex items-center gap-4 mt-3 justify-between">
@@ -42,11 +42,11 @@ function CommentCard({ comment }: { comment: Comment }) {
                         </div>
                         <button
                             onClick={() => setIsLiked(!isLiked)}
-                            className={`flex items-center gap-1 transition-all duration-200 ${isLiked ? 'text-red-500' : 'text-gray-400'}`}
+                            className={`flex items-center gap-1 transition-all duration-200 ${isLiked ? 'text-sky-500' : 'text-gray-400'}`}
                         >
                             <Heart
                                 size={16}
-                                className={`transition-all duration-200 ${isLiked ? 'fill-red-500 text-red-500 animate-like-pop' : ''
+                                className={`transition-all duration-200 ${isLiked ? 'fill-sky-500 text-sky-500 animate-like-pop' : ''
                                     }`}
                             />
                         </button>

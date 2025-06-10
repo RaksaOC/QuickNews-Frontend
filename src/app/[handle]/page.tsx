@@ -5,58 +5,25 @@ import NavBar from '@/components/ui2/NavBar';
 import { creatorData } from '@/data/Users';
 import { formatStats } from '@/utils/formatStats';
 import { CheckBadgeIcon } from '@heroicons/react/16/solid';
-import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock, PlusCircle, MoreVertical } from 'lucide-react';
+import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock, PlusCircle, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { articleData } from '@/data/Article';
+import { videoData } from '@/data/Video';
 
 // Mock data
 const user = creatorData[0];
 const profile = {
-    ...user, stats: [
+    ...user,
+    stats: [
         { label: 'Likes', value: '20k' },
         { label: 'Followers', value: user.followers.toString(), followers: user.followers },
         { label: 'Posts', value: '200' },
     ]
 }
 
-const activities = [
-    {
-        id: 1,
-        image: '/assets/avatar1.jpg',
-        date: '20-3-2025',
-        text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-        likes: 47000,
-        comments: 47000,
-        action: 'Read',
-    },
-    {
-        id: 2,
-        image: '/assets/avatar2.jpg',
-        date: '20-3-2025',
-        text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-        likes: 47000,
-        comments: 47000,
-        action: 'Read',
-    },
-    {
-        id: 3,
-        image: '/assets/avatar1.jpg',
-        date: '20-3-2025',
-        text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-        likes: 47000,
-        comments: 47000,
-        action: 'Read',
-    },
-    {
-        id: 3,
-        image: '/assets/avatar2.jpg',
-        date: '20-3-2025',
-        text: 'Just finished reading this amazing book. Highly recommend it before 24 hours! 📖',
-        likes: 47000,
-        comments: 47000,
-        action: 'Read',
-    },
-];
+const articles = articleData;
+const videos = videoData;
 
 // Card for activity/post
 function PostCard({ image, date, text, likes, comments, action }: any) {
@@ -87,43 +54,69 @@ function PostCard({ image, date, text, likes, comments, action }: any) {
 export default function CreatorPage() {
     const router = useRouter();
     const [isFollowersPopupOpen, setIsFollowersPopupOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState<'videos' | 'articles' | 'saved'>('videos');
+    const [isScrolledPastCover, setIsScrolledPastCover] = useState(false);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const scrollContainer = scrollContainerRef.current;
+        if (!scrollContainer) return;
+
+        const handleScroll = () => {
+            // Cover height is 240px (h-60) minus header height, so around 180px
+            const coverHeight = 180;
+            const scrollTop = scrollContainer.scrollTop;
+            setIsScrolledPastCover(scrollTop > coverHeight);
+        };
+
+        scrollContainer.addEventListener('scroll', handleScroll);
+        return () => scrollContainer.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
-
-        <div className='relative max-h-screen '>
-            <div className=" bg-black h-full  relative">
-                <div className="sticky top-6 left-4 z-10 flex justify-between items-center">
+        <div className='relative max-h-screen h-screen'>
+            <div ref={scrollContainerRef} className="bg-black max-h-screen overflow-y-scroll">
+                {/* Sticky Header that overlays everything */}
+                <div className={`sticky top-0 left-0 right-0 flex justify-between items-center px-4 py-4 z-50 transition-colors duration-300 ${isScrolledPastCover ? 'bg-black' : 'bg-transparent'}`}>
                     <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50" onClick={() => { router.push('/') }}>
                         <ArrowLeft className="text-white" size={22} />
                     </button>
                     <span className='text-white text-xl font-semibold'>{profile.name}</span>
                     <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50">
-                        <MoreVertical className="text-white" size={22} />
+                        <Search className="text-white" size={22} />
                     </button>
                 </div>
-                {/* Cover and header */}
-                <div className="relative h-60 w-full">
-                    <img
-                        src={profile.avatar}
-                        alt="cover"
-                        className="absolute inset-0 w-full h-full object-contain"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/90" />
 
-                    <div className="absolute left-4 right-4 bottom-[-32px] flex items-center">
+                <div>
+                    {/* Cover section */}
+                    <div className="relative h-60 w-full -mt-20">
                         <img
-                            src={profile.avatar}
-                            alt={profile.name}
-                            className="w-14 h-14 rounded-full border-4 border-[#FFB800] bg-white object-cover"
+                            src={"/assets/avatar1.jpg"
+                                // || profile.avatar
+                            }
+                            alt="cover"
+                            className="absolute inset-0 w-full h-full object-cover"
                         />
-                        <div className="ml-4 flex items-center justify-between w-full">
-                            <div className="flex items-center gap-2">
-                                <span className="text-white text-xl font-semibold">{profile.name}</span>
-                                <BadgeCheck className="text-sky-500" size={22} />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/90" />
+
+                        <div className="absolute bottom-[-32px] flex items-center w-full px-4">
+                            <img
+                                src={
+                                    "/assets/avatar1.jpg"
+                                    // || profile.avatar
+                                }
+                                alt={profile.name}
+                                className="w-20 h-20 rounded-full border-4 border-sky-500 bg-white object-cover"
+                            />
+                            <div className="ml-4 flex items-center justify-between w-full ">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-white text-xl font-semibold">{profile.name}</span>
+                                    <BadgeCheck className="text-white fill-sky-500" size={22} />
+                                </div>
+                                <button className='bg-sky-500 text-white text-xs px-4 py-2 rounded-full font-medium flex items-center gap-1'>
+                                    Follow
+                                </button>
                             </div>
-                            <button className='bg-sky-500 text-white text-xs px-4 py-2 rounded-full font-medium flex items-center gap-1'>
-                                Follow
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -148,17 +141,64 @@ export default function CreatorPage() {
 
                 {/* Tabs */}
                 <div className="flex justify-between items-center gap-16 mb-6 px-8">
-                    <BookOpen className="text-white" size={28} />
-                    <PlayCircle className="text-sky-500 bg-black rounded-full p-1" size={38} />
-                    <Bookmark className="text-white" size={28} />
+                    <button onClick={() => setActiveTab('videos')}>
+                        <PlayCircle className={`rounded-full p-1 ${activeTab === 'videos' ? 'text-sky-500 bg-black' : 'text-gray-400'}`} size={38} />
+                    </button>
+                    <button onClick={() => setActiveTab('articles')}>
+                        <BookOpen className={`${activeTab === 'articles' ? 'text-sky-500' : 'text-white'}`} size={28} />
+                    </button>
+                    <button onClick={() => setActiveTab('saved')}>
+                        <Bookmark className={`${activeTab === 'saved' ? 'text-sky-500' : 'text-white'}`} size={28} />
+                    </button>
                 </div>
 
-                <div className="px-4 flex-1 overflow-y-auto scrollbar-hide">
-                    {activities.map((a) => (
-                        <PostCard key={a.id} image={a.image} date={a.date} text={a.text} likes={a.likes} comments={a.comments} action={a.action} />
-                    ))}
-                </div>
+                {/* Content based on active tab */}
+                {activeTab === 'videos' && (
+                    <div className="px-4 flex-1 overflow-y-auto pb-8">
+                        <div className="grid grid-cols-2 gap-3">
+                            {videos.map((video) => (
+                                <div key={video.id} className="relative">
+                                    <div className="relative aspect-[9/16] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                                        <img src={'/assets/logo2.png'} alt={video.headline} className="object-cover" />
+                                        <div className="absolute top-2 left-2 bg-black/70 rounded-full px-2 py-1 flex items-center gap-1 border border-sky-500">
+                                            <div className="w-3 h-3 rounded-full border border-white flex items-center justify-center">
+                                                <PlayCircle className="w-2 h-2 text-white" />
+                                            </div>
+                                            <span className="text-xs text-white font-medium">{'0'}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2 py-2">
+                                        <img src={'/assets/logo2.png'} alt={video.headline} className="w-3 h-3 rounded-full" />
+                                        <p className="text-xs text-white">QuickNews</p>
+                                    </div>
+                                    <div className="mt-2">
+                                        <p className="text-sm text-white leading-tight line-clamp-2">
+                                            {video.headline}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'articles' && (
+                    <div className="px-4 flex-1 overflow-y-auto pb-24">
+                        {articles.map((a) => (
+                            <PostCard key={a.id} image={a.image} date="20-3-2025" text={a.headline} likes={47000} comments={47000} action="Read" />
+                        ))}
+                    </div>
+                )}
+
+                {activeTab === 'saved' && (
+                    <div className="px-4 flex-1 overflow-y-auto pb-24">
+                        {articles.map((a) => (
+                            <PostCard key={a.id} image={a.image} date="20-3-2025" text={a.headline} likes={47000} comments={47000} action="Read" />
+                        ))}
+                    </div>
+                )}
             </div>
+
             {isFollowersPopupOpen && (
                 <FollowersPopup followers={profile.stats[1]?.followers ? [profile.stats[1].followers] : [{
                     id: 1,

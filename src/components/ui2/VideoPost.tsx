@@ -35,6 +35,8 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     const [updatedProgress, setUpdatedProgress] = useState(0);
     const [isProgressBarDragging, setIsProgressBarDragging] = useState(false);
 
+    console.log("video", video);
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {

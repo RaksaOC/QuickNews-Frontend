@@ -161,10 +161,9 @@ export default function FollowersPopup({ followers, onClose }: FollowersPopupPro
         >
             <div
                 ref={modalRef}
-                className={`absolute  left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
+                className={`absolute  left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out h-3/4 ${isDragging ? 'duration-0' : 'duration-300' 
                     }`}
                 style={{
-                    minHeight: '85vh',
                     transform: `translateY(${animationClass === 'animate-in'
                         ? dragOffset
                         : animationClass === 'animate-out'

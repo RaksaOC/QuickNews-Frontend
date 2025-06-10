@@ -49,7 +49,8 @@ export default function Category({ category, onCategoryChange }: CategoryProps) 
     }, [category]);
 
     return (
-        <div className="relative flex items-center justify-between w-[70%]">
+        <div className="relative flex items-center justify-between w-[85%]">
+            {/* change to 70% if have search button and menu button */}
             {/* Categories Scroll Container */}
             <div
                 ref={scrollContainerRef}

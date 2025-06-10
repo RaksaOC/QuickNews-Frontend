@@ -30,7 +30,7 @@ export default function NavBar() {
     }, [pathname]);
 
     const navItems: NavItem[] = [
-        { id: 'home', icon: '/assets/logo3.png', isImage: true, path: '/', text: "Home" },
+        { id: 'home', icon: '/assets/logo2.png', isImage: true, path: '/', text: "Home" },
         { id: 'messages', icon: <Link size={ICON_SIZE} />, isImage: false, path: '/messages', text: "Connect" },
         {
             id: 'create', icon: <div className='w-12 h-12 rounded-full bg-white flex items-center justify-center'>
@@ -54,15 +54,14 @@ export default function NavBar() {
                         <button
                             key={item.id}
                             onClick={() => handleNavigation(item.path, item.id)}
-                            className={`rounded-full min-w-[45px] min-h-[45px] flex items-center justify-center text-white transition-all duration-300 ${pathname === item.path ? 'bg-sky-500' : 'hover:opacity-80'
-                                }`}
+                            className={`rounded-full min-w-[45px] min-h-[45px] flex items-center justify-center text-white transition-all duration-300`}
                         >
                             {item.isImage ? (
                                 <div className='flex items-center justify-center'>
-                                    <img src={item.icon as string} alt={item.id} className="w-8 h-8 ml-1 mb-1 transform transition-transform duration-300 invert mr-[2px] mt-[4px]" />
+                                    <img src={item.icon as string} alt={item.id} className={`w-8 h-8 ml-1 mb-1 transform transition-transform duration-300 ${activePage === item.id ? '' : 'brightness-0 invert'} mr-[2px] mt-[4px]`} />    
                                 </div>
                             ) : (
-                                <div className='flex items-center justify-center'>
+                                <div className={`flex items-center justify-center ${activePage === item.id ? 'text-sky-500 fill-sky-500' : 'text-white'}`}>
                                     {item.icon}
                                 </div>
                             )}

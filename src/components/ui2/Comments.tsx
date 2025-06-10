@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import { X, Send, Heart, MessageCircle, User } from 'lucide-react';
 import { Comment } from '@/types/Comment';
 import CommentCard from './CommentCard';
-import { creatorData } from '@/data/Users';
 
 // Simple animation hook for smooth transitions
 function useAnimation(isOpen: boolean) {
@@ -161,19 +160,19 @@ export default function Comments({ onClose, comments }: CommentsProps) {
     }, [isOpen, isDragging]);
 
     const handleSendComment = () => {
-        if (comment.trim()) {
-            const newComment: Comment = {
-                id: comments.length + 1,
-                videoId: 1,
-                user: creatorData[0],
-                text: comment.trim(),
-                likes: 0,
-                replies: [],
-                timestamp: new Date()
-            };
-            // setComments([newComment, ...comments]);
-            setComment('');
-        }
+        // if (comment.trim()) {
+        //     const newComment: Comment = {
+        //         id: comments.length + 1,
+        //         videoId: 1,
+        //         user: creatorData[0],
+        //         text: comment.trim(),
+        //         likes: 0,
+        //         replies: [],
+        //         timestamp: new Date()
+        //     };
+        //     // setComments([newComment, ...comments]);
+        //     setComment('');
+        // }
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -191,7 +190,7 @@ export default function Comments({ onClose, comments }: CommentsProps) {
 
     return (
         <div
-            className={`absolute bottom-0 inset-0 z-50 transition-all duration-300 ease-out`}
+            className={`absolute inset-0 z-50 transition-all duration-300 ease-out overflow-y-hidden`}
             style={{
                 backgroundColor: `rgba(0, 0, 0, ${animationClass === 'animate-in' ? backdropOpacity :
                     animationClass === 'animate-out' ? 0 : 0
@@ -199,110 +198,110 @@ export default function Comments({ onClose, comments }: CommentsProps) {
                 backdropFilter: animationClass === 'animate-in' ? 'blur(4px)' : 'none'
             }}
         >
-            <div
-                ref={modalRef}
-                className={`absolute bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
-                    }`}
-                style={{
-                    minHeight: '75vh',
-                    transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
-                        animationClass === 'animate-out' ? '100%' : '100%'
-                        }px)`,
-                    opacity: animationClass === 'animate-in' ? modalOpacity :
-                        animationClass === 'animate-out' ? 0 : 0
-                }}
-            >
-                {/* Drag Handle */}
+            <div className='h-full flex flex-col justify-end'>
                 <div
-                    className="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing"
-                    {...dragHandlers}
+                    ref={modalRef}
+                    className={`flex flex-col bg-gray-900/95 backdrop-blur-xl border-t border-gray-700 rounded-t-3xl shadow-2xl transition-all ease-out ${isDragging ? 'duration-0' : 'duration-300'
+                        } h-3/4 max-h-[75vh]`}
+                    style={{
+                        transform: `translateY(${animationClass === 'animate-in' ? dragOffset :
+                            animationClass === 'animate-out' ? '100%' : '100%'
+                            }px)`,
+                        opacity: animationClass === 'animate-in' ? modalOpacity :
+                            animationClass === 'animate-out' ? 0 : 0
+                    }}
                 >
-                    <div className="w-12 h-1.5 bg-gray-600 rounded-full transition-colors duration-200 hover:bg-gray-500"></div>
-                </div>
-
-                {/* Header */}
-                <div
-                    className="flex items-center justify-between px-4 py-2 border-b border-gray-700/50 cursor-grab active:cursor-grabbing"
-                    {...dragHandlers}
-                >
-                    <div className="flex items-center gap-3">
-                        <h2 className="text-xl font-bold text-white">Comments</h2>
-                        <span className="px-2 py-1 bg-gray-700/50 rounded-full text-xs text-gray-300 font-medium">
-                            {comments.length}
-                        </span>
-                    </div>
-                    <button
-                        onClick={handleClose}
-                        className="p-2 hover:bg-gray-700/50 rounded-full transition-all duration-200 hover:scale-110 text-gray-400 hover:text-white"
+                    {/* Drag Handle */}
+                    <div
+                        className="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing flex-shrink-0"
+                        {...dragHandlers}
                     >
-                        <X size={22} />
-                    </button>
-                </div>
+                        <div className="w-12 h-1.5 bg-gray-600 rounded-full transition-colors duration-200 hover:bg-gray-500"></div>
+                    </div>
 
-                {/* Comments List */}
-                <div
-                    className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent"
-                    style={{ height: 'calc(75vh - 140px)' }}
-                >
-                    {comments.length > 0 ? (
-                        comments.map((comment, index) => (
-                            <div
-                                key={comment.id}
-                                className={`transition-all duration-300 ease-out ${animationClass === 'animate-in'
-                                    ? 'translate-y-0 opacity-100'
-                                    : 'translate-y-4 opacity-0'
-                                    }`}
-                                style={{
-                                    transitionDelay: animationClass === 'animate-in' ? `${index * 50}ms` : '0ms'
-                                }}
-                            >
-                                <CommentCard comment={comment} />
-                            </div>
-                        ))
-                    ) : (
-                        <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-                            <MessageCircle size={48} className="mb-3 opacity-50" />
-                            <p className="text-sm">No comments yet. Be the first to comment!</p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Comment Input */}
-                <div className="px-4 py-2 w-full border-t border-gray-700/50 bg-gray-900/80 backdrop-blur-sm self-end">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full border border-sky-500 flex items-center justify-center flex-shrink-0">
-                            <User className="w-6 h-6 text-white" />
-                        </div>
-                        <div className="flex-1 relative">
-                            <textarea
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                                placeholder="Add a comment..."
-                                rows={1}
-                                className="w-full bg-gray-800/80 backdrop-blur-sm rounded-2xl px-4 py-3 text-sm text-white placeholder-gray-400 border border-gray-600/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 resize-none"
-                                style={{ minHeight: '44px', maxHeight: '120px' }}
-                                onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
-                                    const target = e.target as HTMLTextAreaElement;
-                                    target.style.height = 'auto';
-                                    target.style.height = target.scrollHeight + 'px';
-                                }}
-                            />
+                    {/* Header */}
+                    <div
+                        className="flex items-center justify-between px-4 py-2 border-b border-gray-700/50 cursor-grab active:cursor-grabbing flex-shrink-0"
+                        {...dragHandlers}
+                    >
+                        <div className="flex items-center gap-3">
+                            <h2 className="text-xl font-bold text-white">Comments</h2>
+                            <span className="px-2 py-1 bg-gray-700/50 rounded-full text-xs text-gray-300 font-medium">
+                                {comments.length}
+                            </span>
                         </div>
                         <button
-                            onClick={handleSendComment}
-                            disabled={!comment.trim()}
-                            className={`p-3 rounded-full transition-all duration-200 ${comment.trim()
-                                ? 'bg-blue-500 hover:bg-blue-600 text-white hover:scale-105 shadow-lg shadow-blue-500/25'
-                                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                                }`}
+                            onClick={handleClose}
+                            className="p-2 hover:bg-gray-700/50 rounded-full transition-all duration-200 hover:scale-110 text-gray-400 hover:text-white"
                         >
-                            <Send size={20} />
+                            <X size={22} />
                         </button>
+                    </div>
+
+                    {/* Comments List - This is the key fix */}
+                    <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent min-h-0">
+                        {comments.length > 0 ? (
+                            <div className="px-0">
+                                {comments.map((comment, index) => (
+                                    <div
+                                        key={comment.id}
+                                        className={`transition-all duration-300 ease-out ${animationClass === 'animate-in'
+                                            ? 'translate-y-0 opacity-100'
+                                            : 'translate-y-4 opacity-0'
+                                            }`}
+                                        style={{
+                                            transitionDelay: animationClass === 'animate-in' ? `${index * 50}ms` : '0ms'
+                                        }}
+                                    >
+                                        <CommentCard comment={comment} />
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-full text-gray-400">
+                                <MessageCircle size={48} className="mb-3 opacity-50" />
+                                <p className="text-sm">No comments yet. Be the first to comment!</p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Comment Input */}
+                    <div className="px-4 py-3 border-t border-gray-700/50 bg-gray-900/80 backdrop-blur-sm flex-shrink-0">
+                        <div className="flex items-end gap-3">
+                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-sky-500 flex items-center justify-center flex-shrink-0">
+                                <User className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+                            </div>
+                            <div className="flex-1 relative">
+                                <textarea
+                                    value={comment}
+                                    onChange={(e) => setComment(e.target.value)}
+                                    onKeyPress={handleKeyPress}
+                                    placeholder="Add a comment..."
+                                    rows={1}
+                                    className="w-full bg-gray-800/80 backdrop-blur-sm rounded-2xl px-3 py-2 sm:px-4 sm:py-3 text-sm text-white placeholder-gray-400 border border-gray-600/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 resize-none"
+                                    style={{ minHeight: '36px', maxHeight: '120px' }}
+                                    onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
+                                        const target = e.target as HTMLTextAreaElement;
+                                        target.style.height = 'auto';
+                                        target.style.height = target.scrollHeight + 'px';
+                                    }}
+                                />
+                            </div>
+                            <button
+                                onClick={handleSendComment}
+                                disabled={!comment.trim()}
+                                className={`p-2 sm:p-3 rounded-full transition-all duration-200 ${comment.trim()
+                                    ? 'bg-blue-500 hover:bg-blue-600 text-white hover:scale-105 shadow-lg shadow-blue-500/25'
+                                    : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                                    }`}
+                            >
+                                <Send size={16} className="sm:hidden" />
+                                <Send size={20} className="hidden sm:block" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }

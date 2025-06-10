@@ -5,8 +5,8 @@ export interface Comment {
     id: number;
     videoId: number;
     user: User;
-    text: string;
+    content: string;
     likes: number;
     replies: Reply[];
-    timestamp: Date;
+    createdAt: string;
 }

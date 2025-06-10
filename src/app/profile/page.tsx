@@ -12,7 +12,7 @@ import { videoData } from '@/data/Video';
 
 // Mock data
 const profile = {
-  name: 'QuickNews – Frontend Developer',
+  name: 'QuickNews',
   avatar: '/assets/avatar1.jpg',
   verified: true,
   stats: [
@@ -162,7 +162,9 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
-      <NavBar />
+      <div className='sticky bottom-0 z-10'>
+        <NavBar />
+      </div>
       <div className="w-full sticky bottom-0 z-50">
         {showFollowers && <FollowersPopup followers={[{
           id: 1,

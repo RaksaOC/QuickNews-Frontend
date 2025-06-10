@@ -1,6 +1,7 @@
 import VideoPost from './VideoPost';
 import { Video } from '../../types/Video';
 import { Loader2 } from 'lucide-react';
+import { forwardRef } from 'react';
 
 interface VideoFeedContainerProps {
     videos: Video[];
@@ -12,9 +13,21 @@ interface VideoFeedContainerProps {
     onShowChatbot: () => void;
 }
 
-export default function VideoFeedContainer({ videos, category, onCategoryChange, onShowComments, onShowShare, onShowArticle, onShowChatbot }: VideoFeedContainerProps) {
+const VideoFeedContainer = forwardRef<HTMLDivElement, VideoFeedContainerProps>(({
+    videos,
+    category,
+    onCategoryChange,
+    onShowComments,
+    onShowShare,
+    onShowArticle,
+    onShowChatbot
+}, ref) => {
+    console.log("videos", videos);
     return (
-        <div className="overflow-y-auto snap-y snap-mandatory w-full h-full flex flex-col justify-start items-center scrollbar-hide scroll-auto">
+        <div
+            ref={ref}
+            className="overflow-y-auto snap-y snap-mandatory w-full h-full flex flex-col justify-start items-center scrollbar-hide scroll-auto"
+        >
             <div className="w-full py-16 flex justify-center items-center">
                 <Loader2 className="text-sky-500 text-2xl font-bold animate-spin" />
             </div>
@@ -38,4 +51,8 @@ export default function VideoFeedContainer({ videos, category, onCategoryChange,
             </div>
         </div>
     );
-}
+});
+
+VideoFeedContainer.displayName = 'VideoFeedContainer';
+
+export default VideoFeedContainer;
