@@ -2,28 +2,16 @@
 
 import FollowersPopup from '@/components/ui2/FollowersPopup';
 import NavBar from '@/components/ui2/NavBar';
-import { creatorData } from '@/data/Users';
+import { DEMO_ARTICLES } from '@/data/Article';
+import { DEMO_USERS } from '@/data/DemoUsers';
+import { DEMO_VIDEOS } from '@/data/Video';
+import { User } from '@/types/User';
+import { Video } from '@/types/Video';
 import { formatStats } from '@/utils/formatStats';
 import { CheckBadgeIcon } from '@heroicons/react/16/solid';
 import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock, PlusCircle, Search } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
-import { articleData } from '@/data/Article';
-import { videoData } from '@/data/Video';
-
-// Mock data
-const user = creatorData[0];
-const profile = {
-    ...user,
-    stats: [
-        { label: 'Likes', value: '20k' },
-        { label: 'Followers', value: user.followers.toString(), followers: user.followers },
-        { label: 'Posts', value: '200' },
-    ]
-}
-
-const articles = articleData;
-const videos = videoData;
 
 // Card for activity/post
 function PostCard({ image, date, text, likes, comments, action }: any) {
@@ -53,13 +41,29 @@ function PostCard({ image, date, text, likes, comments, action }: any) {
 
 export default function CreatorPage() {
     const router = useRouter();
+    const params = useParams();
+    const rawHandle = params.handle as string;
+    const handle = rawHandle.startsWith('@') ? rawHandle : `@${rawHandle.slice(3)}`;
+    const [profile, setProfile] = useState<User | null>(null);
     const [isFollowersPopupOpen, setIsFollowersPopupOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'videos' | 'articles' | 'saved'>('videos');
     const [isScrolledPastCover, setIsScrolledPastCover] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [userVideos, setUserVideos] = useState<Video[]>([]);
 
+    
+    useEffect(() => {
+        console.log(handle);
+        const userData = DEMO_USERS.find((user) => user.handle === handle);
+        if (userData) {
+            setProfile(userData);
+            setUserVideos(DEMO_VIDEOS.filter((video) => video.creator.handle === userData.handle));
+        }
+    }, [handle]);
+    
     useEffect(() => {
         const scrollContainer = scrollContainerRef.current;
+        console.log("scrollContainer", scrollContainer);
         if (!scrollContainer) return;
 
         const handleScroll = () => {
@@ -74,140 +78,137 @@ export default function CreatorPage() {
     }, []);
 
     return (
-        <div className='relative max-h-screen h-screen'>
-            <div ref={scrollContainerRef} className="bg-black max-h-screen overflow-y-scroll">
-                {/* Sticky Header that overlays everything */}
-                <div className={`sticky top-0 left-0 right-0 flex justify-between items-center px-4 py-4 z-50 transition-colors duration-300 ${isScrolledPastCover ? 'bg-black' : 'bg-transparent'}`}>
-                    <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50" onClick={() => { router.push('/') }}>
-                        <ArrowLeft className="text-white" size={22} />
-                    </button>
-                    <span className='text-white text-xl font-semibold'>{profile.name}</span>
-                    <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50">
-                        <Search className="text-white" size={22} />
-                    </button>
-                </div>
+        profile && (
+            <div className='relative max-h-screen h-screen'>
+                <div ref={scrollContainerRef} className="bg-black max-h-screen h-full overflow-y-scroll">
+                    {/* Sticky Header that overlays everything */}
+                    <div className={`sticky top-0 left-0 right-0 flex justify-between items-center px-4 py-4 z-50 transition-colors duration-300 ${isScrolledPastCover ? 'bg-black' : 'bg-transparent'}`}>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50" onClick={() => { router.push('/') }}>
+                            <ArrowLeft className="text-white" size={22} />
+                        </button>
+                        <span className='text-white text-xl font-semibold'>{profile.name}</span>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50">
+                            <Search className="text-white" size={22} />
+                        </button>
+                    </div>
 
-                <div>
-                    {/* Cover section */}
-                    <div className="relative h-60 w-full -mt-20">
-                        <img
-                            src={"/assets/avatar1.jpg"
-                                // || profile.avatar
-                            }
-                            alt="cover"
-                            className="absolute inset-0 w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/90" />
-
-                        <div className="absolute bottom-[-32px] flex items-center w-full px-4">
+                    <div>
+                        {/* Cover section */}
+                        <div className="relative h-60 w-full -mt-20">
                             <img
-                                src={
-                                    "/assets/avatar1.jpg"
-                                    // || profile.avatar
-                                }
-                                alt={profile.name}
-                                className="w-20 h-20 rounded-full border-4 border-sky-500 bg-white object-cover"
+                                src={profile.avatar}
+                                alt="cover"
+                                className="absolute inset-0 w-full h-full object-cover"
                             />
-                            <div className="ml-4 flex items-center justify-between w-full ">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-white text-xl font-semibold">{profile.name}</span>
-                                    <BadgeCheck className="text-white fill-sky-500" size={22} />
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/90" />
+
+                            <div className="absolute bottom-[-32px] flex items-center w-full px-4">
+                                <img
+                                    src={profile.avatar}
+                                    alt={profile.name}
+                                    className="w-20 h-20 rounded-full border-4 border-sky-500 bg-white object-cover"
+                                />
+                                <div className="ml-4 flex items-center justify-between w-full ">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-white text-xl font-semibold">{profile.name}</span>
+                                        <BadgeCheck className="text-white fill-sky-500" size={22} />
+                                    </div>
+                                    <button className='bg-sky-500 text-white text-xs px-4 py-2 rounded-full font-medium flex items-center gap-1'>
+                                        Follow
+                                    </button>
                                 </div>
-                                <button className='bg-sky-500 text-white text-xs px-4 py-2 rounded-full font-medium flex items-center gap-1'>
-                                    Follow
-                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Stats */}
-                <div className="flex justify-between gap-4 mt-16 mb-6 px-4">
-                    {profile.stats.map((stat) => (
-                        <div
-                            key={stat.label}
-                            className="flex flex-col items-center justify-center w-full h-20 border border-gray-500/50 rounded-2xl"
-                            onClick={() => {
-                                if (stat.label === 'Followers') {
-                                    setIsFollowersPopupOpen(true);
-                                }
-                            }}
-                        >
-                            <span className="text-white text-xl font-semibold">{stat.value}</span>
-                            <span className="text-gray-300 text-sm">{stat.label}</span>
-                        </div>
-                    ))}
-                </div>
+                    {/* Stats */}
+                    <div className="flex justify-between gap-4 mt-16 mb-6 px-4">
+                        {Object.entries(profile.stats).map(([key, value]) => (
+                            <div
+                                key={key}
+                                className="flex flex-col items-center justify-center w-full h-20 border border-gray-500/50 rounded-2xl"
+                                onClick={() => {
+                                    if (key === 'followers') {
+                                        setIsFollowersPopupOpen(true);
+                                    }
+                                }}
+                            >
+                                <span className="text-white text-xl font-semibold">{formatStats(value)}</span>
+                                <span className="text-gray-300 text-sm">{key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                            </div>
+                        ))}
+                    </div>
 
-                {/* Tabs */}
-                <div className="flex justify-between items-center gap-16 mb-6 px-8">
-                    <button onClick={() => setActiveTab('videos')}>
-                        <PlayCircle className={`rounded-full p-1 ${activeTab === 'videos' ? 'text-sky-500 bg-black' : 'text-gray-400'}`} size={38} />
-                    </button>
-                    <button onClick={() => setActiveTab('articles')}>
-                        <BookOpen className={`${activeTab === 'articles' ? 'text-sky-500' : 'text-white'}`} size={28} />
-                    </button>
-                    <button onClick={() => setActiveTab('saved')}>
-                        <Bookmark className={`${activeTab === 'saved' ? 'text-sky-500' : 'text-white'}`} size={28} />
-                    </button>
-                </div>
+                    {/* Tabs
+                    <div className="flex justify-between items-center gap-16 mb-6 px-8">
+                        <button onClick={() => setActiveTab('videos')}>
+                            <PlayCircle className={`rounded-full p-1 ${activeTab === 'videos' ? 'text-sky-500 bg-black' : 'text-gray-400'}`} size={38} />
+                        </button>
+                        <button onClick={() => setActiveTab('articles')}>
+                            <BookOpen className={`${activeTab === 'articles' ? 'text-sky-500' : 'text-white'}`} size={28} />
+                        </button>
+                        <button onClick={() => setActiveTab('saved')}>
+                            <Bookmark className={`${activeTab === 'saved' ? 'text-sky-500' : 'text-white'}`} size={28} />
+                        </button>
+                    </div> */}
 
-                {/* Content based on active tab */}
-                {activeTab === 'videos' && (
-                    <div className="px-4 flex-1 overflow-y-auto pb-8">
-                        <div className="grid grid-cols-2 gap-3">
-                            {videos.map((video) => (
-                                <div key={video.id} className="relative">
-                                    <div className="relative aspect-[9/16] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
-                                        <img src={'/assets/logo2.png'} alt={video.headline} className="object-cover" />
-                                        <div className="absolute top-2 left-2 bg-black/70 rounded-full px-2 py-1 flex items-center gap-1 border border-sky-500">
-                                            <div className="w-3 h-3 rounded-full border border-white flex items-center justify-center">
-                                                <PlayCircle className="w-2 h-2 text-white" />
+                    {/* Content based on active tab */}
+                    {activeTab === 'videos' && (
+                        <div className="px-4 flex-1 overflow-y-auto pb-8">
+                            <div className="grid grid-cols-2 gap-3">
+                                {userVideos.map((video) => (
+                                    <div key={video.id} className="relative">
+                                        <div className="relative aspect-[9/16] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                                            <img src={'/assets/logo2.png'} alt={video.headline} className="object-cover" />
+                                            <div className="absolute top-2 left-2 bg-black/70 rounded-full px-2 py-1 flex items-center gap-1 border border-sky-500">
+                                                <div className="w-3 h-3 rounded-full border border-white flex items-center justify-center">
+                                                    <PlayCircle className="w-2 h-2 text-white" />
+                                                </div>
+                                                <span className="text-xs text-white font-medium">{'0'}</span>
                                             </div>
-                                            <span className="text-xs text-white font-medium">{'0'}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 py-2">
+                                            <img src={'/assets/logo2.png'} alt={video.headline} className="w-3 h-3 rounded-full" />
+                                            <p className="text-xs text-white">QuickNews</p>
+                                        </div>
+                                        <div className="mt-2">
+                                            <p className="text-sm text-white leading-tight line-clamp-2">
+                                                {video.headline}
+                                            </p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-2 py-2">
-                                        <img src={'/assets/logo2.png'} alt={video.headline} className="w-3 h-3 rounded-full" />
-                                        <p className="text-xs text-white">QuickNews</p>
-                                    </div>
-                                    <div className="mt-2">
-                                        <p className="text-sm text-white leading-tight line-clamp-2">
-                                            {video.headline}
-                                        </p>
-                                    </div>
-                                </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* {activeTab === 'articles' && (
+                        <div className="px-4 flex-1 overflow-y-auto pb-24">
+                            {DEMO_ARTICLES.map((a) => (
+                                <PostCard key={a.id} image={a.image} date="20-3-2025" text={a.headline} likes={47000} comments={47000} action="Read" />
                             ))}
                         </div>
-                    </div>
-                )}
+                    )}
 
-                {activeTab === 'articles' && (
-                    <div className="px-4 flex-1 overflow-y-auto pb-24">
-                        {articles.map((a) => (
-                            <PostCard key={a.id} image={a.image} date="20-3-2025" text={a.headline} likes={47000} comments={47000} action="Read" />
-                        ))}
-                    </div>
-                )}
+                    {activeTab === 'saved' && (
+                        <div className="px-4 flex-1 overflow-y-auto pb-24">
+                            {DEMO_ARTICLES.map((a) => (
+                                <PostCard key={a.id} image={a.image} date="20-3-2025" text={a.headline} likes={47000} comments={47000} action="Read" />
+                            ))}
+                        </div>
+                    )} */}
+                </div>
 
-                {activeTab === 'saved' && (
-                    <div className="px-4 flex-1 overflow-y-auto pb-24">
-                        {articles.map((a) => (
-                            <PostCard key={a.id} image={a.image} date="20-3-2025" text={a.headline} likes={47000} comments={47000} action="Read" />
-                        ))}
-                    </div>
+                {isFollowersPopupOpen && (
+                    <FollowersPopup followers={profile.followers ? [profile.followers] : [{
+                        id: 1,
+                        name: 'Bluesnake260',
+                        avatar: '/assets/avatar1.jpg',
+                        verified: false,
+                        lastSeen: 'Last seen 5 min ago',
+                    }]} onClose={() => setIsFollowersPopupOpen(false)} />
                 )}
             </div>
-
-            {isFollowersPopupOpen && (
-                <FollowersPopup followers={profile.stats[1]?.followers ? [profile.stats[1].followers] : [{
-                    id: 1,
-                    name: 'Bluesnake260',
-                    avatar: '/assets/avatar1.jpg',
-                    verified: false,
-                    lastSeen: 'Last seen 5 min ago',
-                }]} onClose={() => setIsFollowersPopupOpen(false)} />
-            )}
-        </div>
+        )
     );
 }

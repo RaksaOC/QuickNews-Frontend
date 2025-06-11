@@ -120,7 +120,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
                 ref={playerRef}
                 url={url}
                 playing={isPlaying}
-                muted={true} // TO CHANGE
+                muted={false} 
                 loop
                 playsInline
                 progressInterval={150}

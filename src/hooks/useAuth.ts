@@ -17,7 +17,7 @@ export function useAuth() {
     }, []);
 
     const login = (email: string, password: string) => {
-        const user = DEMO_USERS[email];
+        const user = DEMO_USERS[0];
         if (user && user.password === password) {
           localStorage.setItem('currentUser', JSON.stringify(user));
           setUser(user);
