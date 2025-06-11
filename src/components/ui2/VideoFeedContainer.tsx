@@ -1,3 +1,5 @@
+'use client'
+
 import VideoPost from './VideoPost';
 import { Video } from '../../types/Video';
 import { Loader2 } from 'lucide-react';
