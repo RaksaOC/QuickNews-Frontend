@@ -211,15 +211,11 @@ export default function Page() {
   console.log("videos.filter(video => video.category === category)", videos.filter(video => video.category === category));
 
   return (
-    isMainPage && (
       <div className='relative h-full flex flex-col justify-between items-center bg-black'>
         {/* shadow gradient for the top nav*/}
         <div className='absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black/60 to-transparent z-10'></div>
         {!isLandingPage && <TopNav category={category} onCategoryChange={(category) => setCategory(category)} onMenuClick={() => { setIsMenuOpen(true) }} />}
 
-        {isLandingPage ? (
-          <LandingPage />
-        ) : (
           <div
             className="relative w-full h-full overflow-hidden"
             onTouchStart={handleTouchStart}
@@ -240,6 +236,7 @@ export default function Page() {
               }}
             >
               {categories.map((cat, index) => (
+                console.log(categories),
                 < div
                   key={cat}
                   className="flex-shrink-0 w-full h-full"
@@ -264,10 +261,8 @@ export default function Page() {
               onShowChatbot={(show) => { setShowChatbot(show); setShowArticle(false); }} />}
             {showChatbot && <ChatbotPopup onClose={() => { setShowChatbot(false); setShowArticle(true); }} article={currentVideo?.article || undefined} onBackToArticle={() => { setShowChatbot(false); setShowArticle(true); }} />}
           </div>
-        )}
         {!isLandingPage && <NavBar />}
         {isMenuOpen && <MenuPopup onClose={() => { setIsMenuOpen(false) }} />}
       </div >
     )
-  );
 } 
