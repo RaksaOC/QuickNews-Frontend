@@ -15,6 +15,7 @@ const nextConfig = {
         pathname: '/uploads/**',
       },
     ],
+    unoptimized: true
   },
   webpack: (config, { isServer }) => {
     // Optimize file loading for videos
