@@ -1,3 +1,5 @@
+"use client"
+
 import VideoPost from './VideoPost';
 import { Video } from '../../types/Video';
 import { Loader2 } from 'lucide-react';
@@ -32,6 +34,7 @@ const VideoFeedContainer = forwardRef<HTMLDivElement, VideoFeedContainerProps>((
                 <Loader2 className="text-sky-500 text-2xl font-bold animate-spin" />
             </div>
             {videos.map((video, idx) => (
+                console.log("video", video),
                 <div
                     key={video.id}
                     className="snap-start snap-always min-h-full w-full relative"
