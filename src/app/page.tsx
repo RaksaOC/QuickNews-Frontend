@@ -208,8 +208,6 @@ export default function Page() {
 
   const currentIndex = categories.indexOf(category);
 
-  console.log("videos.filter(video => video.category === category)", videos.filter(video => video.category === category));
-
   return (
     // isMainPage && (
       <div className='relative h-full flex flex-col justify-between items-center bg-black'>
