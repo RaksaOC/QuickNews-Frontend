@@ -1,5 +1,3 @@
-"use client"
-
 export default function LandingPage() {
     return (
         <div className="absolute top-0 left-0 w-full h-full bg-black flex flex-col items-center justify-center">

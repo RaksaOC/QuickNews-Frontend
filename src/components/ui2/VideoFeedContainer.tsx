@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import VideoPost from './VideoPost';
 import { Video } from '../../types/Video';
