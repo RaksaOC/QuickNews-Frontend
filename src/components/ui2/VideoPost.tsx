@@ -35,25 +35,23 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     const [updatedProgress, setUpdatedProgress] = useState(0);
     const [isProgressBarDragging, setIsProgressBarDragging] = useState(false);
 
+    console.log("video", video);
+
     useEffect(() => {
+        let timeout: NodeJS.Timeout;
         const observer = new IntersectionObserver(
             ([entry]) => {
-                setIsVisible(entry.isIntersecting);
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    setIsVisible(entry.isIntersecting);
+                }, 100); // 100ms debounce
             },
-            {
-                threshold: 0.5, // Video will play when 50% visible
-                rootMargin: '0px', // No margin
-            }
+            { threshold: 0.5 }
         );
-
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
-
+        if (containerRef.current) observer.observe(containerRef.current);
         return () => {
-            if (containerRef.current) {
-                observer.unobserve(containerRef.current);
-            }
+            clearTimeout(timeout);
+            if (containerRef.current) observer.unobserve(containerRef.current);
         };
     }, []);
 
