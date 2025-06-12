@@ -41,8 +41,8 @@ export default function ProfilePage() {
   const router = useRouter();
   const [showFollowers, setShowFollowers] = useState(false);
   return (
-    <div className='relative max-h-screen h-screen'>
-      <div className=" bg-black max-h-screen h-full overflow-y-scroll">
+    <div className='relative max-h-screen h-full'>
+      <div className=" relative bg-black max-h-screen h-full overflow-y-scroll">
         {/* Cover and header */}
         <div className="relative h-60 w-full">
           <img
@@ -79,7 +79,7 @@ export default function ProfilePage() {
               className="flex flex-col items-center justify-center w-full h-20 border border-gray-500/50 rounded-2xl"
               onClick={key === 'followers' ? () => { setShowFollowers(true) } : undefined}
             >
-              <span className="text-white text-xl font-semibold">{value}</span>
+              <span className="text-white text-xl font-semibold">{formatStats(value)}</span>
               <span className="text-gray-300 text-sm">{key.charAt(0).toUpperCase() + key.slice(1)}</span>
             </div>
           ))}
@@ -129,9 +129,12 @@ export default function ProfilePage() {
         )}
         {
           activeTab === 'videos' && (
-            <div className='flex flex-col items-center justify-center'>
-              <h1 className='text-white text-2xl font-bold mt-32'>Sign up as a creator to start posting</h1>
-              <button className='bg-sky-500 text-white px-4 py-2 rounded-full mt-2'>Sign up</button>
+            <div className='flex  justify-center  w-full px-4 pb-24'>
+              <div className="flex flex-col items-center justify-center w-full max-w-xs  rounded-2xl shadow-lg p-8 mb-6">
+                <h1 className='text-white text-xl font-bold text-center mb-2'>Become a Creator</h1>
+                <p className='text-gray-300 text-center mb-4 text-sm'>Sign up as a creator to start posting your own news videos and grow your audience on QuickNews.</p>
+                <button className='bg-sky-500 hover:bg-sky-600 transition text-white px-6 py-2  rounded-full text-sm font-semibold shadow-lg'>Sign up</button>
+              </div>
             </div>
           )
         }
@@ -155,14 +158,12 @@ export default function ProfilePage() {
       <div className='sticky bottom-0 z-10'>
         <NavBar />
       </div>
-      <div className="w-full sticky bottom-0 z-50">
-        {showFollowers && <FollowersPopup followers={[{
-          id: 1,
-          name: 'John Doe',
-          avatar: '/avatar.png',
-          verified: false,
-        }]} onClose={() => { setShowFollowers(false) }} />}
-      </div>
-    </div >
+      {showFollowers && <FollowersPopup followers={[{
+        id: 1,
+        name: 'John Doe',
+        avatar: '/assets/avatar1.jpg',
+        verified: false,
+      }]} onClose={() => { setShowFollowers(false) }} />}
+    </div>
   );
 }

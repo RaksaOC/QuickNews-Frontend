@@ -123,6 +123,13 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
                 muted={false} 
                 loop
                 playsInline
+                playsinline
+                webkit-playsinline
+                disablePictureInPicture
+                disableRemotePlayback
+                disableContextMenu
+                disableKeyboard
+                disableFullscreen
                 progressInterval={150}
                 width="100%"
                 height="100%"
