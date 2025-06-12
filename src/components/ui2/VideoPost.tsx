@@ -44,9 +44,9 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
                     setIsVisible(entry.isIntersecting);
-                }, 100); // 100ms debounce
+                }, 10); // 100ms debounce
             },
-            { threshold: 0.5 }
+            { threshold: 0.99 }
         );
         if (containerRef.current) observer.observe(containerRef.current);
         return () => {
