@@ -38,22 +38,36 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     useEffect(() => {
         let timeout: NodeJS.Timeout;
         let isMounted = true;
-        let lastVisibilityState = isVisible;
+        let isScrolling = false;
+        let scrollTimeout: NodeJS.Timeout;
+
+        // Handle scroll events
+        const handleScroll = () => {
+            isScrolling = true;
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+            }, 150); // Wait for scroll to finish
+        };
+
+        window.addEventListener('scroll', handleScroll);
 
         const observer = new IntersectionObserver(
             ([entry]) => {
+                // Don't process if we're still scrolling
+                if (isScrolling) return;
+
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
-                    if (isMounted && entry.isIntersecting !== lastVisibilityState) {
-                        lastVisibilityState = entry.isIntersecting;
+                    if (isMounted && entry.isIntersecting !== isVisible) {
                         setIsVisible(entry.isIntersecting);
-                        console.log("videos that is visible is ", video.headline, video.id, video.category);
+                        console.log("videos that is visible is ", video.headline, video.id, video.category, entry.isIntersecting);
                     }
-                }, 100);
+                }, 150); // Increased debounce time for mobile
             },
             {
-                threshold: 0.9,
-                rootMargin: '0px'
+                threshold: 0.8, // Slightly lower threshold for mobile
+                rootMargin: '0px' // No margin
             }
         );
 
@@ -62,9 +76,11 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
         return () => {
             isMounted = false;
             clearTimeout(timeout);
+            clearTimeout(scrollTimeout);
+            window.removeEventListener('scroll', handleScroll);
             if (containerRef.current) observer.unobserve(containerRef.current);
         };
-    }, [video.headline, video.id, video.category]); // Remove isVisible from deps
+    }, [isVisible, video.headline, video.id, video.category]); // Added video props to dependencies
 
     function handleCommentClick() {
         setShowComments(!showComments);

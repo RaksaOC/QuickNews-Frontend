@@ -22,19 +22,15 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
     const containerRef = useRef<HTMLDivElement>(null);
     const lastTapRef = useRef(0);
     const lastDoubleTapRef = useRef(0);
-    const playPauseTimeoutRef = useRef<NodeJS.Timeout>();
     const controlsTimeoutRef = useRef<NodeJS.Timeout>();
     const [isUserPaused, setIsUserPaused] = useState(false);
 
     // Handle visibility changes
     useEffect(() => {
         if (isVisible && !isUserPaused) {
-            playerRef.current?.seekTo(0, 'seconds');
             setIsPlaying(true);
-            setShowControls(false);
         } else {
             setIsPlaying(false);
-            setShowControls(false);
         }
     }, [isVisible, isUserPaused]);
 
@@ -46,59 +42,57 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
 
     const handleTap = (event: React.MouseEvent | React.TouchEvent) => {
         const now = Date.now();
-        const DOUBLE_TAP_DELAY = 300; // milliseconds
-        const PLAY_PAUSE_DELAY = 400; // milliseconds
-        const DOUBLE_TAP_COOLDOWN = 800; // cooldown period to prevent rapid double taps
+        const DOUBLE_TAP_DELAY = 300;
 
-        // Get click/touch position relative to container
+        // Prevent default touch behavior
+        if ('touches' in event) {
+            event.preventDefault();
+        }
+
+        // Get click/touch position
         if (containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect();
             let x, y;
-
             if ('touches' in event) {
-                // Touch event
                 x = event.touches[0].clientX - rect.left;
                 y = event.touches[0].clientY - rect.top;
             } else {
-                // Mouse event
                 x = event.clientX - rect.left;
                 y = event.clientY - rect.top;
             }
             setLikePosition({ x, y });
         }
 
-        const isWithinDoubleTapWindow = now - lastTapRef.current < DOUBLE_TAP_DELAY;
-        const isOutsideCooldown = now - lastDoubleTapRef.current > DOUBLE_TAP_COOLDOWN;
-
-        if (isWithinDoubleTapWindow && isOutsideCooldown) {
-            // Valid double tap detected
+        // Check for double tap
+        if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
+            // Double tap detected - only handle like action
             onDoubleTap();
             triggerLikePop();
             lastDoubleTapRef.current = now;
-
-            // Clear any pending play/pause
-            if (playPauseTimeoutRef.current) {
-                clearTimeout(playPauseTimeoutRef.current);
-            }
-        } else if (isWithinDoubleTapWindow && !isOutsideCooldown) {
-            // Double tap detected but within cooldown - ignore completely
-            // Don't trigger play/pause either
-        } else {
-            // Single tap - delay the play/pause to allow for potential double tap
-            playPauseTimeoutRef.current = setTimeout(() => {
-                handlePlayPause();
-            }, PLAY_PAUSE_DELAY);
+            lastTapRef.current = 0;
+            return;
         }
 
-        // Always update lastTapRef for the next tap
+        // Single tap - handle play/pause
         lastTapRef.current = now;
+
+        // Only handle play/pause if it's not a potential double tap
+        setTimeout(() => {
+            if (now === lastTapRef.current) {
+                handlePlayPause();
+            }
+        }, DOUBLE_TAP_DELAY);
     };
 
     const handlePlayPause = () => {
-        const newPlayingState = !isPlaying;
-        setIsPlaying(newPlayingState);
-        setIsUserPaused(!newPlayingState);
+        setIsPlaying(prev => !prev);
+        setIsUserPaused(prev => !prev);
+
+        // Show controls and manage timeout
         setShowControls(true);
+        if (controlsTimeoutRef.current) {
+            clearTimeout(controlsTimeoutRef.current);
+        }
     };
 
     const triggerLikePop = () => {
@@ -118,6 +112,8 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
             className="absolute top-0 left-0 w-full h-full"
             onClick={handleTap}
             onTouchStart={handleTap}
+            onTouchEnd={(e) => e.preventDefault()}
+            style={{ touchAction: 'none' }}
         >
             <ReactPlayer
                 ref={playerRef}
@@ -125,9 +121,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
                 playing={isPlaying}
                 muted={false}
                 loop
-                webkit-playsinline
-                playsinline
-                playsInline
+                playsInline // Only need one playsInline
                 disablePictureInPicture
                 disableRemotePlayback
                 disableContextMenu
@@ -154,9 +148,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
             {showControls && (
                 <div className="absolute top-[45%] left-0 right-0 p-4">
                     <div className="flex items-center justify-center">
-                        <button
-                            className=" transition-colors text-white/90"
-                        >
+                        <button className="transition-colors text-white/90">
                             {!isPlaying ? <Play size={80} className="animate-fade-out fill-white/80" /> : null}
                         </button>
                     </div>
@@ -167,11 +159,10 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
                 <div
                     className="absolute z-20 pointer-events-none"
                     style={{
-                        left: likePosition.x - 40, // Center the heart (80px width / 2)
-                        top: likePosition.y - 40,  // Center the heart (80px height / 2)
+                        left: likePosition.x - 40,
+                        top: likePosition.y - 40,
                     }}
                 >
-                    {/* Blurry background effect */}
                     <div className="absolute inset-0 bg-sky-500/50 rounded-full blur-md transform scale-150"></div>
                     <Heart size={80} className="relative text-sky-500 fill-sky-500 animate-like-pop" />
                 </div>

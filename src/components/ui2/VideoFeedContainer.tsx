@@ -27,11 +27,7 @@ const VideoFeedContainer = forwardRef<HTMLDivElement, VideoFeedContainerProps>((
     return (
         <div
             ref={ref}
-            className="overflow-y-auto snap-y snap-mandatory w-full h-full flex flex-col justify-start items-center scrollbar-hide"
-            style={{
-                scrollSnapType: 'y mandatory',
-                WebkitOverflowScrolling: 'touch'
-            }}
+            className="overflow-y-auto snap-y snap-mandatory w-full h-full flex flex-col justify-start items-center scrollbar-hide scroll-auto"
         >
             <div className="w-full py-16 flex justify-center items-center">
                 <Loader2 className="text-sky-500 text-2xl font-bold animate-spin" />
@@ -39,11 +35,7 @@ const VideoFeedContainer = forwardRef<HTMLDivElement, VideoFeedContainerProps>((
             {videos.map((video, idx) => (
                 <div
                     key={video.id}
-                    className="snap-start snap-always h-screen w-full relative"
-                    style={{
-                        scrollSnapAlign: 'start',
-                        scrollSnapStop: 'always'
-                    }}
+                    className="snap-start snap-always min-h-full w-full relative"
                 >
                     <VideoPost
                         onCommentClick={() => onShowComments(video)}
