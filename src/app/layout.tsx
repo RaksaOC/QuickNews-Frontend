@@ -27,7 +27,7 @@ export default function RootLayout({
         <link rel="icon" href="/assets/logo2.png" />
       </head>
       <body className={`${poppins.className} bg-black overflow-hidden scrollbar-hide max-h-screen h-screen`}>
-        <div className="h-screen flex flex-col items-center justify-center">
+        <div className="h-screen flex flex-col items-center justify-start">
           <AnimatingBackground />
           <div
             className="wrapper aspect-[9/16] w-full max-w-xl overflow-hidden rounded-xl "

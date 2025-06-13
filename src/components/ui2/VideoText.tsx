@@ -25,7 +25,7 @@ export function VideoText({ creator, title, description, onShowArticle }: VideoT
             </div> */}
             {/* shorter headline with read more to see full headline*/}
             <div className={` text-white text-md mt-2 w-[80%] font-bold ${isShortened ? "line-clamp-2" : "line-clamp-none"}`} onClick={() => { setIsShortened(!isShortened) }}>
-                <span className="select-none text-wrap">{description}</span>
+                <span className="select-none text-wrap">{title}</span>
             </div>
             {/* <div className="text-sky-500 flex flex-col max-w-28 text-sm cursor-pointer" onClick={() => { setIsShortened(!isShortened) }}>
                 <span className="flex flex-row gap-2 items-center">

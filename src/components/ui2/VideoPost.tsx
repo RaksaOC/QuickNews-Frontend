@@ -35,29 +35,52 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     const [updatedProgress, setUpdatedProgress] = useState(0);
     const [isProgressBarDragging, setIsProgressBarDragging] = useState(false);
 
-    console.log("video", video);
-
     useEffect(() => {
+        let timeout: NodeJS.Timeout;
+        let isMounted = true;
+        let isScrolling = false;
+        let scrollTimeout: NodeJS.Timeout;
+
+        // Handle scroll events
+        const handleScroll = () => {
+            isScrolling = true;
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+            }, 150); // Wait for scroll to finish
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
         const observer = new IntersectionObserver(
             ([entry]) => {
-                setIsVisible(entry.isIntersecting);
+                // Don't process if we're still scrolling
+                if (isScrolling) return;
+
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    if (isMounted && entry.isIntersecting !== isVisible) {
+                        setIsVisible(entry.isIntersecting);
+                        console.log("videos that is visible is ", video.headline, video.id, video.category, entry.isIntersecting);
+                    }
+                }, 150); // Increased debounce time for mobile
             },
             {
-                threshold: 0.5, // Video will play when 50% visible
-                rootMargin: '0px', // No margin
+                threshold: 0.8, // Slightly lower threshold for mobile
+                rootMargin: '0px' // No margin
             }
         );
 
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
+        if (containerRef.current) observer.observe(containerRef.current);
 
         return () => {
-            if (containerRef.current) {
-                observer.unobserve(containerRef.current);
-            }
+            isMounted = false;
+            clearTimeout(timeout);
+            clearTimeout(scrollTimeout);
+            window.removeEventListener('scroll', handleScroll);
+            if (containerRef.current) observer.unobserve(containerRef.current);
         };
-    }, []);
+    }, [isVisible, video.headline, video.id, video.category]); // Added video props to dependencies
 
     function handleCommentClick() {
         setShowComments(!showComments);
