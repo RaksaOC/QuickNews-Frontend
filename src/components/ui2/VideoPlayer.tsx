@@ -27,7 +27,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
 
     // Handle visibility changes
     useEffect(() => {
-        if (isVisible && !isUserPaused) {
+        if (isVisible) {
             playerRef.current?.seekTo(0, 'fraction');
             setIsPlaying(true);
             setShowControls(true);
