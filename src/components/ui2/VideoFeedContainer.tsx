@@ -24,7 +24,6 @@ const VideoFeedContainer = forwardRef<HTMLDivElement, VideoFeedContainerProps>((
     onShowArticle,
     onShowChatbot
 }, ref) => {
-    console.log("videos", videos);
     return (
         <div
             ref={ref}

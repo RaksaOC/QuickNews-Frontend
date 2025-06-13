@@ -35,25 +35,32 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     const [updatedProgress, setUpdatedProgress] = useState(0);
     const [isProgressBarDragging, setIsProgressBarDragging] = useState(false);
 
-    console.log("video", video);
-
     useEffect(() => {
         let timeout: NodeJS.Timeout;
+        let isMounted = true;  // Add mounted flag
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
-                    setIsVisible(entry.isIntersecting);
-                }, 10); // 100ms debounce
+                    // Only update if the visibility actually changed and component is mounted
+                    if (isMounted && entry.isIntersecting !== isVisible) {
+                        setIsVisible(entry.isIntersecting);
+                        console.log("videos that is visible is ", video.headline, video.id, video.category);
+                    }
+                }, 10);
             },
             { threshold: 0.99 }
         );
+
         if (containerRef.current) observer.observe(containerRef.current);
+
         return () => {
+            isMounted = false;  // Prevent state updates after unmount
             clearTimeout(timeout);
             if (containerRef.current) observer.unobserve(containerRef.current);
         };
-    }, []);
+    }, [isVisible]); // Add isVisible to dependencies
 
     function handleCommentClick() {
         setShowComments(!showComments);
