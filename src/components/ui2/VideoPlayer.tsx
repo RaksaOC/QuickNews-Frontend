@@ -20,19 +20,22 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
     const [likePosition, setLikePosition] = useState({ x: 0, y: 0 });
     const playerRef = useRef<ReactPlayer>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const lastTapRef = useRef(0);
-    const lastDoubleTapRef = useRef(0);
     const controlsTimeoutRef = useRef<NodeJS.Timeout>();
     const [isUserPaused, setIsUserPaused] = useState(false);
+    const touchStartY = useRef(0);
+    const touchStartTime = useRef(0);
 
     // Handle visibility changes
     useEffect(() => {
         if (isVisible && !isUserPaused) {
+            playerRef.current?.seekTo(0, 'fraction');
             setIsPlaying(true);
+            setShowControls(true);
         } else {
             setIsPlaying(false);
+            setShowControls(false);
         }
-    }, [isVisible, isUserPaused]);
+    }, [isVisible]);
 
     useEffect(() => {
         if (playerRef.current) {
@@ -40,64 +43,53 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
         }
     }, [progressChange]);
 
-    const handleTap = (event: React.MouseEvent | React.TouchEvent) => {
+    const handleClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        handlePlayPause();
+    };
+
+    const handleTouchStart = (event: React.TouchEvent) => {
+        touchStartTime.current = Date.now();
+        touchStartY.current = event.touches[0].clientY;
+    };
+
+    const handleTouchMove = (event: React.TouchEvent) => {
+        if (!touchStartY.current) return;
+
+        const currentY = event.touches[0].clientY;
+        const deltaY = Math.abs(currentY - touchStartY.current);
+
+        // If vertical movement is significant, it's a scroll
+        if (deltaY > 10) {
+            touchStartY.current = 0;
+        }
+    };
+
+    const handleTouchEnd = (event: React.TouchEvent) => {
         const now = Date.now();
-        const DOUBLE_TAP_DELAY = 300;
+        const touchDuration = now - touchStartTime.current;
 
-        // Prevent default touch behavior
-        if ('touches' in event) {
-            event.preventDefault();
+        // Only trigger play/pause if it was a short tap (less than 200ms)
+        // and there wasn't significant movement
+        if (touchDuration < 200 && touchStartY.current !== 0) {
+            handlePlayPause();
         }
 
-        // Get click/touch position
-        if (containerRef.current) {
-            const rect = containerRef.current.getBoundingClientRect();
-            let x, y;
-            if ('touches' in event) {
-                x = event.touches[0].clientX - rect.left;
-                y = event.touches[0].clientY - rect.top;
-            } else {
-                x = event.clientX - rect.left;
-                y = event.clientY - rect.top;
-            }
-            setLikePosition({ x, y });
-        }
-
-        // Check for double tap
-        if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
-            // Double tap detected - only handle like action
-            onDoubleTap();
-            triggerLikePop();
-            lastDoubleTapRef.current = now;
-            lastTapRef.current = 0;
-            return;
-        }
-
-        // Single tap - handle play/pause
-        lastTapRef.current = now;
-
-        // Only handle play/pause if it's not a potential double tap
-        setTimeout(() => {
-            if (now === lastTapRef.current) {
-                handlePlayPause();
-            }
-        }, DOUBLE_TAP_DELAY);
+        touchStartY.current = 0;
+        touchStartTime.current = 0;
     };
 
     const handlePlayPause = () => {
-        setIsPlaying(prev => !prev);
-        setIsUserPaused(prev => !prev);
+        const newPlayingState = !isPlaying;
+        setIsPlaying(newPlayingState);
+        setIsUserPaused(newPlayingState);
+        setShowControls(true);
 
         // Show controls and manage timeout
-        setShowControls(true);
         if (controlsTimeoutRef.current) {
             clearTimeout(controlsTimeoutRef.current);
         }
-    };
-
-    const triggerLikePop = () => {
-        setShowLikePop(true);
-        setTimeout(() => setShowLikePop(false), 800);
+        setShowControls(false);
     };
 
     const handleProgress = (state: { played: number }) => {
@@ -106,14 +98,22 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
         }
     };
 
+    // Reset video position when becoming visible
+    useEffect(() => {
+        if (isVisible && !isUserPaused) {
+            playerRef.current?.seekTo(0, 'fraction');
+        }
+    }, [isVisible]);
+
     return (
         <div
             ref={containerRef}
             className="absolute top-0 left-0 w-full h-full"
-            onClick={handleTap}
-            onTouchStart={handleTap}
-            onTouchEnd={(e) => e.preventDefault()}
-            style={{ touchAction: 'none' }}
+            onClick={handleClick}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ touchAction: 'pan-y' }}
         >
             <ReactPlayer
                 ref={playerRef}
@@ -121,8 +121,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
                 playing={isPlaying}
                 muted={false}
                 loop
-                playsInline 
-                playsinline
+                playsInline
                 disablePictureInPicture
                 disableRemotePlayback
                 disableContextMenu
