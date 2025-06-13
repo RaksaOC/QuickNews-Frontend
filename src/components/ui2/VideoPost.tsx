@@ -38,36 +38,22 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     useEffect(() => {
         let timeout: NodeJS.Timeout;
         let isMounted = true;
-        let isScrolling = false;
-        let scrollTimeout: NodeJS.Timeout;
-
-        // Handle scroll events
-        const handleScroll = () => {
-            isScrolling = true;
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                isScrolling = false;
-            }, 150); // Wait for scroll to finish
-        };
-
-        window.addEventListener('scroll', handleScroll);
+        let lastVisibilityState = isVisible;
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                // Don't process if we're still scrolling
-                if (isScrolling) return;
-
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
-                    if (isMounted && entry.isIntersecting !== isVisible) {
+                    if (isMounted && entry.isIntersecting !== lastVisibilityState) {
+                        lastVisibilityState = entry.isIntersecting;
                         setIsVisible(entry.isIntersecting);
                         console.log("videos that is visible is ", video.headline, video.id, video.category);
                     }
-                }, 150); // Increased debounce time for mobile
+                }, 100);
             },
             {
-                threshold: 0.8, // Slightly lower threshold for mobile
-                rootMargin: '0px' // No margin
+                threshold: 0.9,
+                rootMargin: '0px'
             }
         );
 
@@ -76,11 +62,9 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
         return () => {
             isMounted = false;
             clearTimeout(timeout);
-            clearTimeout(scrollTimeout);
-            window.removeEventListener('scroll', handleScroll);
             if (containerRef.current) observer.unobserve(containerRef.current);
         };
-    }, [isVisible, video.headline, video.id, video.category]); // Added video props to dependencies
+    }, [video.headline, video.id, video.category]); // Remove isVisible from deps
 
     function handleCommentClick() {
         setShowComments(!showComments);

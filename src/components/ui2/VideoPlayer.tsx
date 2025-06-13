@@ -24,10 +24,11 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
     const lastDoubleTapRef = useRef(0);
     const playPauseTimeoutRef = useRef<NodeJS.Timeout>();
     const controlsTimeoutRef = useRef<NodeJS.Timeout>();
+    const [isUserPaused, setIsUserPaused] = useState(false);
 
     // Handle visibility changes
     useEffect(() => {
-        if (isVisible) {
+        if (isVisible && !isUserPaused) {
             playerRef.current?.seekTo(0, 'seconds');
             setIsPlaying(true);
             setShowControls(false);
@@ -35,7 +36,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
             setIsPlaying(false);
             setShowControls(false);
         }
-    }, [isVisible]);
+    }, [isVisible, isUserPaused]);
 
     useEffect(() => {
         if (playerRef.current) {
@@ -94,7 +95,9 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
     };
 
     const handlePlayPause = () => {
-        setIsPlaying(!isPlaying);
+        const newPlayingState = !isPlaying;
+        setIsPlaying(newPlayingState);
+        setIsUserPaused(!newPlayingState);
         setShowControls(true);
     };
 
@@ -120,11 +123,11 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
                 ref={playerRef}
                 url={url}
                 playing={isPlaying}
-                muted={false} 
+                muted={false}
                 loop
-                playsInline
-                playsinline
                 webkit-playsinline
+                playsinline
+                playsInline
                 disablePictureInPicture
                 disableRemotePlayback
                 disableContextMenu
