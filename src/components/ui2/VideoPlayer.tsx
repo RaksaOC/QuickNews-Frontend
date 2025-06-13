@@ -15,16 +15,15 @@ interface VideoPlayerProps {
 
 export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpdate, progress, progressChange }: VideoPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [showControls, setShowControls] = useState(true);
+    const [showControls, setShowControls] = useState(false);
     const [showLikePop, setShowLikePop] = useState(false);
     const [likePosition, setLikePosition] = useState({ x: 0, y: 0 });
     const playerRef = useRef<ReactPlayer>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const controlsTimeoutRef = useRef<NodeJS.Timeout>();
     const [isUserPaused, setIsUserPaused] = useState(false);
-    const touchStartTime = useRef(0);
     const touchStartY = useRef(0);
-    const touchStartX = useRef(0);
+    const touchStartTime = useRef(0);
 
     // Handle visibility changes
     useEffect(() => {
@@ -34,6 +33,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
             setShowControls(true);
         } else {
             setIsPlaying(false);
+            setShowControls(false);
         }
     }, [isVisible]);
 
@@ -51,22 +51,17 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
     const handleTouchStart = (event: React.TouchEvent) => {
         touchStartTime.current = Date.now();
         touchStartY.current = event.touches[0].clientY;
-        touchStartX.current = event.touches[0].clientX;
-        setShowControls(true);
     };
 
     const handleTouchMove = (event: React.TouchEvent) => {
         if (!touchStartY.current) return;
 
         const currentY = event.touches[0].clientY;
-        const currentX = event.touches[0].clientX;
         const deltaY = Math.abs(currentY - touchStartY.current);
-        const deltaX = Math.abs(currentX - touchStartX.current);
 
         // If vertical movement is significant, it's a scroll
-        if (deltaY > 10 || deltaX > 10) {
+        if (deltaY > 10) {
             touchStartY.current = 0;
-            touchStartX.current = 0;
         }
     };
 
@@ -80,27 +75,26 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
             handlePlayPause();
         }
 
-        // Reset touch tracking
         touchStartY.current = 0;
-        touchStartX.current = 0;
         touchStartTime.current = 0;
     };
 
     const handlePlayPause = () => {
         const newPlayingState = !isPlaying;
         setIsPlaying(newPlayingState);
-        setIsUserPaused(!newPlayingState);
-        setShowControls(isPlaying === false);
+        setIsUserPaused(newPlayingState);
+        setShowControls(true);
 
-        // Hide controls after 2 seconds
+        // Show controls and manage timeout
         if (controlsTimeoutRef.current) {
             clearTimeout(controlsTimeoutRef.current);
         }
+        setShowControls(false);
     };
 
     const handleProgress = (state: { played: number }) => {
         if (onProgressUpdate) {
-            onProgressUpdate(state.played);
+            onProgressUpdate(state.played); // played is a float between 0 and 1
         }
     };
 
