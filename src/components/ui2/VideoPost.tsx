@@ -37,30 +37,50 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
-        let isMounted = true;  // Add mounted flag
+        let isMounted = true;
+        let isScrolling = false;
+        let scrollTimeout: NodeJS.Timeout;
+
+        // Handle scroll events
+        const handleScroll = () => {
+            isScrolling = true;
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+            }, 150); // Wait for scroll to finish
+        };
+
+        window.addEventListener('scroll', handleScroll);
 
         const observer = new IntersectionObserver(
             ([entry]) => {
+                // Don't process if we're still scrolling
+                if (isScrolling) return;
+
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
-                    // Only update if the visibility actually changed and component is mounted
                     if (isMounted && entry.isIntersecting !== isVisible) {
                         setIsVisible(entry.isIntersecting);
                         console.log("videos that is visible is ", video.headline, video.id, video.category);
                     }
-                }, 10);
+                }, 150); // Increased debounce time for mobile
             },
-            { threshold: 0.99 }
+            {
+                threshold: 0.8, // Slightly lower threshold for mobile
+                rootMargin: '0px' // No margin
+            }
         );
 
         if (containerRef.current) observer.observe(containerRef.current);
 
         return () => {
-            isMounted = false;  // Prevent state updates after unmount
+            isMounted = false;
             clearTimeout(timeout);
+            clearTimeout(scrollTimeout);
+            window.removeEventListener('scroll', handleScroll);
             if (containerRef.current) observer.unobserve(containerRef.current);
         };
-    }, [isVisible]); // Add isVisible to dependencies
+    }, [isVisible, video.headline, video.id, video.category]); // Added video props to dependencies
 
     function handleCommentClick() {
         setShowComments(!showComments);
