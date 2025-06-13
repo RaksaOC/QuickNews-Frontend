@@ -122,6 +122,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
                 muted={false}
                 loop
                 playsInline
+                playsinline
                 disablePictureInPicture
                 disableRemotePlayback
                 disableContextMenu
