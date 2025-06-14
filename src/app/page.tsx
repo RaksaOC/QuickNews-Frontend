@@ -231,112 +231,104 @@ export default function Page() {
   const currentIndex = categories.indexOf(category);
 
   return (
-    isMainPage && (
-      <div className="relative h-full flex flex-col justify-between items-center bg-black">
-        {/* shadow gradient for the top nav*/}
-        <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black/60 to-transparent z-10"></div>
-        {!isLandingPage && (
-          <TopNav
-            category={category}
-            onCategoryChange={(category) => setCategory(category)}
-            onMenuClick={() => {
-              setIsMenuOpen(true);
+    <div className="relative h-full flex flex-col justify-between items-center bg-black">
+      {/* shadow gradient for the top nav*/}
+      <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black/60 to-transparent z-10"></div>
+      {!isLandingPage && (
+        <TopNav
+          category={category}
+          onCategoryChange={(category) => setCategory(category)}
+          onMenuClick={() => {
+            setIsMenuOpen(true);
+          }}
+        />
+      )}
+      (
+      <div
+        className="relative w-full h-full overflow-hidden"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          overflowY: gestureDirection === "horizontal" ? "hidden" : "auto",
+        }}
+      >
+        <div
+          className="flex w-full h-full transition-transform duration-300 ease-out"
+          style={{
+            transform: `translateX(calc(-${currentIndex * 100}% + ${dragX}px))`,
+          }}
+        >
+          {categories.map((cat, index) => (
+            <div key={cat} className="flex-shrink-0 w-full h-full">
+              <VideoFeedContainer
+                videos={
+                  cat === category
+                    ? videos.filter((video) => video.category === cat)
+                    : []
+                }
+                category={cat}
+                onCategoryChange={setCategory}
+                onShowComments={(video) => {
+                  setShowComments(true);
+                  setCurrentVideo(video);
+                }}
+                onShowShare={(video) => {
+                  setShowShare(true);
+                  setCurrentVideo(video);
+                }}
+                onShowArticle={(video) => {
+                  setShowArticle(true);
+                  setCurrentVideo(video);
+                }}
+                onShowChatbot={() => setShowChatbot(true)}
+              />
+            </div>
+          ))}
+        </div>
+        {showComments && (
+          <Comments
+            comments={currentVideo?.comments || []}
+            onClose={() => setShowComments(false)}
+          />
+        )}
+        {showShare && <Share onClose={() => setShowShare(false)} />}
+        {showArticle && (
+          <Article
+            article={currentVideo?.article || undefined}
+            onClose={() => setShowArticle(false)}
+            onShowChatbot={(show) => {
+              setShowChatbot(show);
+              setShowArticle(false);
             }}
           />
         )}
-
-        {isLandingPage ? (
-          <LandingPage />
-        ) : (
-          <div
-            className="relative w-full h-full overflow-hidden"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            style={{
-              overflowY: gestureDirection === "horizontal" ? "hidden" : "auto",
-            }}
-          >
-            <div
-              className="flex w-full h-full transition-transform duration-300 ease-out"
-              style={{
-                transform: `translateX(calc(-${
-                  currentIndex * 100
-                }% + ${dragX}px))`,
-              }}
-            >
-              {categories.map((cat, index) => (
-                <div key={cat} className="flex-shrink-0 w-full h-full">
-                  <VideoFeedContainer
-                    videos={
-                      cat === category
-                        ? videos.filter((video) => video.category === cat)
-                        : []
-                    }
-                    category={cat}
-                    onCategoryChange={setCategory}
-                    onShowComments={(video) => {
-                      setShowComments(true);
-                      setCurrentVideo(video);
-                    }}
-                    onShowShare={(video) => {
-                      setShowShare(true);
-                      setCurrentVideo(video);
-                    }}
-                    onShowArticle={(video) => {
-                      setShowArticle(true);
-                      setCurrentVideo(video);
-                    }}
-                    onShowChatbot={() => setShowChatbot(true)}
-                  />
-                </div>
-              ))}
-            </div>
-            {showComments && (
-              <Comments
-                comments={currentVideo?.comments || []}
-                onClose={() => setShowComments(false)}
-              />
-            )}
-            {showShare && <Share onClose={() => setShowShare(false)} />}
-            {showArticle && (
-              <Article
-                article={currentVideo?.article || undefined}
-                onClose={() => setShowArticle(false)}
-                onShowChatbot={(show) => {
-                  setShowChatbot(show);
-                  setShowArticle(false);
-                }}
-              />
-            )}
-            {showChatbot && (
-              <ChatbotPopup
-                onClose={() => {
-                  setShowChatbot(false);
-                  setShowArticle(true);
-                }}
-                article={currentVideo?.article || undefined}
-                onBackToArticle={() => {
-                  setShowChatbot(false);
-                  setShowArticle(true);
-                }}
-              />
-            )}
-          </div>
-        )}
-        {!isLandingPage && <NavBar />}
-        {isMenuOpen && (
-          <MenuPopup
+        {showChatbot && (
+          <ChatbotPopup
             onClose={() => {
-              setIsMenuOpen(false);
+              setShowChatbot(false);
+              setShowArticle(true);
+            }}
+            article={currentVideo?.article || undefined}
+            onBackToArticle={() => {
+              setShowChatbot(false);
+              setShowArticle(true);
             }}
           />
         )}
       </div>
-    )
+      {!isLandingPage && <NavBar />}
+      {isMenuOpen && (
+        <MenuPopup
+          onClose={() => {
+            setIsMenuOpen(false);
+          }}
+        />
+      )}
+    </div>
   );
 }

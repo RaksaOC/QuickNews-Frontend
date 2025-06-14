@@ -33,6 +33,16 @@ export const DEMO_ARTICLES: Article[] = [
     creator: DEMO_USERS[2],
     createdAt: "2025-06-11",
   },
+  {
+    id: 4,
+    headline:
+      "Chinese AI Startup DeepSeek Shakes Global Tech Markets With $6M Model Rivaling ChatGPT",
+    content:
+      "Chinese AI startup DeepSeek has sent shockwaves through the global technology industry with the launch of its R1 reasoning model, which reportedly matches OpenAI’s ChatGPT performance while costing a fraction to develop. The breakthrough has prompted industry experts to reconsider assumptions about AI development costs and the competitive advantage of major tech companies. DeepSeek claims its latest model required less than $6 million in computing power to train, compared to the hundreds of millions typically spent by Silicon Valley giants. Scale AI CEO Alexandr Wang described DeepSeek as “roughly on par with the best American models” during remarks at the World Economic Forum in Davos.  The Chinese company’s Christmas Day launch of its open-source model has attracted millions of users seeking free alternatives to subscription-based AI services.The impact on financial markets was immediate and dramatic, with DeepSeek’s apparent efficiency causing Nvidia shares to plummet 17% as investors questioned future demand for expensive AI chips. The breakthrough has forced a reassessment of the AI industry’s capital requirements and competitive landscape, with US President Donald Trump calling the development a “wake-up call” for American companies. Despite security concerns leading Taiwan and Australia to ban the app on federal devices, DeepSeek’s success demonstrates that cutting-edge AI development may be more accessible than previously believed.",
+    image: "/assets/articleThumbnail/MB-TECH-TH.jpeg",
+    creator: DEMO_USERS[3],
+    createdAt: "2025-06-11",
+  },
 
   // health
   {
@@ -94,6 +104,15 @@ export const DEMO_ARTICLES: Article[] = [
       "British fishing businesses are grappling with significant operational challenges as severe weather patterns increasingly disrupt traditional fishing schedules across UK coastal waters. Fishermen in Bournemouth and surrounding areas report that unpredictable storm systems are forcing vessels to remain docked for extended periods, creating substantial economic pressure on an industry already facing post-Brexit complications. The timing of these weather disruptions coincides with the UK government’s announcement of expanded bottom trawling bans, which will affect 48,000 square kilometers of protected waters. Industry representatives warn that combining weather-related losses with new fishing restrictions could push smaller operations toward financial collapse. The Scottish Fishermen’s Federation has expressed particular concern about the cumulative impact of offshore wind development, regulatory changes, and now increasingly volatile weather patterns. Coastal communities that depend on fishing revenue are experiencing ripple effects throughout their local economies, from fish processing facilities to tourism operators who rely on fresh catches for restaurants. The Environment Secretary has acknowledged the challenges facing the sector while emphasizing the need for sustainable fishing practices, but industry leaders argue that current support measures are insufficient to address the mounting pressures from climate-related disruptions. Weather forecasters predict that storm frequency and intensity will continue increasing, potentially forcing a fundamental restructuring of how UK fishing operations plan and execute their seasonal activities.",
     image: "/assets/articleThumbnail/BBC-Bus-Th.jpg",
     creator: DEMO_USERS[2],
+    createdAt: "2025-05-16",
+  },
+  {
+    id: 16,
+    headline: "Disney vs. AI Companies Lawsuit",
+    content:
+      "Entertainment giants Disney and Universal have filed a comprehensive 110-page lawsuit against AI image generation company Midjourney, marking the first major Hollywood legal challenge against artificial intelligence firms over copyright infringement. The lawsuit, filed in U.S. District Court in Los Angeles, accuses Midjourney of creating a “bottomless pit of plagiarism” by using countless copyrighted works to train its AI systems without permission. Disney’s chief legal officer Horacio Gutierrez emphasized that “world-class content is built on decades of investment, creativity, and innovation” and stressed that intellectual property protections are essential for creators to profit from their works. The lawsuit specifically targets Midjourney’s alleged unauthorized use of iconic characters including Shrek, Homer Simpson, and Darth Vader, claiming the AI company operates like a “virtual vending machine” producing infinite unauthorized reproductions. The entertainment companies are seeking unspecified monetary damages and demanding that Midjourney implement proper copyright protection measures before launching its planned video service. This legal action represents an escalation in the ongoing battle between Big Entertainment and Big Tech, joining other high-profile copyright cases including The New York Times’ lawsuit against OpenAI and Microsoft, and Sony Music Entertainment’s action against AI music generators Suno and Udio. The case could set important precedents for how AI companies must handle copyrighted material, with Midjourney’s approximately 20 million registered users potentially affected by the outcome. Recent court victories for artists in similar cases have allowed copyright infringement claims against AI art generators to proceed, suggesting that courts are increasingly willing to scrutinize how AI companies use protected intellectual property for training purposes.",
+    image: "/assets/articleThumbnail/BBC-Bus-Th.jpg",
+    creator: DEMO_USERS[3],
     createdAt: "2025-05-16",
   },
 
