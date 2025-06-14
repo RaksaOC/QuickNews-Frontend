@@ -15,30 +15,30 @@ function shuffleArray<T>(array: T[]): T[] {
 const allVideos = [...LEGIT_VIDEOS];
 const shuffledVideos = shuffleArray(allVideos);
 
-// Following videos (37-49)
+// Following videos (1-8)
 export const followingVideos: Video[] = shuffledVideos
-  .slice(0, 13)
+  .slice(0, 8)
   .map((video, index) => ({
     ...video,
-    id: 37 + index,
+    id: 1 + index,
     category: "following",
   }));
 
-// ForYou videos (50-62)
+// ForYou videos (9-17)
 export const forYouVideos: Video[] = shuffledVideos
-  .slice(13, 26)
+  .slice(8, 17)
   .map((video, index) => ({
     ...video,
-    id: 50 + index,
+    id: 9 + index,
     category: "foryou",
   }));
 
-// Breaking videos (63-75)
+// Breaking videos (18-26)
 export const breakingVideos: Video[] = shuffledVideos
-  .slice(26, 39)
+  .slice(17, 26)
   .map((video, index) => ({
     ...video,
-    id: 63 + index,
+    id: 18 + index,
     category: "breaking",
   }));
 
