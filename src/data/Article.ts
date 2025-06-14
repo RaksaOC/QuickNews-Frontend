@@ -75,6 +75,16 @@ export const DEMO_ARTICLES: Article[] = [
     creator: DEMO_USERS[2],
     createdAt: "2025-05-28",
   },
+  {
+    id: 9,
+    headline:
+      "Miraculous Escape: Air India Plane Crash Survivor's Life-Saving Seat Switch",
+    content:
+      "A remarkable survival story has emerged from a recent Air India plane crash, highlighting how a simple decision to switch seats may have saved a passenger's life. Max Foster, CNN's London-based anchor and correspondent, shared this compelling human interest story on his TikTok platform, where he has built a following of over one million users by delivering news content in an accessible format. The story underscores the unpredictable nature of aviation incidents and how seemingly minor decisions can have profound consequences. Foster, who has established himself as one of the few journalists successfully using TikTok as a news platform, continues to bridge the gap between traditional journalism and social media storytelling. His approach of distilling complex news stories into digestible content has made him a trusted source for younger audiences seeking authentic news coverage. This story exemplifies Foster's commitment to sharing important human stories alongside major breaking news, maintaining the journalistic standards of accuracy and fairness that have defined his career at CNN since 2005.",
+    image: "/assets/articleThumbnail/MF-HEAL.png",
+    creator: DEMO_USERS[4],
+    createdAt: "2025-05-28",
+  },
 
   // business
 
@@ -146,6 +156,16 @@ export const DEMO_ARTICLES: Article[] = [
       "A mint green, human-sized Labubu figure has shattered records by selling for 1.08 million yuan ($150,275) at Beijing’s Yongle International Auction, officially becoming the most expensive toy of its kind globally. The 131-centimeter-tall figure, described by auctioneers as the only one of its kind in the world, sparked intense bidding among approximately 200 in-person attendees and over 1,000 online participants. The auction, which marked the world’s first dedicated Labubu sale, featured 48 lots and generated total sales of 3.73 million yuan. These whimsical monster figurines, created by Hong Kong artist Kasing Lung and marketed by Chinese toy giant Pop Mart, have evolved from a cultural craze into serious collectibles. The dolls typically retail for around 50 yuan in “blind box” packaging, where buyers don’t know which design they’ll receive until opening. Celebrity endorsements have fueled Labubu’s meteoric rise, particularly after Blackpink’s Lisa was spotted with the toy and praised it publicly. The phenomenon has since attracted other high-profile fans, including football icon David Beckham, who shared an Instagram photo featuring his Labubu attached to a bag. This viral celebrity adoption has transformed the quirky monster from underground art toy to global sensation, with Pop Mart reporting revenue increases of over 125% year-on-year as demand continues to surge worldwide.",
     image: "/assets/articleThumbnail/BBC-Enter-Th.jpg",
     creator: DEMO_USERS[2],
+    createdAt: "2025-06-04",
+  },
+  {
+    id: 22,
+    headline:
+      "Andrew Tate and Brother Leave Romania for Florida Following Legal Proceedings",
+    content:
+      "Self-proclaimed influencer Andrew Tate and his brother have departed Romania for Florida via private jet, according to their legal representative who confirmed the information to CNN. The controversial figures, who had been facing legal challenges in Romania, have now relocated to the United States. Max Foster reported this development through his TikTok platform, where he has become known for delivering breaking news stories in an engaging format that resonates with younger audiences. Foster's coverage of this story demonstrates his ability to tackle controversial subjects while maintaining the journalistic integrity that has made him a respected voice in digital news. The departure comes amid ongoing legal proceedings and represents a significant development in the case that has drawn international attention. Foster's reporting on this story reflects his broader mission of ensuring that important news reaches audiences who might not engage with traditional news formats, particularly younger demographics who increasingly rely on social media for information. As CNN's anchor and correspondent based in London, Foster continues to leverage his TikTok platform, which averages around 20 million views per month, to deliver timely and accurate news coverage.",
+    image: "/assets/articleThumbnail/MF-ENT-TH.jpg",
+    creator: DEMO_USERS[3],
     createdAt: "2025-06-04",
   },
 
