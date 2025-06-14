@@ -77,12 +77,13 @@ export const DEMO_USERS: User[] = [
     password: "demo123",
     name: "Yahoo News",
     handle: "@yahoonews",
-    avatar: "/assets/avatar2.jpg",
+    avatar: "/assets/profilePic/yahoo.jpeg",
+    cover: "/assets/profileCover/yahoo.jpeg",
     bio: "Science communicator. Making knowledge accessible.",
     location: "Seoul, South Korea",
     verified: true,
     joinedAt: "2020-12-01",
-    stats: { followers: 2100000, following: 150000, posts: 200 },
+    stats: { followers: 2600000, following: 150000, posts: 5 },
   },
 ];
 
