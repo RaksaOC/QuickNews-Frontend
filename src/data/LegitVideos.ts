@@ -4,6 +4,8 @@ import { DEMO_COMMENTS } from "./Comments";
 import { DEMO_USERS } from "./DemoUsers";
 
 export const LEGIT_VIDEOS: Video[] = [
+  // Original Category Videos
+  // Tech Category (1-6)
   {
     id: 1,
     headline:
@@ -20,6 +22,22 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "tech",
   },
   {
+    id: 2,
+    headline:
+      "Chinese Startup DeepSeek Stuns Tech World With $6M AI Model Rivaling GPT-4”",
+    content: "Explore how AI is revolutionizing industries worldwide.",
+    image: "/assets/articleThumbnail/1.jpg",
+    url: "/assets/videos/tech/VN-Tech.mp4",
+    creator: DEMO_USERS[1],
+    comments: [DEMO_COMMENTS[0], DEMO_COMMENTS[1], DEMO_COMMENTS[2]],
+    likes: 200000,
+    shares: 8000,
+    createdAt: "2025-05-19",
+    article: DEMO_ARTICLES[1],
+    category: "tech",
+  },
+  // Health Category (7-12)
+  {
     id: 7,
     headline:
       "Former President Biden Diagnosed with Aggressive Prostate Cancer",
@@ -31,9 +49,25 @@ export const LEGIT_VIDEOS: Video[] = [
     likes: 1300000,
     shares: 200000,
     createdAt: "2025-05-28",
-    article: DEMO_ARTICLES[4],
+    article: DEMO_ARTICLES[6],
     category: "health",
   },
+  {
+    id: 8,
+    headline:
+      "Tech Millionaire’s $2M/year ‘Blueprint’ to Cheat Death Gains Cult Following”",
+    content: "Discover the science behind meditation.",
+    image: "/assets/cover2.jpg",
+    url: "/assets/videos/health/VN-Health.mp4",
+    creator: DEMO_USERS[1],
+    comments: [DEMO_COMMENTS[2], DEMO_COMMENTS[3], DEMO_COMMENTS[4]],
+    likes: 3450000,
+    shares: 5000,
+    createdAt: "2025-05-29",
+    article: DEMO_ARTICLES[7],
+    category: "health",
+  },
+  // Business Category (13-18)
   {
     id: 13,
     headline:
@@ -46,9 +80,25 @@ export const LEGIT_VIDEOS: Video[] = [
     likes: 804000,
     shares: 190000,
     createdAt: "2025-05-16",
-    article: DEMO_ARTICLES[3],
+    article: DEMO_ARTICLES[12],
     category: "business",
   },
+  {
+    id: 14,
+    headline:
+      "Not real Vid: Creator Tests Instagram Reels as TikTok Alternative Amid Platform Uncertainty",
+    content: "A recap of the most important moments.",
+    image: "/assets/cover3.jpg",
+    url: "/assets/videos/business/DylanpageBusiness.mp4",
+    creator: DEMO_USERS[1],
+    comments: [DEMO_COMMENTS[2], DEMO_COMMENTS[3], DEMO_COMMENTS[4]],
+    likes: 804000,
+    shares: 190000,
+    createdAt: "2025-05-16",
+    article: DEMO_ARTICLES[13],
+    category: "business",
+  },
+  // Entertainment Category (19-24)
   {
     id: 19,
     headline:
@@ -61,9 +111,25 @@ export const LEGIT_VIDEOS: Video[] = [
     likes: 1500000,
     shares: 600000,
     createdAt: "2025-06-04",
-    article: DEMO_ARTICLES[2],
+    article: DEMO_ARTICLES[18],
     category: "entertainment",
   },
+  {
+    id: 20,
+    headline:
+      "Japanese Prime Minister Eats Fukushima Seafood to Reassure Public After Treated Water Release",
+    content: "The hottest new companies in business.",
+    image: "/assets/cover1.jpg",
+    url: "/assets/videos/entertainment/VN-Enter.mp4",
+    creator: DEMO_USERS[1],
+    comments: [DEMO_COMMENTS[2], DEMO_COMMENTS[3], DEMO_COMMENTS[4]],
+    likes: 1700000,
+    shares: 1000,
+    createdAt: "2025-06-10",
+    article: DEMO_ARTICLES[19],
+    category: "entertainment",
+  },
+  // Sports Category (25-30)
   {
     id: 25,
     headline:
@@ -76,9 +142,25 @@ export const LEGIT_VIDEOS: Video[] = [
     likes: 2500000,
     shares: 78000,
     createdAt: "2025-05-27",
-    article: DEMO_ARTICLES[1],
+    article: DEMO_ARTICLES[24],
     category: "sports",
   },
+  {
+    id: 26,
+    headline:
+      "Viral Moment: French President Macron’s Cringe-Worthy Attempt to Console Mbappé After World Cup Loss",
+    content: "Relive the excitement of the championship game.",
+    image: "/assets/articleThumbnail/2.jpg",
+    url: "/assets/videos/sports/VN-Sports.mp4",
+    creator: DEMO_USERS[1],
+    comments: [DEMO_COMMENTS[2], DEMO_COMMENTS[3], DEMO_COMMENTS[4]],
+    likes: 456000,
+    shares: 2000,
+    createdAt: "2025-05-17",
+    article: DEMO_ARTICLES[25],
+    category: "sports",
+  },
+  // Science Category (31-36)
   {
     id: 31,
     headline: "Swiss Village of Blatten Buried as Alpine Glacier Collapses",
@@ -90,13 +172,28 @@ export const LEGIT_VIDEOS: Video[] = [
     likes: 634000,
     shares: 98000,
     createdAt: "2025-06-07",
-    article: DEMO_ARTICLES[5],
+    article: DEMO_ARTICLES[30],
+    category: "science",
+  },
+  {
+    id: 32,
+    headline: "Nature’s Tragedy: 85% of Hermit Crabs Now Use Plastic Waste as Shells, Study Reveals",
+    content: "The latest in science and technology.",
+    image: "/assets/cover1.jpg",
+    url: "/assets/videos/science/VN-Science.mp4",
+    creator: DEMO_USERS[1],
+    comments: [DEMO_COMMENTS[2], DEMO_COMMENTS[3], DEMO_COMMENTS[4]],
+    likes: 36000,
+    shares: 1000,
+    createdAt: "2025-06-12",
+    article: DEMO_ARTICLES[31],
     category: "science",
   },
 
-  // Following Category (3 videos)
+  // Mixed Categories (Starting from 37)
+  // Following Category (37-41)
   {
-    id: 71,
+    id: 37,
     headline:
       "Apple's iOS 26 'Liquid Glass' Design: Revolutionary or Just Hype?",
     content: "Explore how AI is revolutionizing industries worldwide.",
@@ -111,7 +208,7 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "following",
   },
   {
-    id: 72,
+    id: 38,
     headline:
       "Enhanced Games Offer $1 Million Prizes for Performance-Enhanced Athletes",
     content: "Relive the excitement of the championship game.",
@@ -126,12 +223,12 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "following",
   },
   {
-    id: 73,
+    id: 39,
     headline:
       "World's Most-Followed TikToker Khaby Lame Detained and Deported by ICE",
     content: "The hottest new companies in business.",
     image: "/assets/cover1.jpg",
-    url: "/assets/videos/entertainment/Dylan-page-entertainment.mp4",
+    url: "/assets/videos/entertainment/Dylan-page-Entertainment.mp4",
     creator: DEMO_USERS[0],
     comments: [DEMO_COMMENTS[2], DEMO_COMMENTS[3], DEMO_COMMENTS[4]],
     likes: 1500000,
@@ -141,9 +238,9 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "following",
   },
 
-  // ForYou Category (3 videos)
+  // ForYou Category (42-46)
   {
-    id: 74,
+    id: 42,
     headline:
       "Former President Biden Diagnosed with Aggressive Prostate Cancer",
     content: "Discover the science behind meditation.",
@@ -158,7 +255,7 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "foryou",
   },
   {
-    id: 75,
+    id: 43,
     headline: "Swiss Village of Blatten Buried as Alpine Glacier Collapses",
     content: "The latest in science and technology.",
     image: "/assets/cover1.jpg",
@@ -172,7 +269,7 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "foryou",
   },
   {
-    id: 76,
+    id: 44,
     headline:
       "Creator Tests Instagram Reels as TikTok Alternative Amid Platform Uncertainty",
     content: "A recap of the most important moments.",
@@ -187,9 +284,9 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "foryou",
   },
 
-  // Breaking Category (3 videos)
+  // Breaking Category (47-51)
   {
-    id: 77,
+    id: 47,
     headline: "BREAKING: Apple's iOS 26 'Liquid Glass' Design Revealed",
     content: "Explore how AI is revolutionizing industries worldwide.",
     image: "/assets/articleThumbnail/1.jpg",
@@ -203,7 +300,7 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "breaking",
   },
   {
-    id: 78,
+    id: 48,
     headline: "BREAKING: Enhanced Games Announce $1 Million Prize Pool",
     content: "Relive the excitement of the championship game.",
     image: "/assets/articleThumbnail/2.jpg",
@@ -217,7 +314,7 @@ export const LEGIT_VIDEOS: Video[] = [
     category: "breaking",
   },
   {
-    id: 79,
+    id: 49,
     headline: "BREAKING: Swiss Village Buried in Glacier Collapse",
     content: "The latest in science and technology.",
     image: "/assets/cover1.jpg",
