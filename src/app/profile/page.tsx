@@ -4,6 +4,7 @@ import FollowersPopup from '@/components/ui2/FollowersPopup';
 import NavBar from '@/components/ui2/NavBar';
 import { DEMO_ARTICLES } from '@/data/Article';
 import { OTHER_USERS } from '@/data/DemoUsers';
+import { LEGIT_VIDEOS } from '@/data/LegitVideos';
 import { DEMO_VIDEOS } from '@/data/Video';
 import { formatStats } from '@/utils/formatStats';
 import { Settings, BookOpen, PlayCircle, Bookmark, ThumbsUp, MessageCircle, ArrowLeft, BadgeCheck, Clock } from 'lucide-react';
@@ -102,7 +103,7 @@ export default function ProfilePage() {
         {activeTab === 'saved' && (
           <div className="px-4 flex-1 overflow-y-auto pb-24">
             <div className="grid grid-cols-2 gap-3">
-              {DEMO_VIDEOS.map((video) => (
+              {LEGIT_VIDEOS.map((video) => (
                 <div key={video.id} className="relative">
                   <div className="relative aspect-[9/16] bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
                     <img src={'/assets/logo2.png'} alt={video.headline} className=" object-cover" />
