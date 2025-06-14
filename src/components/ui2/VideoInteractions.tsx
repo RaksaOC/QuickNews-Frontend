@@ -1,6 +1,7 @@
 'use client';
 
 import { Comment } from "@/types/Comment";
+import { formatStats } from "@/utils/formatStats";
 import { Bookmark, Heart, MessageCircle, Share } from "lucide-react";
 import { useState } from "react";
 
@@ -16,12 +17,6 @@ interface VideoInteractionsProps {
     isSaved: boolean;
 }
 
-function formatCount(count: number): string {
-    if (count >= 1000) {
-        return (count / 1000).toFixed(count % 1000 === 0 ? 0 : 1) + 'k';
-    }
-    return count.toString();
-}
 
 export function VideoInteractions({ likes, comments, shares, onCommentClick, onShareClick, isLiked, onIsLiked, onSaveClick, isSaved }: VideoInteractionsProps) {
     const currentLikes = isLiked ? likes + 1 : likes;
@@ -44,7 +39,7 @@ export function VideoInteractions({ likes, comments, shares, onCommentClick, onS
                     />
                 </button>
                 <span className="text-white text-sm font-medium drop-shadow-lg">
-                    {formatCount(currentLikes)}
+                    {formatStats(currentLikes)}
                 </span>
             </div>
 
@@ -57,7 +52,7 @@ export function VideoInteractions({ likes, comments, shares, onCommentClick, onS
                     <MessageCircle size={22} className="text-white" />
                 </button>
                 <span className="text-white text-sm font-medium drop-shadow-lg">
-                    {formatCount(comments.length)}
+                    {formatStats(comments.length)}
                 </span>
             </div>
 
@@ -70,7 +65,7 @@ export function VideoInteractions({ likes, comments, shares, onCommentClick, onS
                     <Share size={22} className="text-white" />
                 </button>
                 <span className="text-white text-sm font-medium drop-shadow-lg">
-                    {shares === 0 ? 'Share' : formatCount(shares)}
+                    {shares === 0 ? 'Share' : formatStats(shares)}
                 </span>
             </div>
 
