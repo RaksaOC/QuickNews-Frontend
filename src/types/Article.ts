@@ -6,6 +6,5 @@ export interface Article {
     content: string;
     image: string;
     creator: User;
-    likes: number;  
     createdAt: string;
 }

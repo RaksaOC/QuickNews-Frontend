@@ -5,6 +5,8 @@ import NavBar from '@/components/ui2/NavBar';
 import { TopNav } from '@/components/ui2/TopNav';
 import VideoFeedContainer from '@/components/ui2/VideoFeedContainer';
 import { DEMO_VIDEOS } from '@/data/Video';
+import { LEGIT_VIDEOS } from '@/data/LegitVideos';
+
 import MenuPopup from '@/components/ui2/MenuPopup';
 import LandingPage from '@/components/ui2/LandingPage';
 import Comments from '@/components/ui2/Comments';
@@ -19,7 +21,7 @@ export default function Page() {
   const [isMainPage, setIsMainPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState('following');
-  const [videos, setVideos] = useState(DEMO_VIDEOS);
+  const [videos, setVideos] = useState(LEGIT_VIDEOS);
   const [dragX, setDragX] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);

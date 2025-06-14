@@ -158,12 +158,24 @@ export default function ProfilePage() {
       <div className='sticky bottom-0 z-10'>
         <NavBar />
       </div>
-      {showFollowers && <FollowersPopup followers={[{
-        id: 1,
-        name: 'John Doe',
-        avatar: '/assets/avatar1.jpg',
-        verified: false,
-      }]} onClose={() => { setShowFollowers(false) }} />}
+     {showFollowers && (
+  <FollowersPopup
+    followers={[
+      { id: 1, name: "John Doe", avatar: "/assets/avatar1.jpg" },
+      { id: 2, name: "Jane Smith", avatar: "/assets/avatar1.jpg" },
+      { id: 3, name: "Carlos Alvarez", avatar: "/assets/avatar1.jpg" },
+      { id: 4, name: "Emily Chen", avatar: "/assets/avatar1.jpg" },
+      { id: 5, name: "Mohammed Khan", avatar: "/assets/avatar1.jpg" },
+      { id: 6, name: "Ava Johnson", avatar: "/assets/avatar1.jpg" },
+      { id: 7, name: "Leo Nakamura", avatar: "/assets/avatar1.jpg" },
+      { id: 8, name: "Sofia Rossi", avatar: "/assets/avatar1.jpg" },
+      { id: 9, name: "David Brown", avatar: "/assets/avatar1.jpg" },
+      { id: 10, name: "Isabelle Dubois", avatar: "/assets/avatar1.jpg" },
+    ]}
+    onClose={() => setShowFollowers(false)}
+  />
+)}
+
     </div>
   );
 }
