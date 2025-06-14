@@ -131,7 +131,7 @@ export default function CreatorPage() {
             {/* Cover section */}
             <div className="relative h-60 w-full -mt-20">
               <img
-                src={profile.avatar}
+                src={profile.cover}
                 alt="cover"
                 className="absolute inset-0 w-full h-full object-cover"
               />

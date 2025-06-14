@@ -23,6 +23,16 @@ export const DEMO_ARTICLES: Article[] = [
     creator: DEMO_USERS[1],
     createdAt: "2025-06-11",
   },
+  {
+    id: 3,
+    headline:
+      "AI Chatbots Grok and ChatGPT Falsely Claim LA National Guard Photos Are From Afghanistan, Fueling Protest Misinformation",
+    content:
+      "Artificial intelligence chatbots are spreading dangerous misinformation about authentic photographs showing National Guard troops sleeping on bare floors in Los Angeles, with both Grok and ChatGPT incorrectly telling users the images originated from Afghanistan in 2021 rather than from the current LA protests. The false claims have amplified conspiracy theories and undermined trust in legitimate journalism during a volatile period of civil unrest. The controversy began when the San Francisco Chronicle published exclusive photographs on Monday showing California National Guard members cramped together on concrete floors in federal buildings, sleeping shoulder-to-shoulder with their equipment scattered around them. California Governor Gavin Newsom shared these images on social media, criticizing President Trump for deploying troops “without fuel, food, water, or a place to sleep”.Almost immediately, users on social media platforms began questioning the authenticity of the photographs, with some claiming they were AI-generated or taken from entirely different contexts. When users turned to AI chatbots for verification, they received confidently incorrect answers that further fueled the misinformation campaign",
+    image: "/assets/articleThumbnail/BBC-tech-Th.png",
+    creator: DEMO_USERS[2],
+    createdAt: "2025-06-11",
+  },
 
   // health
   {
@@ -45,6 +55,16 @@ export const DEMO_ARTICLES: Article[] = [
     creator: DEMO_USERS[1],
     createdAt: "2025-05-28",
   },
+  {
+    id: 9,
+    headline:
+      "NHS England Faces ‘Unthinkable’ Cuts as £7 Billion Budget Shortfall Forces Service Reductions",
+    content:
+      "The NHS in England is implementing what health bosses describe as “previously unthinkable” cuts to essential services as the system struggles with a nearly £7 billion budget deficit, representing a 5% overspend above government allocations. Critical services including diabetes care for young people, mental health rehabilitation centers, and psychological therapy programs are facing severe reductions or complete elimination. Healthcare trusts across England are shedding thousands of jobs, with one major hospital trust planning to eliminate 1,500 positions—approximately 5% of its workforce—including doctors and nurses. Mental health services have been particularly hard hit, with some trusts stopping new referrals for adult ADHD treatment while psychological therapy waiting times extend beyond one year. Additional services at risk include smoking cessation programs, palliative care, and some maternity units, though birth rate declines have contributed to reduced demand in obstetric services. The financial crisis has prompted NHS Providers, representing health managers, to warn that staff morale has “never been lower” despite government promises of increased funding. The cuts come after ministers announced a £22 billion investment increase over two years, but healthcare leaders argue this amount falls far short of addressing accumulated infrastructure decay and rising demand. Department of Health officials maintain that NHS organizations should focus on reducing bureaucracy and improving productivity rather than cutting frontline services. The crisis highlights the growing tension between political promises to protect healthcare and the fiscal reality facing one of the world’s largest public health systems.",
+    image: "/assets/articleThumbnail/BBC-Health-Th.jpeg",
+    creator: DEMO_USERS[2],
+    createdAt: "2025-05-28",
+  },
 
   // business
 
@@ -65,6 +85,15 @@ export const DEMO_ARTICLES: Article[] = [
       "Content creators are increasingly exploring alternative platforms as concerns about TikTok's future continue to mount, with Instagram Reels emerging as a primary alternative for short-form video content. The shift represents a broader trend of diversification among social media influencers seeking to protect their audiences and income streams.\n\nInstagram Reels offers similar functionality to TikTok, including short-form vertical videos, music integration, and algorithm-driven discovery features. However, creators report significant differences in audience engagement patterns, with Instagram's user base showing different preferences for content types and interaction styles compared to TikTok users.\n\nThe exploration of alternatives has intensified following ongoing political discussions about potential platform restrictions and data privacy concerns. Many creators are proactively building audiences across multiple platforms to ensure continuity of their content and business relationships regardless of regulatory changes.\n\nEarly adopters testing Instagram Reels report mixed results, with some finding success in cross-posting content while others struggle to replicate the viral potential they experienced on TikTok. The platform's integration with Instagram's existing photo-sharing ecosystem provides advantages for established users but may present challenges for creators accustomed to TikTok's unique culture and algorithm behavior.",
     image: "/assets/articleThumbnail/4.png",
     creator: DEMO_USERS[1],
+    createdAt: "2025-05-16",
+  },
+  {
+    id: 15,
+    headline: "Storm Season Forces UK Fishing Fleet to Harbor as Weather Disrupts Coastal Business",
+    content:
+      "British fishing businesses are grappling with significant operational challenges as severe weather patterns increasingly disrupt traditional fishing schedules across UK coastal waters. Fishermen in Bournemouth and surrounding areas report that unpredictable storm systems are forcing vessels to remain docked for extended periods, creating substantial economic pressure on an industry already facing post-Brexit complications. The timing of these weather disruptions coincides with the UK government’s announcement of expanded bottom trawling bans, which will affect 48,000 square kilometers of protected waters. Industry representatives warn that combining weather-related losses with new fishing restrictions could push smaller operations toward financial collapse. The Scottish Fishermen’s Federation has expressed particular concern about the cumulative impact of offshore wind development, regulatory changes, and now increasingly volatile weather patterns. Coastal communities that depend on fishing revenue are experiencing ripple effects throughout their local economies, from fish processing facilities to tourism operators who rely on fresh catches for restaurants. The Environment Secretary has acknowledged the challenges facing the sector while emphasizing the need for sustainable fishing practices, but industry leaders argue that current support measures are insufficient to address the mounting pressures from climate-related disruptions. Weather forecasters predict that storm frequency and intensity will continue increasing, potentially forcing a fundamental restructuring of how UK fishing operations plan and execute their seasonal activities.",
+    image: "/assets/articleThumbnail/BBC-Bus-Th.jpg",
+    creator: DEMO_USERS[2],
     createdAt: "2025-05-16",
   },
 
@@ -90,6 +119,16 @@ export const DEMO_ARTICLES: Article[] = [
     creator: DEMO_USERS[1],
     createdAt: "2025-06-04",
   },
+  {
+    id: 21,
+    headline:
+      "Human-Sized Labubu Doll Breaks World Record, Sells for $150,000 at Beijing Auction",
+    content:
+      "A mint green, human-sized Labubu figure has shattered records by selling for 1.08 million yuan ($150,275) at Beijing’s Yongle International Auction, officially becoming the most expensive toy of its kind globally. The 131-centimeter-tall figure, described by auctioneers as the only one of its kind in the world, sparked intense bidding among approximately 200 in-person attendees and over 1,000 online participants. The auction, which marked the world’s first dedicated Labubu sale, featured 48 lots and generated total sales of 3.73 million yuan. These whimsical monster figurines, created by Hong Kong artist Kasing Lung and marketed by Chinese toy giant Pop Mart, have evolved from a cultural craze into serious collectibles. The dolls typically retail for around 50 yuan in “blind box” packaging, where buyers don’t know which design they’ll receive until opening. Celebrity endorsements have fueled Labubu’s meteoric rise, particularly after Blackpink’s Lisa was spotted with the toy and praised it publicly. The phenomenon has since attracted other high-profile fans, including football icon David Beckham, who shared an Instagram photo featuring his Labubu attached to a bag. This viral celebrity adoption has transformed the quirky monster from underground art toy to global sensation, with Pop Mart reporting revenue increases of over 125% year-on-year as demand continues to surge worldwide.",
+    image: "/assets/articleThumbnail/BBC-Enter-Th.jpg",
+    creator: DEMO_USERS[2],
+    createdAt: "2025-06-04",
+  },
 
   // sports
 
@@ -113,6 +152,16 @@ export const DEMO_ARTICLES: Article[] = [
     creator: DEMO_USERS[1],
     createdAt: "2025-05-27",
   },
+  {
+    id: 27,
+    headline:
+      "Cristiano Ronaldo Confirms Al-Nassr Stay After Rejecting Club World Cup Offers",
+    content:
+      "Cristiano Ronaldo has confirmed his intention to remain with Saudi Arabian club Al-Nassr after rejecting multiple offers to participate in this summer’s Club World Cup, ending weeks of speculation about his immediate future. The 40-year-old Portugal captain, whose contract expires at the end of June, stated “Nothing change. Nassr Yes” following Portugal’s dramatic Nations League victory over Spain. The announcement comes after FIFA President Gianni Infantino had publicly suggested that Ronaldo could join a participating Club World Cup team following Al-Nassr’s failure to qualify for the tournament. Several clubs, including Brazilian side Botafogo, were reportedly interested in securing Ronaldo’s services for the expanded 32-team competition in the United States. However, sources close to the situation indicate that Al-Nassr officials remain optimistic about renewing Ronaldo’s contract beyond its current expiration date. Ronaldo’s decision to stay in Saudi Arabia validates the significant investment made by the Saudi Pro League in attracting global superstars to elevate the competition’s profile. Since joining Al-Nassr in January 2023 on a deal reportedly worth £177 million per year, Ronaldo has scored 99 goals in 111 appearances across all competitions, including a record-breaking 35 goals in 31 Saudi Pro League matches during the 2023-24 season. The Portuguese legend’s continued presence is expected to further enhance the Saudi league’s international reputation while supporting the kingdom’s broader Vision 2030 sports development initiatives. His recent emotional celebration following Portugal’s penalty shootout victory over Spain, where he scored his 138th international goal, demonstrated his continued passion for competition at the highest leve",
+    image: "/assets/articleThumbnail/BBC-sports-Th.jpeg",
+    creator: DEMO_USERS[2],
+    createdAt: "2025-05-27",
+  },
 
   // science
 
@@ -133,6 +182,16 @@ export const DEMO_ARTICLES: Article[] = [
       "A groundbreaking study shows hermit crabs worldwide are increasingly using plastic debris instead of natural shells, with researchers documenting over 150,000 crustaceans inhabiting bottle caps, syringe parts, and lightbulb fragments. This alarming adaptation—observed in 85% of studied populations—stems from ocean pollution containing at least 171 trillion plastic particles. Marine biologists warn this behavior disrupts ecosystems, as plastic offers poor protection and introduces toxic chemicals into the food chain. The findings coincide with UN negotiations for a global plastics treaty, adding urgency to environmental reform efforts. The research team discovered that crabs using plastic shells show reduced growth rates and increased mortality compared to those with natural shells. Plastic containers often trap heat and provide inadequate protection against predators, making these adaptations evolutionary dead ends rather than successful innovations. The study also revealed that plastic-dwelling crabs accumulate higher levels of microplastics in their tissue, potentially affecting their reproductive capabilities and introducing contaminants into marine food webs. Conservation efforts are now focusing on beach cleanup initiatives and “shell banks” where volunteers collect and distribute natural shells to affected crab populations, though experts emphasize that addressing plastic pollution at its source remains the only long-term solution.",
     image: "/assets/articleThumbnail/11.jpeg",
     creator: DEMO_USERS[1],
+    createdAt: "2025-06-07",
+  },
+  {
+    id: 33,
+    headline:
+      "UK Issues First Heat-Health Alerts of 2025 as Thunderstorms Threaten Flash Flooding",
+    content:
+      "British fishing businesses are grappling with significant operational challenges as severe weather patterns increasingly disrupt traditional fishing schedules across UK coastal waters. Fishermen in Bournemouth and surrounding areas report that unpredictable storm systems are forcing vessels to remain docked for extended periods, creating substantial economic pressure on an industry already facing post-Brexit complications. The timing of these weather disruptions coincides with the UK government’s announcement of expanded bottom trawling bans, which will affect 48,000 square kilometers of protected waters. Industry representatives warn that combining weather-related losses with new fishing restrictions could push smaller operations toward financial collapse. The Scottish Fishermen’s Federation has expressed particular concern about the cumulative impact of offshore wind development, regulatory changes, and now increasingly volatile weather patterns. Coastal communities that depend on fishing revenue are experiencing ripple effects throughout their local economies, from fish processing facilities to tourism operators who rely on fresh catches for restaurants. The Environment Secretary has acknowledged the challenges facing the sector while emphasizing the need for sustainable fishing practices, but industry leaders argue that current support measures are insufficient to address the mounting pressures from climate-related disruptions. Weather forecasters predict that storm frequency and intensity will continue increasing, potentially forcing a fundamental restructuring of how UK fishing operations plan and execute their seasonal activities.",
+    image: "/assets/articleThumbnail/BBC-scien-th.jpg",
+    creator: DEMO_USERS[2],
     createdAt: "2025-06-07",
   },
 ];
