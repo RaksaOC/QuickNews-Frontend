@@ -29,7 +29,8 @@ export const DEMO_VIDEOS: Video[] = [
   // --- Tech Category ---
   {
     id: 1,
-    headline: "Apple's iOS 26 'Liquid Glass' Design: Revolutionary or Just Hype?",
+    headline:
+      "Apple's iOS 26 'Liquid Glass' Design: Revolutionary or Just Hype?",
     content: "Explore how AI is revolutionizing industries worldwide.",
     image: "/assets/articleThumbnail/1.jpg",
     url: "/assets/videos/tech/DylanpageTech.mp4",
@@ -115,7 +116,8 @@ export const DEMO_VIDEOS: Video[] = [
   // --- Health Category ---
   {
     id: 7,
-    headline: "Former President Biden Diagnosed with Aggressive Prostate Cancer",
+    headline:
+      "Former President Biden Diagnosed with Aggressive Prostate Cancer",
     content: "Discover the science behind meditation.",
     image: "/assets/cover2.jpg",
     url: "/assets/videos/health/Dylanpagehealth.mp4",
@@ -201,7 +203,8 @@ export const DEMO_VIDEOS: Video[] = [
   // --- Business Category ---
   {
     id: 13,
-    headline: "Creator Tests Instagram Reels as TikTok Alternative Amid Platform Uncertainty",
+    headline:
+      "Creator Tests Instagram Reels as TikTok Alternative Amid Platform Uncertainty",
     content: "A recap of the most important moments.",
     image: "/assets/cover3.jpg",
     url: "/assets/videos/business/DylanpageBusiness.mp4",
@@ -286,7 +289,8 @@ export const DEMO_VIDEOS: Video[] = [
   // --- Entertainment Category ---
   {
     id: 19,
-    headline: "World's Most-Followed TikToker Khaby Lame Detained and Deported by ICE",
+    headline:
+      "World's Most-Followed TikToker Khaby Lame Detained and Deported by ICE",
     content: "The hottest new companies in business.",
     image: "/assets/cover1.jpg",
     url: "/assets/videos/entertainment/vid1.mp4",
@@ -372,7 +376,8 @@ export const DEMO_VIDEOS: Video[] = [
   // --- Sports Category ---
   {
     id: 25,
-    headline: "Enhanced Games Offer $1 Million Prizes for Performance-Enhanced Athletes",
+    headline:
+      "Enhanced Games Offer $1 Million Prizes for Performance-Enhanced Athletes",
     content: "Relive the excitement of the championship game.",
     image: "/assets/articleThumbnail/2.jpg",
     url: "/assets/videos/sports/Dylanpagesports.mp4",

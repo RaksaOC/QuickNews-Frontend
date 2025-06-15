@@ -4,7 +4,7 @@ import FollowersPopup from '@/components/ui2/FollowersPopup';
 import NavBar from '@/components/ui2/NavBar';
 import { DEMO_ARTICLES } from '@/data/Article';
 import { DEMO_USERS } from '@/data/DemoUsers';
-import { DEMO_VIDEOS } from '@/data/Video';
+import { LEGIT_VIDEOS } from '@/data/LegitVideos';
 import { User } from '@/types/User';
 import { Video } from '@/types/Video';
 import { formatStats } from '@/utils/formatStats';
@@ -57,7 +57,7 @@ export default function CreatorPage() {
         const userData = DEMO_USERS.find((user) => user.handle === handle);
         if (userData) {
             setProfile(userData);
-            setUserVideos(DEMO_VIDEOS.filter((video) => video.creator.handle === userData.handle));
+            setUserVideos(LEGIT_VIDEOS.filter((video) => video.creator.handle === userData.handle));
         }
     }, [handle]);
     
@@ -96,7 +96,7 @@ export default function CreatorPage() {
                         {/* Cover section */}
                         <div className="relative h-60 w-full -mt-20">
                             <img
-                                src={profile.avatar}
+                                src={profile.cover}
                                 alt="cover"
                                 className="absolute inset-0 w-full h-full object-cover"
                             />

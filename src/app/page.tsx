@@ -13,6 +13,9 @@ import Article from '@/components/ui2/Article';
 import ChatbotPopup from '@/components/ui2/ChatbotPopup';
 import { Video } from '@/types/Video';
 import { LEGIT_VIDEOS } from '@/data/LegitVideos';
+import { mixedVideos } from '@/data/MixedVids';
+
+const ALL_VIDS = [...LEGIT_VIDEOS, ...mixedVideos];
 
 export default function Page() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +23,7 @@ export default function Page() {
   const [isMainPage, setIsMainPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState('following');
-  const [videos, setVideos] = useState(LEGIT_VIDEOS);
+  const [videos, setVideos] = useState<Video[]>(ALL_VIDS);
   const [dragX, setDragX] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
