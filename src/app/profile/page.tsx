@@ -1,7 +1,7 @@
 'use client';
 
-import FollowersPopup from '@/components/ui2/FollowersPopup';
-import NavBar from '@/components/ui2/NavBar';
+import FollowersPopup from '@/components/ui/FollowersPopup';
+import NavBar from '@/components/ui/NavBar';
 import { DEMO_ARTICLES } from '@/data/Article';
 import { OTHER_USERS } from '@/data/DemoUsers';
 import { LEGIT_VIDEOS } from '@/data/LegitVideos';

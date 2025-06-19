@@ -1,7 +1,7 @@
 'use client';
 
-import FollowersPopup from '@/components/ui2/FollowersPopup';
-import NavBar from '@/components/ui2/NavBar';
+import FollowersPopup from '@/components/ui/FollowersPopup';
+import NavBar from '@/components/ui/NavBar';
 import { DEMO_ARTICLES } from '@/data/Article';
 import { DEMO_USERS } from '@/data/DemoUsers';
 import { LEGIT_VIDEOS } from '@/data/LegitVideos';
@@ -51,7 +51,7 @@ export default function CreatorPage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [userVideos, setUserVideos] = useState<Video[]>([]);
 
-    
+
     useEffect(() => {
         console.log(handle);
         const userData = DEMO_USERS.find((user) => user.handle === handle);
@@ -60,7 +60,7 @@ export default function CreatorPage() {
             setUserVideos(LEGIT_VIDEOS.filter((video) => video.creator.handle === userData.handle));
         }
     }, [handle]);
-    
+
     useEffect(() => {
         const scrollContainer = scrollContainerRef.current;
         console.log("scrollContainer", scrollContainer);

@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { ArrowLeft, FileText, Video } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import VideoCreator from '@/components/ui2/VideoCreator';
-import ArticleCreator from '@/components/ui2/ArticleCreator';
+import VideoCreator from '@/components/ui/VideoCreator';
+import ArticleCreator from '@/components/ui/ArticleCreator';
 
 export default function CreatePage() {
   const [activeTab, setActiveTab] = useState<'video' | 'article'>('video');

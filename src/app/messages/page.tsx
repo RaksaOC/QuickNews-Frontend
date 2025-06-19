@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { Search, ArrowLeft, Settings } from 'lucide-react';
-import DMConversationItem from '@/components/ui2/DMItem';
-import NavBar from '@/components/ui2/NavBar';
+import DMConversationItem from '@/components/ui/DMItem';
+import NavBar from '@/components/ui/NavBar';
 
 // Mock data
 const frequentContacts = [

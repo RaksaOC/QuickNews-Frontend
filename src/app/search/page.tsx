@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Search, ArrowLeft, ChevronLeft, Play, Filter, SlidersHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import FilterPopup from '@/components/ui2/FilterPopup';
+import FilterPopup from '@/components/ui/FilterPopup';
 
 // Mock video data similar to the Trump news results
 const mockVideoResults = [
