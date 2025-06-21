@@ -219,9 +219,9 @@ export default function Page() {
                 {/* shadow gradient for the top nav*/}
                 {/* {!isLandingPage && <TopNav category={category} onCategoryChange={(category) => setCategory(category)} onMenuClick={() => { setIsMenuOpen(true) }} />} */}
 
-                {isLandingPage ? (
+                {/* {isLandingPage ? (
                     <LandingPage />
-                ) : (
+                ) : ( */}
                     <div
                         className="w-full h-full  top-0 overflow-hidden"
                         onTouchStart={handleTouchStart}
@@ -264,7 +264,7 @@ export default function Page() {
                             onShowChatbot={(show) => { setShowChatbot(show); setShowArticle(false); }} />}
                         {showChatbot && <ChatbotPopup onClose={() => { setShowChatbot(false); setShowArticle(true); }} article={currentVideo?.article || undefined} onBackToArticle={() => { setShowChatbot(false); setShowArticle(true); }} />}
                     </div>
-                )}
+                {/* )} */}
                 {/* {!isLandingPage && <NavBar />}
         {isMenuOpen && <MenuPopup onClose={() => { setIsMenuOpen(false) }} />} */}
             </div >

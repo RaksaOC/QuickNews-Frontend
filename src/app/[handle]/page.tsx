@@ -200,7 +200,7 @@ export default function CreatorPage() {
                 </div>
 
                 {isFollowersPopupOpen && (
-                    <FollowersPopup followers={profile.followers ? [profile.followers] : [{
+                    <FollowersPopup followers={profile.stats.followers ? [profile.stats.followers] : [{
                         id: 1,
                         name: 'Bluesnake260',
                         avatar: '/assets/avatar1.jpg',
