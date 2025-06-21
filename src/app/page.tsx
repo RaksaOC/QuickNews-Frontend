@@ -214,7 +214,7 @@ export default function Page() {
     const currentIndex = categories.indexOf(category);
 
     return (
-        isMainPage && (
+        // isMainPage && (
             <div className='relative h-full flex flex-col justify-center items-center bg-gray-950 w-full'>
                 {/* shadow gradient for the top nav*/}
                 {/* {!isLandingPage && <TopNav category={category} onCategoryChange={(category) => setCategory(category)} onMenuClick={() => { setIsMenuOpen(true) }} />} */}
@@ -269,5 +269,5 @@ export default function Page() {
         {isMenuOpen && <MenuPopup onClose={() => { setIsMenuOpen(false) }} />} */}
             </div >
         )
-    );
+    // );
 } 
