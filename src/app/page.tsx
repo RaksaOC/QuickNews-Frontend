@@ -14,6 +14,7 @@ import ChatbotPopup from '@/components/ui-web/ChatbotPopup';
 import { Video } from '@/types/Video';
 import { LEGIT_VIDEOS } from '@/data/LegitVideos';
 import { mixedVideos } from '@/data/MixedVids';
+import { Categories } from '@/components/ui-web/Categories';
 
 const ALL_VIDS = [...LEGIT_VIDEOS, ...mixedVideos];
 
@@ -214,16 +215,15 @@ export default function Page() {
 
     return (
         isMainPage && (
-            <div className='relative h-full flex flex-col justify-center items-center bg-gray-950'>
+            <div className='relative h-full flex flex-col justify-center items-center bg-gray-950 w-full'>
                 {/* shadow gradient for the top nav*/}
-                <div className='absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black/60 to-transparent z-10'></div>
-                {!isLandingPage && <TopNav category={category} onCategoryChange={(category) => setCategory(category)} onMenuClick={() => { setIsMenuOpen(true) }} />}
+                {/* {!isLandingPage && <TopNav category={category} onCategoryChange={(category) => setCategory(category)} onMenuClick={() => { setIsMenuOpen(true) }} />} */}
 
                 {isLandingPage ? (
                     <LandingPage />
                 ) : (
                     <div
-                        className="relative w-full h-full overflow-hidden"
+                        className="w-full h-full  top-0 overflow-hidden"
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
@@ -255,6 +255,7 @@ export default function Page() {
                                 </div>
                             ))}
                         </div>
+                        <Categories category={category} onCategoryChange={setCategory} />
                         {showComments && <Comments comments={currentVideo?.comments || []} onClose={() => setShowComments(false)} />}
                         {showShare && <Share onClose={() => setShowShare(false)} />}
                         {showArticle && <Article

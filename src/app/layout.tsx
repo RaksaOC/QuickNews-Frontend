@@ -30,15 +30,14 @@ export default function RootLayout({
             <head>
                 <link rel="icon" href="/assets/logo2.png" />
             </head>
-            <body className={`${poppins.className} bg-gray-950 overflow-hidden scrollbar-hide max-h-screen h-screen relative`}>
+            <body className={`${poppins.className} bg-gray-950 overflow-hidden scrollbar-hide max-h-screen h-screen relative flex  justify-between items-center p-4 gap-2`}>
                 <SideBar />
                 <div
-                    className="wrapper  w-full h-full max-w-2xl overflow-hidden rounded-xl absolute top-0 left-1/3 "
-                   
+                    className="content-wrapper w-full h-full  overflow-hidden rounded-xl"
                 >
                     {children}
                 </div>
-                <AIButton />
+                {/* <AIButton /> */}
                 <Profile />
                 <ScrollButton />
             </body>

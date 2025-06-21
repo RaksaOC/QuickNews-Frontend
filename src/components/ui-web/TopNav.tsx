@@ -14,16 +14,17 @@ const getResponsiveSize = (baseSize: number): string => {
     const vhSize = (baseSize / 700) * 100;
     // Only use vh units for responsive scaling, with a minimum size to prevent text from becoming too small
     return `max(${baseSize * 0.5}px, ${vhSize}vh)`;
-  };
+};
 
 export function TopNav({ onMenuClick, category, onCategoryChange }: TopNavProps) {
     const router = useRouter();
     return (
-        <div className="absolute top-4 left-[14%] right-0 z-20 flex justify-between items-center px-4  "
+        <div className="absolute top-4   z-20 flex justify-center items-center px-4  lg:mr-60 mr-0  "
             style={{
                 maxWidth: getResponsiveSize(390),
             }}
         >
+            <div className='absolute -top-4 left-0 w-full h-16 bg-gradient-to-b from-black/60 to-transparent '></div>
             {/* if have search button and menu button, change to justify-between */}
             <div className="w-full flex justify-center items-center">
                 {/* <div className="rounded-full flex justify-center items-center p-2 border border-gray-500/50">

@@ -39,13 +39,13 @@ const VideoFeedContainer = forwardRef<HTMLDivElement, VideoFeedContainerProps>((
             
         >
 
-            <div className="w-full py-16 flex justify-center items-center">
+            {/* <div className="w-full py-16 flex justify-center items-center">
                 <Loader2 className="text-sky-500 text-2xl font-bold animate-spin" />
-            </div>
+            </div> */}
             {videos.map((video, idx) => (
                 <div
                     key={video.id}
-                    className="snap-start snap-always min-h-full w-full relative flex justify-center items-center"
+                    className="snap-start  snap-always min-h-full  w-full relative flex justify-center items-center   overflow-hidden "
                 >
                     <VideoPost
                         onCommentClick={() => onShowComments(video)}
@@ -57,9 +57,9 @@ const VideoFeedContainer = forwardRef<HTMLDivElement, VideoFeedContainerProps>((
                     />
                 </div>
             ))}
-            <div className="pt-4 pb-24 w-full flex justify-center items-center">
+            {/* <div className="pt-4 pb-24 w-full flex justify-center items-center">
                 <h1 className="text-white text-sm">No more content available</h1>
-            </div>
+            </div> */}
         </div>
     );
 });

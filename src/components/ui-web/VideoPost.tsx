@@ -122,10 +122,7 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
     return (
         <div
             ref={containerRef}
-            className="video-post w-full h-full p-4 relative"
-            style={{
-                maxWidth: getResponsiveSize(390),
-            }}
+            className="video-post w-full h-full relative rounded-3xl overflow-hidden flex justify-center items-center "
             onTouchStart={(e) => {
                 if (isProgressBarDragging) {
                     e.stopPropagation();
@@ -142,39 +139,52 @@ export default function VideoPost({ video, onCommentClick, onShareClick, onArtic
                 }
             }}
         >
-            <VideoPlayer
-                url={video.url}
-                isVisible={isVisible}
-                onDoubleTap={handleDoubleTap}
-                progress={progress}
-                onProgressUpdate={(played) => {
-                    setProgress(played);
-                }}
-                progressChange={updatedProgress}
-            />
-            <VideoInteractions
-                likes={video.likes}
-                comments={video.comments}
-                shares={video.shares}
-                onCommentClick={onCommentClick}
-                onShareClick={onShareClick}
-                isLiked={isLiked}
-                onIsLiked={handleIsLiked}
-                onSaveClick={handleSaveClick}
-                isSaved={isSaved}
-            />
-            <VideoText
-                creator={video.creator}
-                title={video.headline}
-                description={video.content}
-                onShowArticle={() => onArticleClick(video.id)}
-            />
-            <ProgressBar
-                progress={progress}
-                onProgressChange={(progress) => { setProgress(progress) }}
-                onProgressChangeUpdate={(progress) => { setUpdatedProgress(progress) }}
-                onDragChange={(dragging) => { setIsProgressBarDragging(dragging) }}
-            />
+            <div className="flex gap-4 w-full h-full justify-center items-center">
+                <div className="relative w-full aspect-[9/16]"
+                    style={{
+                        maxWidth: getResponsiveSize(370),
+                    }}
+                >
+                    <VideoPlayer
+                        url={video.url}
+                        isVisible={isVisible}
+                        onDoubleTap={handleDoubleTap}
+                        progress={progress}
+                        onProgressUpdate={(played) => {
+                            setProgress(played);
+                        }}
+                        progressChange={updatedProgress}
+                    />
+                    <VideoText
+                        creator={video.creator}
+                        title={video.headline}
+                        description={video.content}
+                        onShowArticle={() => onArticleClick(video.id)}
+                    />
+                    <ProgressBar
+                        progress={progress}
+                        onProgressChange={(progress) => { setProgress(progress) }}
+                        onProgressChangeUpdate={(progress) => { setUpdatedProgress(progress) }}
+                        onDragChange={(dragging) => { setIsProgressBarDragging(dragging) }}
+                    />
+                </div>
+                <VideoInteractions
+                    likes={video.likes}
+                    comments={video.comments}
+                    shares={video.shares}
+                    onCommentClick={onCommentClick}
+                    onShareClick={onShareClick}
+                    isLiked={isLiked}
+                    onIsLiked={handleIsLiked}
+                    onSaveClick={handleSaveClick}
+                    isSaved={isSaved}
+                />
+
+            </div>
+
+
+
+
         </div>
     )
 }

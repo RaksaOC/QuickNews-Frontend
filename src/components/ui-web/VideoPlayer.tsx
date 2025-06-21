@@ -108,7 +108,7 @@ export default function VideoPlayer({ url, isVisible, onDoubleTap, onProgressUpd
     return (
         <div
             ref={containerRef}
-            className="absolute top-0 left-0 w-full h-full"
+            className="absolute top-0 left-0 w-full h-full rounded-full"
             onClick={handleClick}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
